@@ -1,0 +1,81 @@
+{
+  "name": "kanimAppUI",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@redux-offline/redux-offline": "^2.2.1",
+    "axios": "^0.17.1",
+    "prop-types": "^15.6.0",
+    "react": "16.3.0-rc.0",
+    "react-native": "0.54.4",
+    "react-native-device-info": "^0.13.0",
+    "react-native-vector-icons": "^4.5.0",
+    "react-navigation": "^1.0.0-beta.27",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^4.10.2",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "@babel/preset-react": "^7.0.0-beta.40",
+    "@babel/preset-stage-2": "^7.0.0-beta.40",
+    "@babel/register": "^7.0.0-beta.42",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^7.2.3",
+    "babel-jest": "22.4.3",
+    "babel-loader": "^8.0.0-beta.2",
+    "babel-preset-react-native": "4.0.0",
+    "chunk-manifest-webpack-plugin": "^1.1.2",
+    "css-loader": "^0.28.4",
+    "del": "^2.2.2",
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.5.1",
+    "eslint-plugin-react-native": "^3.2.1",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.11",
+    "fs": "0.0.1-security",
+    "generate-changelog": "^1.1.0",
+    "hard-source-webpack-plugin": "^0.4.9",
+    "image-webpack-loader": "^3.3.1",
+    "jest": "22.4.3",
+    "json-loader": "^0.5.4",
+    "nock": "^9.0.13",
+    "react-addons-test-utils": "^15.5.1",
+    "redux-mock-store": "^1.2.3",
+    "sinon": "^2.3.2",
+    "style-loader": "^0.18.1",
+    "url-loader": "^0.5.8",
+    "webpack": "^3.11.0",
+    "webpack-bundle-size-analyzer": "^2.7.0",
+    "webpack-dev-server": "^2.4.5",
+    "webpack-manifest-plugin": "^1.1.0",
+    "webpack-md5-hash": "0.0.5",
+    "pre-commit": "^1.2.2",
+    "react-test-renderer": "16.3.0-rc.0",
+    "redux-mock-store": "^1.5.1"
+  },
+  "jest": {
+    "preset": "react-native",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/scripts/__mocks__/fileMock.js",
+    },
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "setupFiles": [
+      "./scripts/JestSetup.js"
+    ],
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(js)$"
+  }
+}
