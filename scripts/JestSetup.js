@@ -1,2 +1,2 @@
 // Environment settings
-require('../libs/config');
+// require('../libs/config');
