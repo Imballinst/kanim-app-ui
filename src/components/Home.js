@@ -9,6 +9,7 @@ import {
   DatePickerAndroid,
 } from 'react-native';
 import format from 'date-fns/format';
+import addWeeks from 'date-fns/addWeeks';
 import idLocale from 'date-fns/locale/id';
 import {
   primaryMineshaft,
@@ -48,12 +49,12 @@ const filterByProp = (array, prop, filter) => array.filter((obj) => {
 class Home extends React.Component {
   state = {
     startDate: new Date(),
-    endDate: new Date(2018, 6, 3),
+    endDate: addWeeks(new Date(), 2),
     filter: '',
   }
 
   componentDidMount() {
-    this.props.getListKanim();
+    this.props.getListKanim(this.props.auth.token);
   }
 
   onSelectStartDate = field => () => {

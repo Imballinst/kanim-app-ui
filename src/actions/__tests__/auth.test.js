@@ -1,3 +1,9 @@
+import { API_URL as apiUrl } from 'react-native-dotenv';
+import configureMockStore from 'redux-mock-store';
+import { NavigationActions } from 'react-navigation';
+import thunk from 'redux-thunk';
+import nock from 'nock';
+
 import {
   LOGIN_ATTEMPT,
   LOGIN_INVALID,
@@ -9,10 +15,6 @@ import {
   logout,
   refreshLoginView,
 } from '../auth';
-import configureMockStore from 'redux-mock-store';
-import { NavigationActions } from 'react-navigation';
-import thunk from 'redux-thunk';
-import nock from 'nock';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -21,16 +23,16 @@ describe('auth', () => {
   afterAll(() => nock.cleanAll());
 
   it('should return login action creator, async', () => {
-    const scope = nock('https://antrian.imigrasi.go.id')
-      .post('/rest/Authentication.jsp')
+    nock(apiUrl)
+      .post('/login')
       .reply(
         200,
-        { Success: true, Message: { user: 'halo' }, Token: 'asdf' },
+        { success: true, data: { user: 'halo', token: 'asdf' }},
       );
 
     const expectedActions = [
       { type: LOGIN_ATTEMPT, username: 'testUsername', password: 'testPassword' },
-      { type: LOGIN_SUCCESS, payload: { user: 'halo' }, token: 'asdf' },
+      { type: LOGIN_SUCCESS, payload: { user: 'halo', token: 'asdf' }},
       { type: NavigationActions.NAVIGATE, routeName: 'HomeStack' },
       { type: REFRESH },
     ];

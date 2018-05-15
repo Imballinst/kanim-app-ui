@@ -1,6 +1,9 @@
-import { postListKanim, postAvailabilityInfo } from './utils/requests';
+import {
+  getOffices,
+  getOfficeQuota as getOfficeQuotaRequest,
+  checkOfficeQuota,
+} from './utils/requests';
 import actionTypes from './utils/actionTypes';
-import parseIfString from './utils/parser';
 
 // Variables
 const {
@@ -13,17 +16,24 @@ const {
   SUCCESS: GET_OFFICE_QUOTA_SUCCESS,
   INVALID: GET_OFFICE_QUOTA_INVALID,
 } = actionTypes('GET_OFFICE_QUOTA');
+const {
+  ATTEMPT: CONFIRM_QUOTA_ATTEMPT,
+  SUCCESS: CONFIRM_QUOTA_SUCCESS,
+  INVALID: CONFIRM_QUOTA_INVALID,
+} = actionTypes('CONFIRM_QUOTA');
 
-const getListKanim = () => (dispatch) => {
+const getListKanim = token => (dispatch) => {
   dispatch({ type: LIST_KANIM_ATTEMPT });
 
-  return postListKanim().then((res) => {
-    const { Success, Message, Offices } = parseIfString(res.data);
+  return getOffices(token).then((res) => {
+    const {
+      success, data, message, errorCode,
+    } = res.data;
 
-    if (Success) {
-      dispatch({ type: LIST_KANIM_SUCCESS, payload: Offices });
+    if (success) {
+      dispatch({ type: LIST_KANIM_SUCCESS, payload: data });
     } else {
-      throw new Error(Message);
+      throw new Error(`${errorCode} ${message}`);
     }
   }).catch(err => dispatch({
     type: LIST_KANIM_INVALID,
@@ -34,20 +44,42 @@ const getListKanim = () => (dispatch) => {
 const getOfficeQuota = (token, kanimID, startDate, endDate) => (dispatch) => {
   dispatch({ type: GET_OFFICE_QUOTA_ATTEMPT, payload: kanimID });
 
-  return postAvailabilityInfo(token, kanimID, startDate, endDate).then((response) => {
-    const {
-      success, data, message, errorCode,
-    } = response.data;
+  return getOfficeQuotaRequest(token, kanimID, startDate, endDate)
+    .then((res) => {
+      const {
+        success, data, message, errorCode,
+      } = res.data;
 
-    if (success) {
-      dispatch({ type: GET_OFFICE_QUOTA_SUCCESS, payload: data });
-    } else {
-      throw new Error(`${errorCode} ${message}`);
-    }
-  }).catch(err => dispatch({
-    type: GET_OFFICE_QUOTA_INVALID,
-    message: err,
-  }));
+      if (success) {
+        dispatch({ type: GET_OFFICE_QUOTA_SUCCESS, payload: data });
+      } else {
+        throw new Error(`${errorCode} ${message}`);
+      }
+    }).catch(err => dispatch({
+      type: GET_OFFICE_QUOTA_INVALID,
+      message: err,
+    }));
+};
+
+const confirmQuotaAvailability = (token, kanimID, date, startHour, endHour) => (dispatch) => {
+  dispatch({ type: CONFIRM_QUOTA_ATTEMPT });
+
+  return checkOfficeQuota(token, kanimID, date, startHour, endHour)
+    .then((res) => {
+      const {
+        success, data, message, errorCode,
+      } = res.data;
+
+      // Continue later
+      if (success) {
+        dispatch({ type: CONFIRM_QUOTA_SUCCESS, payload: data });
+      } else {
+        throw new Error(`${errorCode} ${message}`);
+      }
+    }).catch(err => dispatch({
+      type: CONFIRM_QUOTA_INVALID,
+      message: err,
+    }));
 };
 
 export {
@@ -57,6 +89,10 @@ export {
   GET_OFFICE_QUOTA_ATTEMPT,
   GET_OFFICE_QUOTA_SUCCESS,
   GET_OFFICE_QUOTA_INVALID,
+  CONFIRM_QUOTA_ATTEMPT,
+  CONFIRM_QUOTA_SUCCESS,
+  CONFIRM_QUOTA_INVALID,
   getListKanim,
   getOfficeQuota,
+  confirmQuotaAvailability,
 };

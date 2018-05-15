@@ -5,6 +5,9 @@ import {
   GET_OFFICE_QUOTA_ATTEMPT,
   GET_OFFICE_QUOTA_SUCCESS,
   GET_OFFICE_QUOTA_INVALID,
+  CONFIRM_QUOTA_ATTEMPT,
+  CONFIRM_QUOTA_SUCCESS,
+  CONFIRM_QUOTA_INVALID,
 } from '../../actions/kanim';
 
 const defaultState = {
@@ -14,6 +17,9 @@ const defaultState = {
   getOfficeQuotaAttempt: false,
   getOfficeQuotaError: '',
   office: undefined,
+  confirmQuotaAttempt: false,
+  confirmQuotaError: '',
+  confirmation: undefined,
 };
 
 const kanim = (state = defaultState, action) => {
@@ -48,6 +54,9 @@ const kanim = (state = defaultState, action) => {
         },
         getOfficeQuotaAttempt: true,
         getOfficeQuotaError: '',
+        confirmQuotaAttempt: false,
+        confirmQuotaError: '',
+        confirmation: undefined,
       };
     }
     case GET_OFFICE_QUOTA_SUCCESS: {
@@ -63,6 +72,26 @@ const kanim = (state = defaultState, action) => {
       };
     }
     case GET_OFFICE_QUOTA_INVALID: {
+      return {
+        ...state,
+        getOfficeQuotaAttempt: false,
+        getOfficeQuotaError: action.message,
+      };
+    }
+    case CONFIRM_QUOTA_ATTEMPT: {
+      return {
+        ...state,
+        confirmQuotaAttempt: true,
+      };
+    }
+    case CONFIRM_QUOTA_SUCCESS: {
+      return {
+        ...state,
+        getOfficeQuotaAttempt: false,
+        confirmation: action.payload,
+      };
+    }
+    case CONFIRM_QUOTA_INVALID: {
       return {
         ...state,
         getOfficeQuotaAttempt: false,

@@ -82,7 +82,7 @@
         "args": "all",
         "ignoreRestSiblings": true,
         "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^job"
+        "varsIgnorePattern": "^_"
     }]
   },
   "globals": {

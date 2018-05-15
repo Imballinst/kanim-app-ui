@@ -28,12 +28,14 @@ const auth = (state = defaultState, action) => {
       };
     }
     case LOGIN_SUCCESS: {
+      const { user, token } = action.payload;
+
       return {
         ...state,
         isLoggedIn: true,
         message: '',
-        user: action.payload,
-        token: action.token,
+        user,
+        token,
         loginAttempt: false,
         isError: false,
       };

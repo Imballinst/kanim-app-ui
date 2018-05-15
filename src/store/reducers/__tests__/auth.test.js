@@ -29,8 +29,7 @@ describe('auth', () => {
   it('should handle LOGIN_SUCCESS action', () => {
     const action = {
       type: LOGIN_SUCCESS,
-      token: 'token',
-      payload: { username: 'testLogin' },
+      payload: { user: 'testLogin', token: 'token' },
       loginAttempt: false,
     };
 
@@ -39,7 +38,7 @@ describe('auth', () => {
         ...defaultState,
         isLoggedIn: true,
         token: 'token',
-        user: { username: 'testLogin' },
+        user: 'testLogin',
       });
   });
 
@@ -62,8 +61,10 @@ describe('auth', () => {
   it('should handle LOGOUT_SUCCESS action', () => {
     const loggedInState = auth(defaultState, {
       type: LOGIN_SUCCESS,
-      token: 'token',
-      user: { username: 'testLogin' },
+      payload: {
+        user: 'testLogin',
+        token: 'hehe',
+      },
       isLoggedIn: true,
     });
     const type = LOGOUT_SUCCESS;

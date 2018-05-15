@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { KANIM_USERNAME, KANIM_PASSWORD } from 'react-native-dotenv';
 import { ScrollView, View, Button, Text, StyleSheet, Image } from 'react-native';
 
 import loginPic from './assets/loginpic.png';
@@ -51,7 +52,7 @@ const style = StyleSheet.create({
 });
 
 class Login extends React.Component {
-  state = { username: '', password: '' }
+  state = { username: KANIM_USERNAME, password: KANIM_PASSWORD }
 
   componentDidMount() {
     this.props.refreshLoginView();

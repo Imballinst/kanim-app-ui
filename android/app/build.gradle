@@ -126,11 +126,15 @@ android {
         }
     }
     buildTypes {
+        debug {
+            resValue "string", "app_name", "Kanim App Staging"
+        }
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
 
             signingConfigs.release
+            resValue "string", "app_name", "Kanim App"
         }
     }
     // applicationVariants are e.g. debug, release

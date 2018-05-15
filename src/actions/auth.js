@@ -1,7 +1,6 @@
 import { NavigationActions } from 'react-navigation';
-import { postLogin } from './utils/requests';
+import { login as requestLogin } from './utils/requests';
 import actionTypes from './utils/actionTypes';
-import parseIfString from './utils/parser';
 
 // Variables
 const {
@@ -25,19 +24,21 @@ const login = (username, password) => (dispatch) => {
   });
 
   if (password !== '') {
-    const promise = postLogin(username, password);
+    const promise = requestLogin(username, password);
 
     return promise.then((res) => {
-      const { Success, Message, Token } = parseIfString(res.data);
+      const {
+        success, data, message, errorCode,
+      } = res.data;
 
-      if (Success) {
-        const user = parseIfString(Message);
+      if (success) {
+        const { token, user } = data;
 
-        dispatch({ type: LOGIN_SUCCESS, payload: user, token: Token });
+        dispatch({ type: LOGIN_SUCCESS, payload: { token, user } });
         dispatch(NavigationActions.navigate({ routeName: 'HomeStack' }));
         dispatch({ type: REFRESH });
       } else {
-        throw new Error(Message);
+        throw new Error(`${errorCode} ${message}`);
       }
     }).catch(({ message }) => dispatch({
       type: LOGIN_INVALID,
