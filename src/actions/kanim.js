@@ -1,48 +1,36 @@
 import {
-  getOffices,
+  getOffices as getOfficesRequest,
   getOfficeQuota as getOfficeQuotaRequest,
-  checkOfficeQuota,
+  checkOfficeQuota as checkOfficeQuotaRequest,
 } from './utils/requests';
 import actionTypes from './utils/actionTypes';
 
 // Variables
-const {
-  ATTEMPT: LIST_KANIM_ATTEMPT,
-  SUCCESS: LIST_KANIM_SUCCESS,
-  INVALID: LIST_KANIM_INVALID,
-} = actionTypes('LIST_KANIM');
-const {
-  ATTEMPT: GET_OFFICE_QUOTA_ATTEMPT,
-  SUCCESS: GET_OFFICE_QUOTA_SUCCESS,
-  INVALID: GET_OFFICE_QUOTA_INVALID,
-} = actionTypes('GET_OFFICE_QUOTA');
-const {
-  ATTEMPT: CONFIRM_QUOTA_ATTEMPT,
-  SUCCESS: CONFIRM_QUOTA_SUCCESS,
-  INVALID: CONFIRM_QUOTA_INVALID,
-} = actionTypes('CONFIRM_QUOTA');
+const LIST_KANIM = actionTypes('LIST_KANIM');
+const GET_OFFICE_QUOTA = actionTypes('GET_OFFICE_QUOTA');
+const CONFIRM_QUOTA = actionTypes('CONFIRM_QUOTA');
 
-const getListKanim = token => (dispatch) => {
-  dispatch({ type: LIST_KANIM_ATTEMPT });
+const getOffices = token => (dispatch) => {
+  dispatch({ type: LIST_KANIM.ATTEMPT });
 
-  return getOffices(token).then((res) => {
+  return getOfficesRequest(token).then((res) => {
     const {
       success, data, message, errorCode,
     } = res.data;
 
     if (success) {
-      dispatch({ type: LIST_KANIM_SUCCESS, payload: data });
+      dispatch({ type: LIST_KANIM.SUCCESS, payload: data });
     } else {
       throw new Error(`${errorCode} ${message}`);
     }
-  }).catch(err => dispatch({
-    type: LIST_KANIM_INVALID,
-    message: err,
+  }).catch(message => dispatch({
+    type: LIST_KANIM.INVALID,
+    message,
   }));
 };
 
-const getOfficeQuota = (token, kanimID, startDate, endDate) => (dispatch) => {
-  dispatch({ type: GET_OFFICE_QUOTA_ATTEMPT, payload: kanimID });
+const getOffice = (token, kanimID, startDate, endDate) => (dispatch) => {
+  dispatch({ type: GET_OFFICE_QUOTA.ATTEMPT, payload: kanimID });
 
   return getOfficeQuotaRequest(token, kanimID, startDate, endDate)
     .then((res) => {
@@ -51,48 +39,49 @@ const getOfficeQuota = (token, kanimID, startDate, endDate) => (dispatch) => {
       } = res.data;
 
       if (success) {
-        dispatch({ type: GET_OFFICE_QUOTA_SUCCESS, payload: data });
+        dispatch({ type: GET_OFFICE_QUOTA.SUCCESS, payload: data });
       } else {
         throw new Error(`${errorCode} ${message}`);
       }
-    }).catch(err => dispatch({
-      type: GET_OFFICE_QUOTA_INVALID,
-      message: err,
+    }).catch(message => dispatch({
+      type: GET_OFFICE_QUOTA.INVALID,
+      message,
     }));
 };
 
-const confirmQuotaAvailability = (token, kanimID, date, startHour, endHour) => (dispatch) => {
-  dispatch({ type: CONFIRM_QUOTA_ATTEMPT });
+const checkOfficeQuota = (token, kanimID, date, startHour, endHour) => (dispatch) => {
+  dispatch({ type: CONFIRM_QUOTA.ATTEMPT });
 
-  return checkOfficeQuota(token, kanimID, date, startHour, endHour)
+  return checkOfficeQuotaRequest(token, kanimID, date, startHour, endHour)
     .then((res) => {
       const {
         success, data, message, errorCode,
       } = res.data;
 
-      // Continue later
       if (success) {
-        dispatch({ type: CONFIRM_QUOTA_SUCCESS, payload: data });
+        dispatch({
+          type: CONFIRM_QUOTA.SUCCESS,
+          payload: {
+            timingID: data.timingID,
+            date,
+            startHour,
+            endHour,
+          },
+        });
       } else {
         throw new Error(`${errorCode} ${message}`);
       }
-    }).catch(err => dispatch({
-      type: CONFIRM_QUOTA_INVALID,
-      message: err,
+    }).catch(message => dispatch({
+      type: CONFIRM_QUOTA.INVALID,
+      message,
     }));
 };
 
 export {
-  LIST_KANIM_ATTEMPT,
-  LIST_KANIM_SUCCESS,
-  LIST_KANIM_INVALID,
-  GET_OFFICE_QUOTA_ATTEMPT,
-  GET_OFFICE_QUOTA_SUCCESS,
-  GET_OFFICE_QUOTA_INVALID,
-  CONFIRM_QUOTA_ATTEMPT,
-  CONFIRM_QUOTA_SUCCESS,
-  CONFIRM_QUOTA_INVALID,
-  getListKanim,
-  getOfficeQuota,
-  confirmQuotaAvailability,
+  LIST_KANIM,
+  GET_OFFICE_QUOTA,
+  CONFIRM_QUOTA,
+  getOffices,
+  getOffice,
+  checkOfficeQuota,
 };

@@ -5,11 +5,8 @@ import thunk from 'redux-thunk';
 import nock from 'nock';
 
 import {
-  LOGIN_ATTEMPT,
-  LOGIN_INVALID,
-  LOGIN_SUCCESS,
-  LOGOUT_ATTEMPT,
-  LOGOUT_SUCCESS,
+  LOGIN,
+  LOGOUT,
   REFRESH,
   login,
   logout,
@@ -31,8 +28,8 @@ describe('auth', () => {
       );
 
     const expectedActions = [
-      { type: LOGIN_ATTEMPT, username: 'testUsername', password: 'testPassword' },
-      { type: LOGIN_SUCCESS, payload: { user: 'halo', token: 'asdf' }},
+      { type: LOGIN.ATTEMPT, username: 'testUsername', password: 'testPassword' },
+      { type: LOGIN.SUCCESS, payload: { user: 'halo', token: 'asdf' }},
       { type: NavigationActions.NAVIGATE, routeName: 'HomeStack' },
       { type: REFRESH },
     ];
@@ -46,8 +43,8 @@ describe('auth', () => {
 
   it('should return logout action creator, async', () => {
     const expectedActions = [
-      { type: LOGOUT_ATTEMPT },
-      { type: LOGOUT_SUCCESS },
+      { type: LOGOUT.ATTEMPT },
+      { type: LOGOUT.SUCCESS },
       { type: NavigationActions.NAVIGATE, routeName: 'Login' },
     ];
     const store = mockStore({});

@@ -1,11 +1,4 @@
-import {
-  LOGIN_ATTEMPT,
-  LOGIN_INVALID,
-  LOGIN_SUCCESS,
-  LOGOUT_ATTEMPT,
-  LOGOUT_SUCCESS,
-  REFRESH,
-} from '../../actions/auth';
+import { LOGIN, LOGOUT, REFRESH } from '../../actions/auth';
 
 const defaultState = {
   isLoggedIn: false,
@@ -19,7 +12,7 @@ const defaultState = {
 
 const auth = (state = defaultState, action) => {
   switch (action.type) {
-    case LOGIN_ATTEMPT: {
+    case LOGIN.ATTEMPT: {
       return {
         ...state,
         message: 'Logging in...',
@@ -27,7 +20,7 @@ const auth = (state = defaultState, action) => {
         isError: false,
       };
     }
-    case LOGIN_SUCCESS: {
+    case LOGIN.SUCCESS: {
       const { user, token } = action.payload;
 
       return {
@@ -40,7 +33,7 @@ const auth = (state = defaultState, action) => {
         isError: false,
       };
     }
-    case LOGIN_INVALID: {
+    case LOGIN.INVALID: {
       return {
         ...state,
         message: action.message,
@@ -48,13 +41,13 @@ const auth = (state = defaultState, action) => {
         isError: true,
       };
     }
-    case LOGOUT_ATTEMPT: {
+    case LOGOUT.ATTEMPT: {
       return {
         ...state,
         logoutAttempt: true,
       };
     }
-    case LOGOUT_SUCCESS: {
+    case LOGOUT.SUCCESS: {
       return {
         ...state,
         logoutAttempt: false,

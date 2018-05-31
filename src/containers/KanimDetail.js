@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
-import Detail from '../components/Detail';
-import { confirmQuotaAvailability } from '../actions/kanim';
+import KanimDetail from '../components/KanimDetail';
+import { checkOfficeQuota } from '../actions/kanim';
 import { registerQueue } from '../actions/queue';
 
 const mapStateToProps = ({ kanim, auth, queue }) => ({
@@ -11,6 +11,6 @@ const mapStateToProps = ({ kanim, auth, queue }) => ({
   confirmQuotaAttempt: kanim.confirmQuotaAttempt,
   registerQueueAttempt: queue.registerQueueAttempt,
 });
-const mapDispatchToProps = { confirmQuotaAvailability, registerQueue };
+const mapDispatchToProps = { checkOfficeQuota, registerQueue };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Detail);
+export default connect(mapStateToProps, mapDispatchToProps)(KanimDetail);

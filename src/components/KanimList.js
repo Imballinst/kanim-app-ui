@@ -5,7 +5,6 @@ import {
   View,
   StyleSheet,
   Text,
-  TouchableHighlight,
   DatePickerAndroid,
 } from 'react-native';
 import format from 'date-fns/format';
@@ -18,6 +17,7 @@ import {
   hexToRGB,
 } from '../utils/colors';
 import TextInput from './modules/TextInput';
+import RoundedListItem from './modules/RoundedListItem';
 
 const style = StyleSheet.create({
   viewStyle: {
@@ -54,7 +54,9 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getListKanim(this.props.auth.token);
+    if (!this.props.kanim.offices.length) {
+      this.props.getOffices(this.props.auth.token);
+    }
   }
 
   onSelectStartDate = field => () => {
@@ -79,8 +81,8 @@ class Home extends React.Component {
     const formattedStartDate = formatShortDate(startDate);
     const formattedEndDate = formatShortDate(endDate);
 
-    this.props.navigation.navigate('Detail');
-    this.props.getOfficeQuota(token, id, formattedStartDate, formattedEndDate);
+    this.props.navigation.navigate('KanimDetail');
+    this.props.getOffice(token, id, formattedStartDate, formattedEndDate);
   }
 
   render() {
@@ -94,22 +96,18 @@ class Home extends React.Component {
         MO_NAME, MO_ID, MO_ADDRESS, MO_TELP,
       } = cur;
       const office = (
-        <View
+        <RoundedListItem
           key={`list-kanim-${idx + 1}`}
-          style={style.kanimOuterItemStyle}
+          outerStyle={style.kanimOuterItemStyle}
+          innerStyle={style.kanimInnerItemStyle}
+          onPress={this.onClickDetailKanim(MO_ID)}
         >
-          <TouchableHighlight
-            onPress={this.onClickDetailKanim(MO_ID)}
-            underlayColor={hexToRGB(primaryMineshaft, 0.2)}
-            style={style.kanimInnerItemStyle}
-          >
-            <View>
-              <Text style={style.kanimOfficeNameStyle}>{MO_NAME}</Text>
-              <Text style={{ fontSize: 14, color: primaryMineshaft }}>{MO_ADDRESS}</Text>
-              <Text style={{ fontSize: 13, color: primaryMineshaft }}>{MO_TELP}</Text>
-            </View>
-          </TouchableHighlight>
-        </View>
+          <View>
+            <Text style={style.kanimOfficeNameStyle}>{MO_NAME}</Text>
+            <Text style={{ fontSize: 14, color: primaryMineshaft }}>{MO_ADDRESS}</Text>
+            <Text style={{ fontSize: 13, color: primaryMineshaft }}>{MO_TELP}</Text>
+          </View>
+        </RoundedListItem>
       );
 
       return nodes.concat(office);
@@ -117,57 +115,6 @@ class Home extends React.Component {
 
     return (
       <ScrollView contentContainerStyle={style.viewStyle}>
-        {/* <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
-          <TouchableHighlight
-            underlayColor={hexToRGB(primaryMineshaft, 0.2)}
-            style={{
-              flex: 2,
-              flexDirection: 'column',
-              paddingVertical: 7.5,
-              borderColor: hexToRGB(primaryMineshaft, 0.6),
-              borderWidth: 1,
-              borderTopLeftRadius: 20,
-              borderBottomLeftRadius: 20,
-            }}
-            onPress={this.onSelectStartDate('startDate')}>
-            <Text style={{textAlign: 'center'}}>
-              Dari: {formatLongDate(startDate)}
-            </Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            underlayColor={hexToRGB(primaryMineshaft, 0.2)}
-            style={{
-              flex: 2,
-              flexDirection: 'column',
-              paddingVertical: 7.5,
-              borderColor: hexToRGB(primaryMineshaft, 0.6),
-              borderWidth: 1,
-              marginLeft: 5,
-            }}
-            onPress={this.onSelectStartDate('endDate')}>
-            <Text style={{textAlign: 'center'}}>
-              Hingga: {formatLongDate(endDate)}
-            </Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            underlayColor={hexToRGB(primaryMineshaft, 0.6)}
-            style={{
-              flex: 1,
-              flexDirection: 'column',
-              paddingVertical: 7.5,
-              backgroundColor: primaryMineshaft,
-              borderColor: primaryMineshaft,
-              borderWidth: 1,
-              borderTopRightRadius: 20,
-              borderBottomRightRadius: 20,
-              marginLeft: 5,
-            }}
-            onPress={() => {}}>
-            <Text style={{textAlign: 'center', color: tertiaryWhite }}>Cari kuota</Text>
-          </TouchableHighlight>
-        </View> */}
-        {/* next version */}
-
         <TextInput
           placeholder="Filter Nama Kanim"
           onChangeText={this.onFilterChange}
@@ -184,10 +131,11 @@ class Home extends React.Component {
 
 Home.propTypes = {
   navigation: PropTypes.object.isRequired,
-  getOfficeQuota: PropTypes.func.isRequired,
-  getListKanim: PropTypes.func.isRequired,
+  getOffice: PropTypes.func.isRequired,
+  getOffices: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   kanim: PropTypes.object.isRequired,
 };
 
+export { style };
 export default Home;

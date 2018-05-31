@@ -1,9 +1,5 @@
 import kanim, { defaultState } from '../kanim';
-import {
-  LIST_KANIM_ATTEMPT,
-  LIST_KANIM_INVALID,
-  LIST_KANIM_SUCCESS,
-} from '../../../actions/kanim';
+import { LIST_KANIM } from '../../../actions/kanim';
 
 describe('kanim', () => {
   // Initial state
@@ -12,8 +8,8 @@ describe('kanim', () => {
   });
 
   // Login
-  it('should handle LIST_KANIM_ATTEMPT action', () => {
-    const type = LIST_KANIM_ATTEMPT;
+  it('should handle LIST_KANIM.ATTEMPT action', () => {
+    const type = LIST_KANIM.ATTEMPT;
 
     expect(kanim(defaultState, { type }))
       .toEqual({
@@ -23,9 +19,9 @@ describe('kanim', () => {
       });
   });
 
-  it('should handle LIST_KANIM_SUCCESS action', () => {
+  it('should handle LIST_KANIM.SUCCESS action', () => {
     const action = {
-      type: LIST_KANIM_SUCCESS,
+      type: LIST_KANIM.SUCCESS,
       payload: ['officeA', 'officeB'],
     };
 
@@ -38,9 +34,9 @@ describe('kanim', () => {
       });
   });
 
-  it('should handle LIST_KANIM_INVALID action', () => {
+  it('should handle LIST_KANIM.INVALID action', () => {
     const action = {
-      type: LIST_KANIM_INVALID,
+      type: LIST_KANIM.INVALID,
       message: 'This is an error message.',
     };
 

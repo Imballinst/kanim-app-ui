@@ -10,12 +10,12 @@ const style = StyleSheet.create({
   },
 });
 
-const Stub = () => (
+const NotifList = () => (
   <View style={style.viewStyle}>
-    <Text>This is Stub view, accessible only via Drawer</Text>
+    <Text>This is NotifList view, accessible only via Drawer</Text>
   </View>
 );
 
-Stub.propTypes = {};
+NotifList.propTypes = {};
 
-export default Stub;
+export default NotifList;
