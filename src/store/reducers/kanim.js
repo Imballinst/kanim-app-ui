@@ -1,3 +1,4 @@
+import { LOGIN } from '../../actions/auth';
 import { LIST_KANIM, GET_OFFICE_QUOTA, CONFIRM_QUOTA } from '../../actions/kanim';
 
 const defaultState = {
@@ -14,6 +15,9 @@ const defaultState = {
 
 const kanim = (state = defaultState, action) => {
   switch (action.type) {
+    case LOGIN.SUCCESS: {
+      return { ...defaultState };
+    }
     case LIST_KANIM.ATTEMPT: {
       return {
         ...state,
@@ -72,6 +76,8 @@ const kanim = (state = defaultState, action) => {
       return {
         ...state,
         confirmQuotaAttempt: true,
+        confirmQuotaError: '',
+        confirmation: undefined,
       };
     }
     case CONFIRM_QUOTA.SUCCESS: {

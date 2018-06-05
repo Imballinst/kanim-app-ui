@@ -10,7 +10,7 @@ const REGISTER_QUEUE = actionTypes('REGISTER_QUEUE');
 const GET_QUEUES = actionTypes('GET_QUEUES');
 const CANCEL_QUEUE = actionTypes('CANCEL_QUEUE');
 
-const registerQueue = (kanimID, token, count, userID, tID, name, nik) => (dispatch) => {
+const registerQueue = (kanimID, token, count = 1, userID, tID, name, nik) => (dispatch) => {
   dispatch({ type: REGISTER_QUEUE.ATTEMPT });
 
   return registerQueueRequest(kanimID, token, count, userID, tID, name, nik).then((res) => {

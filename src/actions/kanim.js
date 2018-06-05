@@ -1,7 +1,7 @@
 import {
   getOffices as getOfficesRequest,
   getOfficeQuota as getOfficeQuotaRequest,
-  checkOfficeQuota as checkOfficeQuotaRequest,
+  confirmOfficeQuota as confirmOfficeQuotaRequest,
 } from './utils/requests';
 import actionTypes from './utils/actionTypes';
 
@@ -49,10 +49,10 @@ const getOffice = (token, kanimID, startDate, endDate) => (dispatch) => {
     }));
 };
 
-const checkOfficeQuota = (token, kanimID, date, startHour, endHour) => (dispatch) => {
+const confirmOfficeQuota = (token, kanimID, date, startHour, endHour) => (dispatch) => {
   dispatch({ type: CONFIRM_QUOTA.ATTEMPT });
 
-  return checkOfficeQuotaRequest(token, kanimID, date, startHour, endHour)
+  return confirmOfficeQuotaRequest(token, kanimID, date, startHour, endHour)
     .then((res) => {
       const {
         success, data, message, errorCode,
@@ -63,6 +63,7 @@ const checkOfficeQuota = (token, kanimID, date, startHour, endHour) => (dispatch
           type: CONFIRM_QUOTA.SUCCESS,
           payload: {
             timingID: data.timingID,
+            kanimID,
             date,
             startHour,
             endHour,
@@ -83,5 +84,5 @@ export {
   CONFIRM_QUOTA,
   getOffices,
   getOffice,
-  checkOfficeQuota,
+  confirmOfficeQuota,
 };

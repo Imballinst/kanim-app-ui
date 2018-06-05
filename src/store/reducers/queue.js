@@ -1,3 +1,4 @@
+import { LOGIN } from '../../actions/auth';
 import {
   REGISTER_QUEUE,
   GET_QUEUES,
@@ -19,6 +20,9 @@ const defaultState = {
 
 const queue = (state = defaultState, action) => {
   switch (action.type) {
+    case LOGIN.SUCCESS: {
+      return { ...defaultState };
+    }
     case REGISTER_QUEUE.ATTEMPT: {
       return {
         ...state,

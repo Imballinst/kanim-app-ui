@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import addWeeks from 'date-fns/addWeeks';
+
 import {
   ScrollView,
   View,
   StyleSheet,
   Text,
-  DatePickerAndroid,
 } from 'react-native';
-import format from 'date-fns/format';
-import addWeeks from 'date-fns/addWeeks';
-import idLocale from 'date-fns/locale/id';
 import {
   primaryMineshaft,
   secondaryWilliam,
@@ -18,6 +16,8 @@ import {
 } from '../utils/colors';
 import TextInput from './modules/TextInput';
 import RoundedListItem from './modules/RoundedListItem';
+import { formatQueryParamsDate } from './helpers/Time';
+import filterByProp from './helpers/Object';
 
 const style = StyleSheet.create({
   viewStyle: {
@@ -38,18 +38,9 @@ const style = StyleSheet.create({
     color: primaryMineshaft,
   },
 });
-const formatShortDate = date => format(date, 'YYYY-M-D', { locale: idLocale });
-const filterByProp = (array, prop, filter) => array.filter((obj) => {
-  const objectLowercase = obj[prop].toLowerCase();
-  const comparedLowercase = filter.toLowerCase();
-
-  return objectLowercase.includes(comparedLowercase);
-});
 
 class Home extends React.Component {
   state = {
-    startDate: new Date(),
-    endDate: addWeeks(new Date(), 2),
     filter: '',
   }
 
@@ -59,27 +50,16 @@ class Home extends React.Component {
     }
   }
 
-  onSelectStartDate = field => () => {
-    DatePickerAndroid
-      .open({ date: new Date() })
-      .then(({
-        action, year, month, day,
-      }) => {
-        if (action !== DatePickerAndroid.dismissedAction) {
-          this.setState({ [field]: new Date(year, month, day) });
-        }
-      });
-  }
-
   onFilterChange = (filter) => {
     this.setState({ filter });
   }
 
   onClickDetailKanim = id => () => {
     const { token } = this.props.auth;
-    const { startDate, endDate } = this.state;
-    const formattedStartDate = formatShortDate(startDate);
-    const formattedEndDate = formatShortDate(endDate);
+    const date = new Date();
+
+    const formattedStartDate = formatQueryParamsDate();
+    const formattedEndDate = formatQueryParamsDate(addWeeks(date, 2));
 
     this.props.navigation.navigate('KanimDetail');
     this.props.getOffice(token, id, formattedStartDate, formattedEndDate);

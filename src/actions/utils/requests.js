@@ -46,7 +46,7 @@ const getOfficeQuota = (token, kanimID, startDate, endDate) => axios({
   },
 });
 
-const checkOfficeQuota = (token, kanimID, date, startHr, endHr) => axios({
+const confirmOfficeQuota = (token, kanimID, date, startHr, endHr) => axios({
   method: 'post',
   headers: { 'x-imm-token': token },
   url: `${apiUrl}/offices/${kanimID}/check`,
@@ -94,7 +94,7 @@ export {
   login,
   getOffices,
   getOfficeQuota,
-  checkOfficeQuota,
+  confirmOfficeQuota,
   getQueues,
   registerQueue,
   cancelQueue,

@@ -37,7 +37,7 @@ const style = StyleSheet.create({
 });
 
 const PromptModalContent = ({
-  children, onModalClose, confirmText, cancelText,
+  children, confirmText, cancelText, onConfirm, onCancel,
 }) => (
   <ModalContent>
     {children}
@@ -48,14 +48,14 @@ const PromptModalContent = ({
           buttonStyle={style.modalLeftButton}
           textStyle={style.modalText}
           title={confirmText}
-          onPress={() => {}}
+          onPress={onConfirm}
         />
         <Button
           containerViewStyle={style.modalButtonView}
           buttonStyle={style.modalRightButton}
           textStyle={style.modalText}
           title={cancelText}
-          onPress={onModalClose}
+          onPress={onCancel}
         />
       </View>
     </View>
@@ -63,10 +63,15 @@ const PromptModalContent = ({
 );
 
 PromptModalContent.propTypes = {
-  children: PropTypes.node.isRequired,
-  onModalClose: PropTypes.func.isRequired,
+  children: PropTypes.node,
   confirmText: PropTypes.string.isRequired,
   cancelText: PropTypes.string.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+};
+
+PromptModalContent.defaultProps = {
+  children: null,
 };
 
 export default PromptModalContent;
