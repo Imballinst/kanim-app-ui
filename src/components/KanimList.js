@@ -7,6 +7,7 @@ import {
   View,
   StyleSheet,
   Text,
+  ActivityIndicator,
 } from 'react-native';
 import {
   primaryMineshaft,
@@ -21,9 +22,9 @@ import filterByProp from './helpers/Object';
 
 const style = StyleSheet.create({
   viewStyle: {
-    paddingTop: 10,
     backgroundColor: tertiaryAlto,
     paddingHorizontal: 10,
+    flex: 1,
   },
   kanimOuterItemStyle: {
     marginTop: 10,
@@ -58,7 +59,7 @@ class Home extends React.Component {
     const { token } = this.props.auth;
     const date = new Date();
 
-    const formattedStartDate = formatQueryParamsDate();
+    const formattedStartDate = formatQueryParamsDate(date);
     const formattedEndDate = formatQueryParamsDate(addWeeks(date, 2));
 
     this.props.navigation.navigate('KanimDetail');
@@ -71,7 +72,7 @@ class Home extends React.Component {
 
     const filteredOffices = filter ?
       filterByProp(kanim.offices, 'MO_NAME', filter) : kanim.offices;
-    const listOffices = filteredOffices.reduce((nodes, cur, idx) => {
+    const listOffices = !kanim.listKanimAttempt ? filteredOffices.reduce((nodes, cur, idx) => {
       const {
         MO_NAME, MO_ID, MO_ADDRESS, MO_TELP,
       } = cur;
@@ -91,20 +92,22 @@ class Home extends React.Component {
       );
 
       return nodes.concat(office);
-    }, []);
+    }, []) : <ActivityIndicator size="large" color="#353535" />;
 
     return (
-      <ScrollView contentContainerStyle={style.viewStyle}>
-        <TextInput
-          placeholder="Filter Nama Kanim"
-          onChangeText={this.onFilterChange}
-          activeColor={primaryMineshaft}
-          value={filter}
-          inactiveColor={hexToRGB(primaryMineshaft, 0.6)}
-        />
+      <View style={style.viewStyle}>
+        <ScrollView>
+          <TextInput
+            placeholder="Filter Nama Kanim"
+            onChangeText={this.onFilterChange}
+            activeColor={primaryMineshaft}
+            value={filter}
+            inactiveColor={hexToRGB(primaryMineshaft, 0.6)}
+          />
 
-        {listOffices}
-      </ScrollView>
+          {listOffices}
+        </ScrollView>
+      </View>
     );
   }
 }

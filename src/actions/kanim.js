@@ -10,6 +10,13 @@ const LIST_KANIM = actionTypes('LIST_KANIM');
 const GET_OFFICE_QUOTA = actionTypes('GET_OFFICE_QUOTA');
 const CONFIRM_QUOTA = actionTypes('CONFIRM_QUOTA');
 
+// Action creators
+const confirmQuotaSync = payload => ({
+  type: CONFIRM_QUOTA.SUCCESS,
+  payload,
+});
+
+// Async actions
 const getOffices = token => (dispatch) => {
   dispatch({ type: LIST_KANIM.ATTEMPT });
 
@@ -59,16 +66,13 @@ const confirmOfficeQuota = (token, kanimID, date, startHour, endHour) => (dispat
       } = res.data;
 
       if (success) {
-        dispatch({
-          type: CONFIRM_QUOTA.SUCCESS,
-          payload: {
-            timingID: data.timingID,
-            kanimID,
-            date,
-            startHour,
-            endHour,
-          },
-        });
+        dispatch(confirmQuotaSync({
+          timingID: data.timingID,
+          kanimID,
+          date,
+          startHour,
+          endHour,
+        }));
       } else {
         throw new Error(`${errorCode} ${message}`);
       }
@@ -85,4 +89,5 @@ export {
   getOffices,
   getOffice,
   confirmOfficeQuota,
+  confirmQuotaSync,
 };

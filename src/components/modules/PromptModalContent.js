@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
+import Button from './Button';
 import {
   primaryMineshaft,
   tertiaryAlto,
@@ -64,14 +65,17 @@ const PromptModalContent = ({
 
 PromptModalContent.propTypes = {
   children: PropTypes.node,
-  confirmText: PropTypes.string.isRequired,
-  cancelText: PropTypes.string.isRequired,
-  onConfirm: PropTypes.func.isRequired,
+  confirmText: PropTypes.string,
+  cancelText: PropTypes.string,
+  onConfirm: PropTypes.func,
   onCancel: PropTypes.func.isRequired,
 };
 
 PromptModalContent.defaultProps = {
   children: null,
+  confirmText: '',
+  cancelText: '',
+  onConfirm: () => {},
 };
 
 export default PromptModalContent;

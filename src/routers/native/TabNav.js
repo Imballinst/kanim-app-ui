@@ -24,11 +24,25 @@ const queueIcon = ({ tintColor }) => getIcon('table', tintColor);
 const TabNav = TabNavigator({
   HomeStack: {
     screen: HomeStack,
-    navigationOptions: { tabBarIcon: homeIcon, title: 'Home' },
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: homeIcon,
+      title: 'Home',
+      tabBarOnPress() {
+        // Reset view to the list
+        navigation.navigate('KanimList');
+      },
+    }),
   },
   NotifStack: {
     screen: NotifStack,
-    navigationOptions: { tabBarIcon: notifIcon, title: 'Reminder' },
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: notifIcon,
+      title: 'Reminder',
+      tabBarOnPress() {
+        // Reset view to the list
+        navigation.navigate('NotifList');
+      },
+    }),
   },
   QueueStack: {
     screen: QueueStack,

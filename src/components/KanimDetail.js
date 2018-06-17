@@ -11,7 +11,7 @@ import PromptModalContent from './modules/PromptModalContent';
 import StepIndicator from './modules/StepIndicator';
 import TextInput from './modules/TextInput';
 
-const getStep = confirmation => (confirmation ? 1 : 0);
+const getStepIndex = confirmation => (confirmation ? 1 : 0);
 const stepLabels = ['Pilih Waktu', 'Isi Data'];
 const style = StyleSheet.create({
   viewStyle: {
@@ -56,9 +56,10 @@ class KanimDetail extends React.Component {
   }
 
   onPressBack = () => {
-    if (getStep(this.props.confirmation) === 1) {
+    if (getStepIndex(this.props.confirmation) === 0) {
       this.props.navigation.navigate('KanimList');
     } else {
+      this.props.confirmQuotaSync();
       this.setState({
         name: '',
         nik: '',
@@ -99,6 +100,12 @@ class KanimDetail extends React.Component {
     }
   }
 
+  onChange = field => (val) => {
+    this.setState({
+      [field]: val,
+    });
+  }
+
   onModalClose = () => {
     this.setState({ modalVisible: false });
   }
@@ -118,10 +125,10 @@ class KanimDetail extends React.Component {
       confirmation,
     } = this.props;
     const { name, nik } = this.state;
-    const { token, userID } = auth;
-    const { tID } = confirmation;
+    const { token, user } = auth;
+    const { timingID } = confirmation;
 
-    registerQueue(office.kanimID, token, 1, userID, tID, name, nik);
+    registerQueue(office.info.MO_ID, token, 1, user.MU_ID, timingID, name, nik);
     this.setState({
       modalVisible: false,
       modalID: '',
@@ -135,11 +142,13 @@ class KanimDetail extends React.Component {
       modalSession,
     } = this.state;
     const session = modalSession === 'morning' ? 'pagi' : 'siang';
-    const cancelText = 'Batalkan';
+    const cancelText = 'Tutup';
     let body;
     let confirmText;
+    let confirmEvent;
 
     if (modalID === 'quotaFull') {
+      // TODO: edit with some function
       body = (
         <View style={style.modalBody}>
           <Text style={style.modalText}>
@@ -150,6 +159,7 @@ class KanimDetail extends React.Component {
       );
       confirmText = 'Buat Reminder';
     } else if (modalID === 'confirmRegistration') {
+      confirmEvent = this.onRegisterQueue;
       body = (
         <View style={style.modalBody}>
           <Text style={style.modalText}>
@@ -158,12 +168,12 @@ class KanimDetail extends React.Component {
           </Text>
         </View>
       );
-      confirmText = 'Daftar Antrian';
+      confirmText = 'Daftar';
     }
 
     return (
       <PromptModalContent
-        onConfirm={this.onRegisterQueue}
+        onConfirm={confirmEvent}
         onCancel={this.onModalClose}
         confirmText={confirmText}
         cancelText={cancelText}
@@ -180,10 +190,10 @@ class KanimDetail extends React.Component {
       getOfficeQuotaAttempt,
       confirmQuotaAttempt,
     } = this.props;
-    const step = getStep(confirmation);
+    const step = getStepIndex(confirmation);
     let content;
 
-    if (step === 1) {
+    if (step === 0) {
       const { info, quota } = office;
 
       const quotaDates = Object.keys(quota);
@@ -211,7 +221,7 @@ class KanimDetail extends React.Component {
         </View>
       );
     } else {
-      content = confirmQuotaAttempt ? (
+      content = !confirmQuotaAttempt ? (
         <View>
           <TextInput
             placeholder="Nama"
@@ -240,7 +250,9 @@ class KanimDetail extends React.Component {
 
     return (
       <ScrollView style={style.viewStyle}>
-        <StepIndicator step={step} labels={stepLabels} />
+        <View style={{ marginTop: 10 }}>
+          <StepIndicator currentPosition={step} labels={stepLabels} />
+        </View>
 
         {content}
 
@@ -261,10 +273,11 @@ KanimDetail.propTypes = {
   office: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   getOfficeQuotaAttempt: PropTypes.bool.isRequired,
+  confirmation: PropTypes.object,
   confirmQuotaAttempt: PropTypes.bool.isRequired,
+  confirmQuotaSync: PropTypes.func.isRequired,
   confirmOfficeQuota: PropTypes.func.isRequired,
   registerQueue: PropTypes.func.isRequired,
-  confirmation: PropTypes.object,
 };
 
 KanimDetail.defaultProps = {

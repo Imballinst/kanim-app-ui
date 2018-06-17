@@ -28,18 +28,23 @@ const stepStyles = {
   currentStepLabelColor: primaryMineshaft,
 };
 
-const StepIndicator = ({ labels, currentPosition, styles = stepStyles }) => (
+const StepIndicator = ({ labels, currentPosition, styles }) => (
   <StepIndicatorRN
     customStyles={styles}
     currentPosition={currentPosition}
     labels={labels}
+    stepCount={labels.length}
   />
 );
 
 StepIndicator.propTypes = {
-  labels: PropTypes.object.isRequired,
+  labels: PropTypes.array.isRequired,
   currentPosition: PropTypes.number.isRequired,
-  styles: PropTypes.object.isRequired,
+  styles: PropTypes.object,
+};
+
+StepIndicator.defaultProps = {
+  styles: stepStyles,
 };
 
 export default StepIndicator;

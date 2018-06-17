@@ -9,10 +9,11 @@ const defaultState = {
   registerQueueAttempt: false,
   registerQueueError: '',
   registerQueueResult: undefined,
-  listQueueAttempt: false,
-  listQueueError: '',
-  isQueueExist: false,
+  getQueueAttempt: false,
+  getQueueError: '',
   queues: [],
+  queuesUsed: 0,
+  isQueueExist: false,
   cancelQueueAttempt: false,
   cancelQueueError: '',
   cancelQueueResult: undefined,
@@ -47,25 +48,28 @@ const queue = (state = defaultState, action) => {
     case GET_QUEUES.ATTEMPT: {
       return {
         ...state,
-        listQueueAttempt: true,
-        listQueueError: '',
+        getQueueAttempt: true,
+        getQueueError: '',
+        isQueueExist: false,
       };
     }
     case GET_QUEUES.SUCCESS: {
-      const isQueueExist = action.payload.length > 0;
+      const { queues, queuesUsed } = action.payload;
+      const isQueueExist = queues.length > 0;
 
       return {
         ...state,
-        queues: action.payload,
+        queues,
+        getQueueAttempt: false,
         isQueueExist,
-        listQueueAttempt: false,
+        queuesUsed,
       };
     }
     case GET_QUEUES.INVALID: {
       return {
         ...state,
-        listQueueAttempt: false,
-        listQueueError: action.message,
+        getQueueAttempt: false,
+        getQueueError: action.message,
       };
     }
     case CANCEL_QUEUE.ATTEMPT: {

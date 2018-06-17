@@ -71,11 +71,11 @@ const registerQueue = (kanimID, token, count, userID, tID, name, nik) => axios({
   headers: { 'x-imm-token': token },
   url: `${apiUrl}/offices/${kanimID}/register`,
   data: {
-    JumlahPemohon: count,
-    UserId: userID,
-    DetailTimingId: tID,
-    NAMA_PENGANTRI_1: name,
-    NIK_PENGANTRI_1: nik,
+    applicantCount: count,
+    userID,
+    timingID: tID,
+    name,
+    nik,
   },
 });
 
@@ -83,9 +83,6 @@ const cancelQueue = (token, queueNumber) => axios({
   method: 'delete',
   headers: { 'x-imm-token': token },
   url: `${apiUrl}/queue/${queueNumber}`,
-  data: {
-    NO_ANTRIAN: queueNumber,
-  },
 });
 
 export {
