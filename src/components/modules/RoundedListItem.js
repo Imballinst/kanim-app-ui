@@ -26,13 +26,14 @@ const RoundedListItem = ({
 RoundedListItem.propTypes = {
   outerStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object]).isRequired,
   innerStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object]).isRequired,
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
   onLongPress: PropTypes.func,
   delayLongPress: PropTypes.number,
   children: PropTypes.node.isRequired,
 };
 
 RoundedListItem.defaultProps = {
+  onPress: () => {},
   onLongPress: () => {},
   delayLongPress: 3000,
 };

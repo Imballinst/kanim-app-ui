@@ -85,6 +85,29 @@ const cancelQueue = (token, queueNumber) => axios({
   url: `${apiUrl}/queue/${queueNumber}`,
 });
 
+const getNotifications = userID => axios({
+  method: 'get',
+  url: `${apiUrl}/user/${userID}/notification`,
+});
+
+const addNotification = (userID, email, moID, session, { startDate, endDate }, treshold) => axios({
+  method: 'post',
+  url: `${apiUrl}/user/${userID}/notification`,
+  data: {
+    email,
+    moID,
+    session,
+    startDate,
+    endDate,
+    treshold,
+  },
+});
+
+const deleteNotification = (userID, notificationID) => axios({
+  method: 'delete',
+  url: `${apiUrl}/user/${userID}/notification/${notificationID}`,
+});
+
 export {
   getMainPage,
   // register,
@@ -95,4 +118,7 @@ export {
   getQueues,
   registerQueue,
   cancelQueue,
+  getNotifications,
+  addNotification,
+  deleteNotification,
 };

@@ -13,7 +13,8 @@ import { formatHour } from './helpers/Time';
 class QueueList extends React.Component {
   state = {
     modalVisible: false,
-    qrCode: '',
+    modalID: '',
+    modalData: {},
   }
 
   componentDidMount() {
@@ -31,7 +32,6 @@ class QueueList extends React.Component {
   }
 
   onItemLongPress = queueNumber => () => {
-    console.log('xd');
     this.setState({
       modalID: 'cancelQueue',
       modalVisible: true,
@@ -48,35 +48,28 @@ class QueueList extends React.Component {
   onModalClose = () => {
     this.setState({
       modalVisible: false,
-      qrCode: '',
+      modalData: {},
     });
   }
 
   renderModal() {
-    const { modalID, modalVisible, modalData } = this.state;
-    console.log(this.state);
+    const { modalID, modalData } = this.state;
+
     if (modalID === 'qrCode') {
       return (
-        <Modal
-          isVisible={modalVisible}
-          onBackButtonPress={this.onModalClose}
-          onBackdropPress={this.onModalClose}
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        >
-          <View style={{ backgroundColor: '#fff', padding: 20 }}>
-            <QRCode value={modalData.qrCode} size={256} />
-          </View>
-        </Modal>
+        <View style={{ backgroundColor: '#fff', padding: 20 }}>
+          <QRCode value={modalData.qrCode} size={256} />
+        </View>
       );
     } else if (modalID === 'cancelQueue') {
       return (
         <PromptModalContent
-          isVisible={modalVisible}
-          confirmEvent={this.onCancelQueue(modalData.queueNumber)}
+          onConfirm={this.onCancelQueue(modalData.queueNumber)}
+          onCancel={this.onModalClose}
           confirmText="Batalkan"
           cancelText="Tutup"
         >
-          <View style={style.modalBody}>
+          <View style={{ padding: 11 }}>
             <Text style={style.modalText}>
               Apakah Anda yakin ingin membatalkan antrian ini? Antrian yang sudah dibatalkan
               tidak dapat diaktifkan kembali.
@@ -86,11 +79,12 @@ class QueueList extends React.Component {
       );
     }
 
-    return null;
+    return <View />;
   }
 
   render() {
     const { queues, getQueueAttempt, queuesUsed } = this.props.queue;
+    const { modalVisible } = this.state;
     let placeholder;
 
     if (queues.length && !getQueueAttempt) {
@@ -111,6 +105,7 @@ class QueueList extends React.Component {
             innerStyle={style.kanimInnerItemStyle}
             onPress={this.onItemLongPress(qrCode)}
             onLongPress={this.onItemLongPress(queueNumber)}
+            delayLongPress={1000}
           >
             <View>
               <Text style={style.kanimOfficeNameStyle}>{officeName} - {serviceDate}</Text>
@@ -128,12 +123,12 @@ class QueueList extends React.Component {
     } else {
       placeholder = <Text>Tidak ada antrian yang telah Anda daftar.</Text>;
     }
-    console.log('wew');
+
     return (
       <View style={style.viewStyle}>
         <Text style={{ marginTop: 15 }}>
           Untuk melihat QR codeasdasdas, lakukan tap pada antrian yang diinginkan.
-          Untuk melakukan delete, tekan antrian yang diinginkan selama 3 detik.
+          Untuk melakukan delete, tekan antrian yang diinginkan selama 1 detik.
         </Text>
         <Text style={{ marginTop: 15 }}>
           Jumlah antrian yang telah direquest tahun ini: {queuesUsed} (maksimal 5 per tahun).
@@ -141,7 +136,13 @@ class QueueList extends React.Component {
 
         {placeholder}
 
-        {this.renderModal()}
+        <Modal
+          isVisible={modalVisible}
+          onBackButtonPress={this.onModalClose}
+          onBackdropPress={this.onModalClose}
+        >
+          {this.renderModal()}
+        </Modal>
       </View>
     );
   }

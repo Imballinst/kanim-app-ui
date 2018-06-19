@@ -25,7 +25,7 @@ const persistStorage = (store, options, callback) => {
         // If version is identified
         const app = JSON.parse(itemValue);
 
-        if ((app && app.version !== currentAppVersion)) {
+        if ((app && app.version !== currentAppVersion) || __DEV__) {
           getPersistedStore().purge();
 
           AsyncStorage.setItem(

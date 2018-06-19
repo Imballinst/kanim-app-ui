@@ -51,6 +51,8 @@ class KanimDetail extends React.Component {
   state = {
     modalVisible: false,
     modalID: '',
+    modalDate: undefined,
+    modalSession: '',
     name: '',
     nik: '',
   }
@@ -135,7 +137,24 @@ class KanimDetail extends React.Component {
     });
   }
 
-  rendermodalContainer() {
+  onAddNotification = (session, date) => () => {
+    const {
+      addNotification,
+      office,
+      auth,
+    } = this.props;
+    const { MU_ID, MU_EMAIL } = auth.user;
+    // todo: check date format
+    const dates = { startDate: date, endDate: date };
+
+    addNotification(MU_ID, MU_EMAIL, office.info.MO_ID, session, dates, 10);
+    this.setState({
+      modalVisible: false,
+      modalID: '',
+    });
+  }
+
+  renderModalContent() {
     const {
       modalID,
       modalDate,
@@ -148,7 +167,7 @@ class KanimDetail extends React.Component {
     let confirmEvent;
 
     if (modalID === 'quotaFull') {
-      // TODO: edit with some function
+      confirmEvent = this.onAddNotification(modalSession, modalDate);
       body = (
         <View style={style.modalBody}>
           <Text style={style.modalText}>
@@ -261,7 +280,7 @@ class KanimDetail extends React.Component {
           onBackButtonPress={this.onModalClose}
           onBackdropPress={this.onModalClose}
         >
-          {this.rendermodalContainer()}
+          {this.renderModalContent()}
         </Modal>
       </ScrollView>
     );
@@ -278,6 +297,7 @@ KanimDetail.propTypes = {
   confirmQuotaSync: PropTypes.func.isRequired,
   confirmOfficeQuota: PropTypes.func.isRequired,
   registerQueue: PropTypes.func.isRequired,
+  addNotification: PropTypes.func.isRequired,
 };
 
 KanimDetail.defaultProps = {
