@@ -1,7 +1,7 @@
 import { StackNavigator } from 'react-navigation';
 
 import NotifList from '../../containers/NotifList';
-import NotifDetail from '../../components/NotifDetail';
+import NotifDetail from '../../containers/NotifDetail';
 
 export default StackNavigator({
   NotifList: { screen: NotifList },

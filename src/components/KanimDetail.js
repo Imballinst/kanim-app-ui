@@ -7,7 +7,7 @@ import Modal from 'react-native-modal';
 import { primaryMineshaft, tertiaryAlto } from '../utils/colors';
 import QuotaRows from './modules/QuotaRows';
 import Button from './modules/Button';
-import PromptModalContent from './modules/PromptModalContent';
+import TextfulPrompt from './modules/TextfulPrompt';
 import StepIndicator from './modules/StepIndicator';
 import TextInput from './modules/TextInput';
 
@@ -49,7 +49,7 @@ const style = StyleSheet.create({
 
 class KanimDetail extends React.Component {
   state = {
-    modalVisible: false,
+    isModalVisible: false,
     modalID: '',
     modalDate: undefined,
     modalSession: '',
@@ -76,7 +76,7 @@ class KanimDetail extends React.Component {
       modalID = 'quotaFull';
 
       this.setState({
-        modalVisible: true,
+        isModalVisible: true,
         modalID,
         modalDate: date,
         modalSession: session,
@@ -109,12 +109,12 @@ class KanimDetail extends React.Component {
   }
 
   onModalClose = () => {
-    this.setState({ modalVisible: false });
+    this.setState({ isModalVisible: false });
   }
 
   onPressSubmit = () => {
     this.setState({
-      modalVisible: true,
+      isModalVisible: true,
       modalID: 'confirmRegistration',
     });
   }
@@ -132,7 +132,7 @@ class KanimDetail extends React.Component {
 
     registerQueue(office.info.MO_ID, token, 1, user.MU_ID, timingID, name, nik);
     this.setState({
-      modalVisible: false,
+      isModalVisible: false,
       modalID: '',
     });
   }
@@ -149,7 +149,7 @@ class KanimDetail extends React.Component {
 
     addNotification(MU_ID, MU_EMAIL, office.info.MO_ID, session, dates, 10);
     this.setState({
-      modalVisible: false,
+      isModalVisible: false,
       modalID: '',
     });
   }
@@ -191,14 +191,14 @@ class KanimDetail extends React.Component {
     }
 
     return (
-      <PromptModalContent
+      <TextfulPrompt
         onConfirm={confirmEvent}
         onCancel={this.onModalClose}
         confirmText={confirmText}
         cancelText={cancelText}
       >
         {body}
-      </PromptModalContent>
+      </TextfulPrompt>
     );
   }
 
@@ -276,7 +276,7 @@ class KanimDetail extends React.Component {
         {content}
 
         <Modal
-          isVisible={this.state.modalVisible}
+          isVisible={this.state.isModalVisible}
           onBackButtonPress={this.onModalClose}
           onBackdropPress={this.onModalClose}
         >

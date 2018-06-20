@@ -1,6 +1,7 @@
 import {
   addNotification as addNotificationRequest,
   getNotifications as getNotificationsRequest,
+  getNotification as getNotificationRequest,
   deleteNotification as deleteNotificationRequest,
 } from './utils/requests';
 import actionTypes from './utils/actionTypes';
@@ -8,6 +9,7 @@ import actionTypes from './utils/actionTypes';
 // Variables
 const ADD_NOTIFICATION = actionTypes('ADD_NOTIFICATION');
 const GET_NOTIFICATIONS = actionTypes('GET_NOTIFICATIONS');
+const GET_NOTIFICATION = actionTypes('GET_NOTIFICATION');
 const DELETE_NOTIFICATION = actionTypes('DELETE_NOTIFICATION');
 
 const addNotification = (userID, email, moID, session, dates, treshold) => (dispatch) => {
@@ -48,6 +50,25 @@ const getNotifications = userID => (dispatch) => {
   }));
 };
 
+const getNotification = (userID, notifID) => (dispatch) => {
+  dispatch({ type: GET_NOTIFICATION.ATTEMPT });
+
+  return getNotificationRequest(userID, notifID).then((res) => {
+    const {
+      success, data, message, errorCode,
+    } = res.data;
+
+    if (success) {
+      dispatch({ type: GET_NOTIFICATION.SUCCESS, payload: data });
+    } else {
+      throw new Error(`${errorCode} ${message}`);
+    }
+  }).catch(message => dispatch({
+    type: GET_NOTIFICATION.INVALID,
+    message,
+  }));
+};
+
 const deleteNotification = (userID, notificationID) => (dispatch) => {
   dispatch({ type: DELETE_NOTIFICATION.ATTEMPT });
 
@@ -57,7 +78,7 @@ const deleteNotification = (userID, notificationID) => (dispatch) => {
     } = res.data;
 
     if (success) {
-      dispatch({ type: DELETE_NOTIFICATION.SUCCESS, payload: data });
+      dispatch({ type: DELETE_NOTIFICATION.SUCCESS, payload: data, deletedID: notificationID });
     } else {
       throw new Error(`${errorCode} ${message}`);
     }
@@ -70,8 +91,10 @@ const deleteNotification = (userID, notificationID) => (dispatch) => {
 export {
   ADD_NOTIFICATION,
   GET_NOTIFICATIONS,
+  GET_NOTIFICATION,
   DELETE_NOTIFICATION,
   addNotification,
   getNotifications,
+  getNotification,
   deleteNotification,
 };

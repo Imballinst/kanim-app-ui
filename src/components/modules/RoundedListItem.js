@@ -35,7 +35,7 @@ RoundedListItem.propTypes = {
 RoundedListItem.defaultProps = {
   onPress: () => {},
   onLongPress: () => {},
-  delayLongPress: 3000,
+  delayLongPress: 1000,
 };
 
 export default RoundedListItem;

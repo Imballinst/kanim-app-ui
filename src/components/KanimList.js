@@ -72,7 +72,7 @@ class Home extends React.Component {
 
     const filteredOffices = filter ?
       filterByProp(kanim.offices, 'MO_NAME', filter) : kanim.offices;
-    const listOffices = !kanim.listKanimAttempt ? filteredOffices.reduce((nodes, cur, idx) => {
+    const listOffices = !kanim.getOfficesAttempt ? filteredOffices.reduce((nodes, cur, idx) => {
       const {
         MO_NAME, MO_ID, MO_ADDRESS, MO_TELP,
       } = cur;

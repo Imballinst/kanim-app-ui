@@ -6,7 +6,7 @@ import {
 import actionTypes from './utils/actionTypes';
 
 // Variables
-const LIST_KANIM = actionTypes('LIST_KANIM');
+const GET_OFFICES = actionTypes('GET_OFFICES');
 const GET_OFFICE_QUOTA = actionTypes('GET_OFFICE_QUOTA');
 const CONFIRM_QUOTA = actionTypes('CONFIRM_QUOTA');
 
@@ -18,7 +18,7 @@ const confirmQuotaSync = payload => ({
 
 // Async actions
 const getOffices = token => (dispatch) => {
-  dispatch({ type: LIST_KANIM.ATTEMPT });
+  dispatch({ type: GET_OFFICES.ATTEMPT });
 
   return getOfficesRequest(token).then((res) => {
     const {
@@ -26,12 +26,12 @@ const getOffices = token => (dispatch) => {
     } = res.data;
 
     if (success) {
-      dispatch({ type: LIST_KANIM.SUCCESS, payload: data });
+      dispatch({ type: GET_OFFICES.SUCCESS, payload: data });
     } else {
       throw new Error(`${errorCode} ${message}`);
     }
   }).catch(message => dispatch({
-    type: LIST_KANIM.INVALID,
+    type: GET_OFFICES.INVALID,
     message,
   }));
 };
@@ -83,7 +83,7 @@ const confirmOfficeQuota = (token, kanimID, date, startHour, endHour) => (dispat
 };
 
 export {
-  LIST_KANIM,
+  GET_OFFICES,
   GET_OFFICE_QUOTA,
   CONFIRM_QUOTA,
   getOffices,

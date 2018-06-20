@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getNotifications } from '../actions/notif';
+import { getNotifications, getNotification, deleteNotification } from '../actions/notif';
 import NotifList from '../components/NotifList';
 
 const mapStateToProps = ({
@@ -10,6 +10,6 @@ const mapStateToProps = ({
   nav,
   kanim,
 });
-const mapDispatchToProps = { getNotifications };
+const mapDispatchToProps = { getNotifications, getNotification, deleteNotification };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotifList);

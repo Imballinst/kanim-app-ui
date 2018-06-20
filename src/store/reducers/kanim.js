@@ -1,9 +1,9 @@
 import { LOGIN } from '../../actions/auth';
-import { LIST_KANIM, GET_OFFICE_QUOTA, CONFIRM_QUOTA } from '../../actions/kanim';
+import { GET_OFFICES, GET_OFFICE_QUOTA, CONFIRM_QUOTA } from '../../actions/kanim';
 
 const defaultState = {
-  listKanimAttempt: false,
-  listKanimError: '',
+  getOfficesAttempt: false,
+  getOfficesError: '',
   offices: [],
   getOfficeQuotaAttempt: false,
   getOfficeQuotaError: '',
@@ -18,25 +18,25 @@ const kanim = (state = defaultState, action) => {
     case LOGIN.SUCCESS: {
       return { ...defaultState };
     }
-    case LIST_KANIM.ATTEMPT: {
+    case GET_OFFICES.ATTEMPT: {
       return {
         ...state,
-        listKanimAttempt: true,
-        listKanimError: '',
+        getOfficesAttempt: true,
+        getOfficesError: '',
       };
     }
-    case LIST_KANIM.SUCCESS: {
+    case GET_OFFICES.SUCCESS: {
       return {
         ...state,
         offices: action.payload,
-        listKanimAttempt: false,
+        getOfficesAttempt: false,
       };
     }
-    case LIST_KANIM.INVALID: {
+    case GET_OFFICES.INVALID: {
       return {
         ...state,
-        listKanimAttempt: false,
-        listKanimError: action.message,
+        getOfficesAttempt: false,
+        getOfficesError: action.message,
       };
     }
     case GET_OFFICE_QUOTA.ATTEMPT: {

@@ -1,5 +1,5 @@
 import kanim, { defaultState } from '../kanim';
-import { LIST_KANIM } from '../../../actions/kanim';
+import { GET_OFFICES } from '../../../actions/kanim';
 
 describe('kanim', () => {
   // Initial state
@@ -8,43 +8,43 @@ describe('kanim', () => {
   });
 
   // Login
-  it('should handle LIST_KANIM.ATTEMPT action', () => {
-    const type = LIST_KANIM.ATTEMPT;
+  it('should handle GET_OFFICES.ATTEMPT action', () => {
+    const type = GET_OFFICES.ATTEMPT;
 
     expect(kanim(defaultState, { type }))
       .toEqual({
         ...defaultState,
-        listKanimAttempt: true,
-        listKanimError: '',
+        getOfficesAttempt: true,
+        getOfficesError: '',
       });
   });
 
-  it('should handle LIST_KANIM.SUCCESS action', () => {
+  it('should handle GET_OFFICES.SUCCESS action', () => {
     const action = {
-      type: LIST_KANIM.SUCCESS,
+      type: GET_OFFICES.SUCCESS,
       payload: ['officeA', 'officeB'],
     };
 
     expect(kanim(defaultState, action))
       .toEqual({
         ...defaultState,
-        listKanimAttempt: false,
-        listKanimError: '',
+        getOfficesAttempt: false,
+        getOfficesError: '',
         offices: ['officeA', 'officeB'],
       });
   });
 
-  it('should handle LIST_KANIM.INVALID action', () => {
+  it('should handle GET_OFFICES.INVALID action', () => {
     const action = {
-      type: LIST_KANIM.INVALID,
+      type: GET_OFFICES.INVALID,
       message: 'This is an error message.',
     };
 
     expect(kanim(defaultState, action))
       .toEqual({
         ...defaultState,
-        listKanimError: 'This is an error message.',
-        listKanimAttempt: false,
+        getOfficesError: 'This is an error message.',
+        getOfficesAttempt: false,
       });
   });
 });

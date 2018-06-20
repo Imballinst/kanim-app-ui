@@ -7,12 +7,12 @@ import QRCode from 'react-native-qrcode';
 import { primaryMineshaft } from '../utils/colors';
 import { style } from './KanimList';
 import RoundedListItem from './modules/RoundedListItem';
-import PromptModalContent from './modules/PromptModalContent';
+import TextfulPrompt from './modules/TextfulPrompt';
 import { formatHour } from './helpers/Time';
 
 class QueueList extends React.Component {
   state = {
-    modalVisible: false,
+    isModalVisible: false,
     modalID: '',
     modalData: {},
   }
@@ -26,7 +26,7 @@ class QueueList extends React.Component {
   onItemPress = qrCode => () => {
     this.setState({
       modalID: 'qrCode',
-      modalVisible: true,
+      isModalVisible: true,
       modalData: { qrCode },
     });
   }
@@ -34,7 +34,7 @@ class QueueList extends React.Component {
   onItemLongPress = queueNumber => () => {
     this.setState({
       modalID: 'cancelQueue',
-      modalVisible: true,
+      isModalVisible: true,
       modalData: { queueNumber },
     });
   }
@@ -47,7 +47,7 @@ class QueueList extends React.Component {
 
   onModalClose = () => {
     this.setState({
-      modalVisible: false,
+      isModalVisible: false,
       modalData: {},
     });
   }
@@ -63,7 +63,7 @@ class QueueList extends React.Component {
       );
     } else if (modalID === 'cancelQueue') {
       return (
-        <PromptModalContent
+        <TextfulPrompt
           onConfirm={this.onCancelQueue(modalData.queueNumber)}
           onCancel={this.onModalClose}
           confirmText="Batalkan"
@@ -75,7 +75,7 @@ class QueueList extends React.Component {
               tidak dapat diaktifkan kembali.
             </Text>
           </View>
-        </PromptModalContent>
+        </TextfulPrompt>
       );
     }
 
@@ -84,7 +84,7 @@ class QueueList extends React.Component {
 
   render() {
     const { queues, getQueueAttempt, queuesUsed } = this.props.queue;
-    const { modalVisible } = this.state;
+    const { isModalVisible } = this.state;
     let placeholder;
 
     if (queues.length && !getQueueAttempt) {
@@ -137,7 +137,7 @@ class QueueList extends React.Component {
         {placeholder}
 
         <Modal
-          isVisible={modalVisible}
+          isVisible={isModalVisible}
           onBackButtonPress={this.onModalClose}
           onBackdropPress={this.onModalClose}
         >

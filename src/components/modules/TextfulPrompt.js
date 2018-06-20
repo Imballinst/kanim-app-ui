@@ -37,7 +37,7 @@ const style = StyleSheet.create({
   },
 });
 
-const PromptModalContent = ({
+const TextfulPrompt = ({
   children, confirmText, cancelText, onConfirm, onCancel,
 }) => (
   <ModalContent>
@@ -63,7 +63,7 @@ const PromptModalContent = ({
   </ModalContent>
 );
 
-PromptModalContent.propTypes = {
+TextfulPrompt.propTypes = {
   children: PropTypes.node,
   confirmText: PropTypes.string,
   cancelText: PropTypes.string,
@@ -71,11 +71,11 @@ PromptModalContent.propTypes = {
   onCancel: PropTypes.func.isRequired,
 };
 
-PromptModalContent.defaultProps = {
+TextfulPrompt.defaultProps = {
   children: null,
   confirmText: '',
   cancelText: '',
   onConfirm: () => {},
 };
 
-export default PromptModalContent;
+export default TextfulPrompt;

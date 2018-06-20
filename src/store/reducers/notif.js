@@ -2,6 +2,7 @@ import { LOGIN } from '../../actions/auth';
 import {
   ADD_NOTIFICATION,
   GET_NOTIFICATIONS,
+  GET_NOTIFICATION,
   DELETE_NOTIFICATION,
 } from '../../actions/notif';
 
@@ -12,6 +13,9 @@ const defaultState = {
   getNotificationsAttempt: false,
   getNotificationsError: '',
   notifications: [],
+  getNotificationAttempt: false,
+  getNotificationError: '',
+  notification: undefined,
   isNotificationsExist: false,
   deleteNotificationAttempt: false,
   deleteNotificationError: '',
@@ -70,6 +74,27 @@ const notif = (state = defaultState, action) => {
         getNotificationsError: action.message,
       };
     }
+    case GET_NOTIFICATION.ATTEMPT: {
+      return {
+        ...state,
+        getNotificationAttempt: true,
+        getNotificationError: '',
+      };
+    }
+    case GET_NOTIFICATION.SUCCESS: {
+      return {
+        ...state,
+        notification: action.payload,
+        getNotificationAttempt: false,
+      };
+    }
+    case GET_NOTIFICATION.INVALID: {
+      return {
+        ...state,
+        getNotificationAttempt: false,
+        getNotificationError: action.message,
+      };
+    }
     case DELETE_NOTIFICATION.ATTEMPT: {
       return {
         ...state,
@@ -78,9 +103,13 @@ const notif = (state = defaultState, action) => {
       };
     }
     case DELETE_NOTIFICATION.SUCCESS: {
+      const { deletedID, payload } = action;
+      const notifications = state.notifications.filter(({ _id: notifID }) => notifID !== deletedID);
+
       return {
         ...state,
-        deleteNotificationResult: action.payload,
+        notifications,
+        deleteNotificationResult: payload,
         deleteNotificationAttempt: false,
       };
     }

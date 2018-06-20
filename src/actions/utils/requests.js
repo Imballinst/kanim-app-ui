@@ -90,6 +90,11 @@ const getNotifications = userID => axios({
   url: `${apiUrl}/user/${userID}/notification`,
 });
 
+const getNotification = (userID, notifID) => axios({
+  method: 'get',
+  url: `${apiUrl}/user/${userID}/notification/${notifID}`,
+});
+
 const addNotification = (userID, email, moID, session, { startDate, endDate }, treshold) => axios({
   method: 'post',
   url: `${apiUrl}/user/${userID}/notification`,
@@ -119,6 +124,7 @@ export {
   registerQueue,
   cancelQueue,
   getNotifications,
+  getNotification,
   addNotification,
   deleteNotification,
 };
