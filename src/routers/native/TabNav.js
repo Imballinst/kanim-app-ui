@@ -21,28 +21,40 @@ const homeIcon = ({ tintColor }) => getIcon('home', tintColor);
 const notifIcon = ({ tintColor }) => getIcon('bell', tintColor);
 const queueIcon = ({ tintColor }) => getIcon('table', tintColor);
 
+const tabNavOpts = (tabBarIcon, title) => ({ navigation }) => {
+  const { routes, index } = navigation.state;
+  const { routeName } = routes[index];
+
+  return {
+    tabBarIcon,
+    title,
+    tabBarOnPress: ({ previousScene, scene, jumpToIndex }) => {
+      const { index: previousIndex } = previousScene;
+
+      // Enable press and swipe only if on the root stack
+      if (previousScene.routes[previousIndex].routeName.includes('List')) {
+        jumpToIndex(scene.index);
+      }
+    },
+    swipeEnabled: routeName.includes('List'),
+  };
+};
+
 const TabNav = TabNavigator({
   HomeStack: {
     screen: HomeStack,
-    navigationOptions: {
-      tabBarIcon: homeIcon,
-      title: 'Home',
-    },
+    navigationOptions: tabNavOpts(homeIcon, 'Home'),
   },
   NotifStack: {
     screen: NotifStack,
-    navigationOptions: {
-      tabBarIcon: notifIcon,
-      title: 'Reminder',
-    },
+    navigationOptions: tabNavOpts(notifIcon, 'Reminder'),
   },
   QueueStack: {
     screen: QueueStack,
-    navigationOptions: { tabBarIcon: queueIcon, title: 'Antrian' },
+    navigationOptions: tabNavOpts(queueIcon, 'Antrian'),
   },
 }, {
   tabBarPosition: 'top',
-  swipeEnabled: false,
   animationEnabled: true,
   initialRouteName: 'HomeStack',
   tabBarOptions: {

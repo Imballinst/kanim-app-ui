@@ -3,8 +3,8 @@ import {
   getNotifications as getNotificationsRequest,
   getNotification as getNotificationRequest,
   deleteNotification as deleteNotificationRequest,
-} from './utils/requests';
-import actionTypes from './utils/actionTypes';
+} from './helpers/requests';
+import actionTypes from './helpers/actionTypes';
 
 // Variables
 const ADD_NOTIFICATION = actionTypes('ADD_NOTIFICATION');

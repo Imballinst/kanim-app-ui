@@ -11,6 +11,7 @@ import TextfulPrompt from './modules/TextfulPrompt';
 import StepIndicator from './modules/StepIndicator';
 import TextInput from './modules/TextInput';
 
+// Refactor getStepIndex: addSpecification: reminder or queue
 const getStepIndex = confirmation => (confirmation ? 1 : 0);
 const stepLabels = ['Pilih Waktu', 'Isi Data'];
 const style = StyleSheet.create({
@@ -35,6 +36,7 @@ const style = StyleSheet.create({
   buttonContainers: {
     marginTop: 30,
     flex: 1,
+    flexDirection: 'row',
   },
   textInput: {
     padding: 5,
@@ -234,7 +236,12 @@ class KanimDetail extends React.Component {
 
           <View style={style.buttonContainers}>
             <View style={style.flex1}>
-              <Button onPress={this.onPressBack} title="Back" />
+              <Button
+                titleStyle={{ color: '#fff' }}
+                buttonStyle={{ backgroundColor: '#3c6e71' }}
+                onPress={this.onPressBack}
+                title="Back"
+              />
             </View>
           </View>
         </View>
@@ -257,10 +264,20 @@ class KanimDetail extends React.Component {
 
           <View style={style.buttonContainers}>
             <View style={style.flex1}>
-              <Button onPress={this.onPressBack} title="Back" />
+              <Button
+                titleStyle={{ color: '#fff' }}
+                buttonStyle={{ backgroundColor: '#3c6e71' }}
+                onPress={this.onPressBack}
+                title="Back"
+              />
             </View>
             <View style={style.flex1}>
-              <Button onPress={this.onPressSubmit} title="Submit" />
+              <Button
+                titleStyle={{ color: '#fff' }}
+                buttonStyle={{ backgroundColor: '#3c6e71' }}
+                onPress={this.onPressSubmit}
+                title="Submit"
+              />
             </View>
           </View>
         </View>

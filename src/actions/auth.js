@@ -1,6 +1,6 @@
 import { NavigationActions } from 'react-navigation';
-import { login as requestLogin } from './utils/requests';
-import actionTypes from './utils/actionTypes';
+import { login as requestLogin } from './helpers/requests';
+import actionTypes from './helpers/actionTypes';
 
 // Variables
 const LOGIN = actionTypes('LOGIN');

@@ -127,7 +127,7 @@ class QueueList extends React.Component {
     return (
       <View style={style.viewStyle}>
         <Text style={{ marginTop: 15 }}>
-          Untuk melihat QR codeasdasdas, lakukan tap pada antrian yang diinginkan.
+          Untuk melihat QR code, lakukan tap pada antrian yang diinginkan.
           Untuk melakukan delete, tekan antrian yang diinginkan selama 1 detik.
         </Text>
         <Text style={{ marginTop: 15 }}>

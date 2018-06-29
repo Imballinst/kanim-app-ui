@@ -2,8 +2,8 @@ import {
   getOffices as getOfficesRequest,
   getOfficeQuota as getOfficeQuotaRequest,
   confirmOfficeQuota as confirmOfficeQuotaRequest,
-} from './utils/requests';
-import actionTypes from './utils/actionTypes';
+} from './helpers/requests';
+import actionTypes from './helpers/actionTypes';
 
 // Variables
 const GET_OFFICES = actionTypes('GET_OFFICES');

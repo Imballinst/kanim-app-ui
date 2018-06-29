@@ -2,8 +2,8 @@ import {
   registerQueue as registerQueueRequest,
   getQueues as getQueuesRequest,
   cancelQueue as cancelQueueRequest,
-} from './utils/requests';
-import actionTypes from './utils/actionTypes';
+} from './helpers/requests';
+import actionTypes from './helpers/actionTypes';
 
 // Variables
 const REGISTER_QUEUE = actionTypes('REGISTER_QUEUE');
