@@ -46,17 +46,17 @@ const TextfulPrompt = ({
       <View style={{ flex: 1, flexDirection: 'row' }}>
         <Button
           containerViewStyle={style.modalButtonView}
-          buttonStyle={style.modalLeftButton}
           textStyle={style.modalText}
           title={confirmText}
           onPress={onConfirm}
+          {...style.modalLeftButton}
         />
         <Button
           containerViewStyle={style.modalButtonView}
-          buttonStyle={style.modalRightButton}
           textStyle={style.modalText}
           title={cancelText}
           onPress={onCancel}
+          {...style.modalRightButton}
         />
       </View>
     </View>

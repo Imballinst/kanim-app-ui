@@ -34,10 +34,10 @@ const TextlessPrompt = ({ buttonObjects, keyName }) => (
           <View style={style.buttonRow} key={`tlp-${keyName}-${idx + 1}`}>
             <Button
               containerViewStyle={style.modalButtonView}
-              buttonStyle={style.modalButton}
               textStyle={style.modalText}
               title={text}
               onPress={onPress}
+              {...style.modalButton}
             />
           </View>
         );

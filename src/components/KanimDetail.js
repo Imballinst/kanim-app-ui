@@ -4,7 +4,8 @@ import { ActivityIndicator, View, ScrollView, Text, StyleSheet } from 'react-nat
 import format from 'date-fns/format';
 import Modal from 'react-native-modal';
 
-import { primaryMineshaft, tertiaryAlto } from '../utils/colors';
+// import NotifModify from './NotifModify';
+import { primaryMineshaft, secondaryWilliam, tertiaryAlto } from '../utils/colors';
 import QuotaRows from './modules/QuotaRows';
 import Button from './modules/Button';
 import TextfulPrompt from './modules/TextfulPrompt';
@@ -237,8 +238,8 @@ class KanimDetail extends React.Component {
           <View style={style.buttonContainers}>
             <View style={style.flex1}>
               <Button
-                titleStyle={{ color: '#fff' }}
-                buttonStyle={{ backgroundColor: '#3c6e71' }}
+                color="#fff"
+                backgroundColor="#3c6e71"
                 onPress={this.onPressBack}
                 title="Back"
               />
@@ -265,16 +266,16 @@ class KanimDetail extends React.Component {
           <View style={style.buttonContainers}>
             <View style={style.flex1}>
               <Button
-                titleStyle={{ color: '#fff' }}
-                buttonStyle={{ backgroundColor: '#3c6e71' }}
+                color={secondaryWilliam}
+                backgroundColor="#fff"
                 onPress={this.onPressBack}
                 title="Back"
               />
             </View>
             <View style={style.flex1}>
               <Button
-                titleStyle={{ color: '#fff' }}
-                buttonStyle={{ backgroundColor: '#3c6e71' }}
+                color="#fff"
+                backgroundColor={secondaryWilliam}
                 onPress={this.onPressSubmit}
                 title="Submit"
               />
@@ -286,6 +287,8 @@ class KanimDetail extends React.Component {
 
     return (
       <ScrollView style={style.viewStyle}>
+        {/* <NotifModify kanim="xd" /> */}
+
         <View style={{ marginTop: 10 }}>
           <StepIndicator currentPosition={step} labels={stepLabels} />
         </View>

@@ -64,7 +64,7 @@ class CustomTextInput extends React.Component {
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           placeholder=""
-          value={value}
+          value={value.toString()}
           {...props}
         />
       </View>
@@ -75,7 +75,7 @@ class CustomTextInput extends React.Component {
 CustomTextInput.propTypes = {
   placeholder: PropTypes.string,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChangeText: PropTypes.func,
   secureTextEntry: PropTypes.bool,
   activeColor: PropTypes.string,
