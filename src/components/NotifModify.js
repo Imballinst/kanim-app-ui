@@ -17,8 +17,10 @@ const localStyle = StyleSheet.create({
 });
 
 class NotifModify extends React.Component {
-  constructor({ session, treshold }) {
-    super();
+  constructor(props) {
+    super(props);
+
+    const { session, treshold } = props.notif.notifModify;
 
     this.state = {
       session,
@@ -27,12 +29,26 @@ class NotifModify extends React.Component {
   }
 
   onPressBack = () => {
-    const { navigation, backNavigation } = this.props;
+    const { navigation, notifModify } = this.props;
 
-    navigation.navigate(backNavigation);
+    navigation.navigate(notifModify.backNavigation);
   }
 
-  onSubmit = () => {}
+  onSubmit = () => {
+    const {
+      addNotification,
+      kanim,
+      auth,
+      notifModify,
+    } = this.props;
+    const { session, treshold } = this.state;
+    const { MU_ID, MU_EMAIL } = auth.user;
+    // todo: check date format
+    const { date } = notifModify;
+    const dates = { startDate: date, endDate: date };
+
+    addNotification(MU_ID, MU_EMAIL, kanim.office.info.MO_ID, session, dates, treshold);
+  }
 
   onSessionChange = (selectedIndex) => {
     const indexWord = ['both', 'morning', 'afternoon'];
@@ -53,10 +69,13 @@ class NotifModify extends React.Component {
     };
     const values = Object.values(sessionMap);
     const keys = Object.keys(sessionMap);
+    const { moID } = this.props.notif.notifModify;
 
     return (
       <View style={style.viewStyle}>
-        <Text style={localStyle.textStyle}>Kanim {this.props.kanim}</Text>
+        <Text style={localStyle.textStyle}>
+          Kanim {this.props.kanim.offices.find(({ MO_ID }) => MO_ID === moID).MO_NAME}
+        </Text>
         <Text style={localStyle.textStyle}>Sesi</Text>
         <ButtonGroup
           onPress={this.onSessionChange}
@@ -95,17 +114,12 @@ class NotifModify extends React.Component {
 }
 
 NotifModify.propTypes = {
-  kanim: PropTypes.string.isRequired,
-  session: PropTypes.string,
-  treshold: PropTypes.number,
-  backNavigation: PropTypes.string,
+  kanim: PropTypes.object.isRequired,
+  notif: PropTypes.object.isRequired,
+  notifModify: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
-};
-
-NotifModify.defaultProps = {
-  session: 'both',
-  treshold: 10,
-  backNavigation: 'NotifList',
+  addNotification: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 export default NotifModify;

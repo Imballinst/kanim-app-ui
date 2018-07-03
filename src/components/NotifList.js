@@ -37,10 +37,13 @@ class NotifList extends React.Component {
 
     navigation.navigate('NotifDetail');
     getNotification(auth.user.MU_ID, notifID);
-    this.setState({
-      isModalVisible: false,
-      modalData: {},
-    });
+
+    if (this.state.isModalVisible) {
+      this.setState({
+        isModalVisible: false,
+        modalData: {},
+      });
+    }
   }
 
   onDelete = notifID => () => {

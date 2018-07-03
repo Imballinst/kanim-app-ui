@@ -1,5 +1,6 @@
 import { LOGIN } from '../../actions/auth';
 import {
+  VIEW_NOTIF_MODIFY,
   ADD_NOTIFICATION,
   GET_NOTIFICATIONS,
   GET_NOTIFICATION,
@@ -7,16 +8,17 @@ import {
 } from '../../actions/notif';
 
 const defaultState = {
+  notifModifyParams: undefined,
   addNotificationAttempt: false,
   addNotificationError: '',
   addNotificationResult: undefined,
   getNotificationsAttempt: false,
   getNotificationsError: '',
   notifications: [],
+  isNotificationsExist: false,
   getNotificationAttempt: false,
   getNotificationError: '',
   notification: undefined,
-  isNotificationsExist: false,
   deleteNotificationAttempt: false,
   deleteNotificationError: '',
   deleteNotificationResult: undefined,
@@ -26,6 +28,12 @@ const notif = (state = defaultState, action) => {
   switch (action.type) {
     case LOGIN.SUCCESS: {
       return { ...defaultState };
+    }
+    case VIEW_NOTIF_MODIFY: {
+      return {
+        ...state,
+        notifModifyParams: action.payload.notification,
+      };
     }
     case ADD_NOTIFICATION.ATTEMPT: {
       return {
