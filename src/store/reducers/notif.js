@@ -8,10 +8,10 @@ import {
 } from '../../actions/notif';
 
 const defaultState = {
-  notifModifyParams: undefined,
-  addNotificationAttempt: false,
-  addNotificationError: '',
-  addNotificationResult: undefined,
+  notifModify: undefined,
+  modifyNotificationAttempt: false,
+  modifyNotificationError: '',
+  modifyNotificationResult: undefined,
   getNotificationsAttempt: false,
   getNotificationsError: '',
   notifications: [],
@@ -32,28 +32,28 @@ const notif = (state = defaultState, action) => {
     case VIEW_NOTIF_MODIFY: {
       return {
         ...state,
-        notifModifyParams: action.payload.notification,
+        notifModify: action.payload,
       };
     }
     case ADD_NOTIFICATION.ATTEMPT: {
       return {
         ...state,
-        addNotificationAttempt: true,
-        addNotificationError: '',
+        modifyNotificationAttempt: true,
+        modifyNotificationError: '',
       };
     }
     case ADD_NOTIFICATION.SUCCESS: {
       return {
         ...state,
-        addNotificationResult: action.payload,
-        addNotificationAttempt: false,
+        modifyNotificationResult: action.payload,
+        modifyNotificationAttempt: false,
       };
     }
     case ADD_NOTIFICATION.INVALID: {
       return {
         ...state,
-        addNotificationAttempt: false,
-        addNotificationError: action.message,
+        modifyNotificationAttempt: false,
+        modifyNotificationError: action.message,
       };
     }
     case GET_NOTIFICATIONS.ATTEMPT: {

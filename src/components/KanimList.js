@@ -92,19 +92,20 @@ class Home extends React.Component {
       );
 
       return nodes.concat(office);
-    }, []) : <ActivityIndicator size="large" color="#353535" />;
+    }, []) : <View style={{ marginTop: 10 }}><ActivityIndicator size="large" color="#353535" /></View>;
 
     return (
       <View style={style.viewStyle}>
         <ScrollView>
-          <TextInput
-            placeholder="Filter Nama Kanim"
-            onChangeText={this.onFilterChange}
-            activeColor={primaryMineshaft}
-            value={filter}
-            inactiveColor={hexToRGB(primaryMineshaft, 0.6)}
-          />
-
+          {filteredOffices && filteredOffices.length > 0 && (
+            <TextInput
+              placeholder="Filter Nama Kanim"
+              onChangeText={this.onFilterChange}
+              activeColor={primaryMineshaft}
+              value={filter}
+              inactiveColor={hexToRGB(primaryMineshaft, 0.6)}
+            />
+          )}
           {listOffices}
         </ScrollView>
       </View>

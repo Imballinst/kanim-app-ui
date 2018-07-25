@@ -16,7 +16,6 @@ const style = StyleSheet.create({
     flex: 1,
   },
   modalButton: {
-    backgroundColor: tertiaryAlto,
     flex: 1,
   },
   modalText: {
@@ -33,11 +32,12 @@ const TextlessPrompt = ({ buttonObjects, keyName }) => (
         const node = (
           <View style={style.buttonRow} key={`tlp-${keyName}-${idx + 1}`}>
             <Button
+              backgroundColor={tertiaryAlto}
               containerViewStyle={style.modalButtonView}
               textStyle={style.modalText}
+              buttonStyle={style.modalButton}
               title={text}
               onPress={onPress}
-              {...style.modalButton}
             />
           </View>
         );

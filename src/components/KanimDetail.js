@@ -4,7 +4,6 @@ import { ActivityIndicator, View, ScrollView, Text, StyleSheet } from 'react-nat
 import format from 'date-fns/format';
 import Modal from 'react-native-modal';
 
-// import NotifModify from './NotifModify';
 import { primaryMineshaft, secondaryWilliam, tertiaryAlto } from '../utils/colors';
 import QuotaRows from './modules/QuotaRows';
 import Button from './modules/Button';
@@ -141,16 +140,16 @@ class KanimDetail extends React.Component {
   }
 
   onAddNotification = (session, date) => () => {
-    const {
-      addNotification,
-      office,
-      auth,
-    } = this.props;
-    const { MU_ID, MU_EMAIL } = auth.user;
-    // todo: check date format
-    const dates = { startDate: date, endDate: date };
+    const { viewNotifModifySync, office } = this.props;
 
-    addNotification(MU_ID, MU_EMAIL, office.info.MO_ID, session, dates, 10);
+    viewNotifModifySync({
+      moID: office.info.MO_ID,
+      session,
+      startDate: date,
+      treshold: 10,
+      backNavigation: 'KanimDetail',
+    });
+
     this.setState({
       isModalVisible: false,
       modalID: '',
@@ -317,7 +316,8 @@ KanimDetail.propTypes = {
   confirmQuotaSync: PropTypes.func.isRequired,
   confirmOfficeQuota: PropTypes.func.isRequired,
   registerQueue: PropTypes.func.isRequired,
-  addNotification: PropTypes.func.isRequired,
+  // addNotification: PropTypes.func.isRequired,
+  viewNotifModifySync: PropTypes.func.isRequired,
 };
 
 KanimDetail.defaultProps = {

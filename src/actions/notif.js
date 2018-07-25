@@ -1,3 +1,5 @@
+import { NavigationActions } from 'react-navigation';
+
 import {
   addNotification as addNotificationRequest,
   getNotifications as getNotificationsRequest,
@@ -14,21 +16,29 @@ const GET_NOTIFICATIONS = actionTypes('GET_NOTIFICATIONS');
 const GET_NOTIFICATION = actionTypes('GET_NOTIFICATION');
 const DELETE_NOTIFICATION = actionTypes('DELETE_NOTIFICATION');
 
-const viewNotifModifySync = notification => ({
-  type: VIEW_NOTIF_MODIFY,
-  payload: notification,
-});
+const viewNotifModifySync = notification => (dispatch) => {
+  dispatch({
+    type: VIEW_NOTIF_MODIFY,
+    payload: notification,
+  });
 
-const addNotification = (userID, email, moID, session, dates, treshold) => (dispatch) => {
-  dispatch({ type: ADD_NOTIFICATION.ATTEMPT });
+  const destRoute = notification.backNavigation === 'KanimDetail' ?
+    'KanimNotifModify' : 'NotifModify';
 
-  return addNotificationRequest(userID, email, moID, session, dates, treshold).then((res) => {
+  return dispatch(NavigationActions.navigate({ routeName: destRoute }));
+};
+
+const addNotification = notifData => (dispatch) => {
+  dispatch({ type: ADD_NOTIFICATION.ATTEMPT, payload: notifData });
+
+  return addNotificationRequest(notifData).then((res) => {
     const {
       success, data, message, errorCode,
     } = res.data;
 
     if (success) {
       dispatch({ type: ADD_NOTIFICATION.SUCCESS, payload: data });
+      dispatch(NavigationActions.navigate({ routeName: 'NotifList' }));
     } else {
       throw new Error(`${errorCode} ${message}`);
     }
@@ -77,7 +87,7 @@ const getNotification = (userID, notifID) => (dispatch) => {
 };
 
 const deleteNotification = (userID, notificationID) => (dispatch) => {
-  dispatch({ type: DELETE_NOTIFICATION.ATTEMPT });
+  dispatch({ type: DELETE_NOTIFICATION.ATTEMPT, payload: notificationID });
 
   return deleteNotificationRequest(userID, notificationID).then((res) => {
     const {

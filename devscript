@@ -1,0 +1,1 @@
+adb -s $1:5555 shell am start -n com.kanimappui/com.kanimappui.MainActivity

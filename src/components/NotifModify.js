@@ -20,7 +20,7 @@ class NotifModify extends React.Component {
   constructor(props) {
     super(props);
 
-    const { session, treshold } = props.notif.notifModify;
+    const { session, treshold } = props.notifModify;
 
     this.state = {
       session,
@@ -29,7 +29,10 @@ class NotifModify extends React.Component {
   }
 
   onPressBack = () => {
-    const { navigation, notifModify } = this.props;
+    const {
+      navigation,
+      notifModify,
+    } = this.props;
 
     navigation.navigate(notifModify.backNavigation);
   }
@@ -43,11 +46,18 @@ class NotifModify extends React.Component {
     } = this.props;
     const { session, treshold } = this.state;
     const { MU_ID, MU_EMAIL } = auth.user;
-    // todo: check date format
-    const { date } = notifModify;
-    const dates = { startDate: date, endDate: date };
 
-    addNotification(MU_ID, MU_EMAIL, kanim.office.info.MO_ID, session, dates, treshold);
+    const { startDate } = notifModify;
+    const dates = { startDate, endDate: startDate };
+
+    addNotification({
+      userID: MU_ID,
+      email: MU_EMAIL,
+      moID: kanim.office.info.MO_ID,
+      session,
+      dates,
+      treshold,
+    });
   }
 
   onSessionChange = (selectedIndex) => {
@@ -69,7 +79,7 @@ class NotifModify extends React.Component {
     };
     const values = Object.values(sessionMap);
     const keys = Object.keys(sessionMap);
-    const { moID } = this.props.notif.notifModify;
+    const { moID } = this.props.notifModify;
 
     return (
       <View style={style.viewStyle}>
@@ -96,14 +106,14 @@ class NotifModify extends React.Component {
           <Button
             color="black"
             backgroundColor={tertiaryWhite}
-            buttonStyle={{ flex: 1 }}
+            containerViewStyle={{ flex: 1 }}
             onPress={this.onPressBack}
             title="Back"
           />
           <Button
             color="#fff"
             backgroundColor={secondaryWilliam}
-            buttonStyle={{ flex: 1 }}
+            containerViewStyle={{ flex: 1 }}
             onPress={this.onSubmit}
             title="Submit"
           />
@@ -115,11 +125,14 @@ class NotifModify extends React.Component {
 
 NotifModify.propTypes = {
   kanim: PropTypes.object.isRequired,
-  notif: PropTypes.object.isRequired,
-  notifModify: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
   addNotification: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  notifModify: PropTypes.object,
+};
+
+NotifModify.defaultProps = {
+  notifModify: {},
 };
 
 export default NotifModify;

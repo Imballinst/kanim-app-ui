@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import KanimDetail from '../components/KanimDetail';
 import { confirmOfficeQuota, confirmQuotaSync } from '../actions/kanim';
 import { registerQueue } from '../actions/queue';
-import { addNotification } from '../actions/notif';
+import { addNotification, viewNotifModifySync } from '../actions/notif';
 
 const mapStateToProps = ({
   kanim, auth, queue, notif,
@@ -21,6 +21,7 @@ const mapDispatchToProps = {
   confirmQuotaSync,
   registerQueue,
   addNotification,
+  viewNotifModifySync,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(KanimDetail);
