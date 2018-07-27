@@ -33,9 +33,8 @@ class NotifList extends React.Component {
   }
 
   onPress = notifID => () => {
-    const { navigation, getNotification, auth } = this.props;
+    const { getNotification, auth } = this.props;
 
-    navigation.navigate('NotifDetail');
     getNotification(auth.user.MU_ID, notifID);
 
     if (this.state.isModalVisible) {
@@ -170,7 +169,6 @@ NotifList.propTypes = {
   getNotifications: PropTypes.func.isRequired,
   getNotification: PropTypes.func.isRequired,
   deleteNotification: PropTypes.func.isRequired,
-  navigation: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   notif: PropTypes.object.isRequired,
   kanim: PropTypes.object.isRequired,

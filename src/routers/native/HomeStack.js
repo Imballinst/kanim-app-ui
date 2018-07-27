@@ -2,12 +2,12 @@ import { StackNavigator } from 'react-navigation';
 
 import KanimList from '../../containers/KanimList';
 import KanimDetail from '../../containers/KanimDetail';
-import NotifModify from '../../containers/NotifModify';
+import NotifAdd from '../../containers/NotifAdd';
 
 export default StackNavigator({
   KanimList: { screen: KanimList },
   KanimDetail: { screen: KanimDetail },
-  KanimNotifModify: { screen: NotifModify },
+  KanimNotifAdd: { screen: NotifAdd },
 }, {
   headerMode: 'none',
 });

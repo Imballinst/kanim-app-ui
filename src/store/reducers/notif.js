@@ -87,6 +87,7 @@ const notif = (state = defaultState, action) => {
         ...state,
         getNotificationAttempt: true,
         getNotificationError: '',
+        notification: undefined,
       };
     }
     case GET_NOTIFICATION.SUCCESS: {

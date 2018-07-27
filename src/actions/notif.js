@@ -2,6 +2,7 @@ import { NavigationActions } from 'react-navigation';
 
 import {
   addNotification as addNotificationRequest,
+  editNotification as editNotificationRequest,
   getNotifications as getNotificationsRequest,
   getNotification as getNotificationRequest,
   deleteNotification as deleteNotificationRequest,
@@ -12,6 +13,7 @@ import actionTypes from './helpers/actionTypes';
 const VIEW_NOTIF_MODIFY = 'VIEW_NOTIF_MODIFY';
 
 const ADD_NOTIFICATION = actionTypes('ADD_NOTIFICATION');
+const EDIT_NOTIFICATION = actionTypes('EDIT_NOTIFICATION');
 const GET_NOTIFICATIONS = actionTypes('GET_NOTIFICATIONS');
 const GET_NOTIFICATION = actionTypes('GET_NOTIFICATION');
 const DELETE_NOTIFICATION = actionTypes('DELETE_NOTIFICATION');
@@ -23,7 +25,7 @@ const viewNotifModifySync = notification => (dispatch) => {
   });
 
   const destRoute = notification.backNavigation === 'KanimDetail' ?
-    'KanimNotifModify' : 'NotifModify';
+    'KanimNotifAdd' : 'NotifEdit';
 
   return dispatch(NavigationActions.navigate({ routeName: destRoute }));
 };
@@ -38,12 +40,34 @@ const addNotification = notifData => (dispatch) => {
 
     if (success) {
       dispatch({ type: ADD_NOTIFICATION.SUCCESS, payload: data });
+      // Reset HomeStack to KanimList, and navigate to NotifStack
+      dispatch(NavigationActions.navigate({ routeName: 'KanimList' }));
       dispatch(NavigationActions.navigate({ routeName: 'NotifList' }));
     } else {
       throw new Error(`${errorCode} ${message}`);
     }
   }).catch(message => dispatch({
     type: ADD_NOTIFICATION.INVALID,
+    message,
+  }));
+};
+
+const editNotification = (notifID, notifData) => (dispatch) => {
+  dispatch({ type: EDIT_NOTIFICATION.ATTEMPT, payload: { notifID, notifData } });
+
+  return editNotificationRequest(notifID, notifData).then((res) => {
+    const {
+      success, data, message, errorCode,
+    } = res.data;
+
+    if (success) {
+      dispatch({ type: EDIT_NOTIFICATION.SUCCESS, payload: { data, notifID, notifData } });
+      dispatch(NavigationActions.navigate({ routeName: 'NotifList' }));
+    } else {
+      throw new Error(`${errorCode} ${message}`);
+    }
+  }).catch(message => dispatch({
+    type: EDIT_NOTIFICATION.INVALID,
     message,
   }));
 };
@@ -68,7 +92,7 @@ const getNotifications = userID => (dispatch) => {
 };
 
 const getNotification = (userID, notifID) => (dispatch) => {
-  dispatch({ type: GET_NOTIFICATION.ATTEMPT });
+  dispatch({ type: GET_NOTIFICATION.ATTEMPT, payload: { userID, notifID } });
 
   return getNotificationRequest(userID, notifID).then((res) => {
     const {
@@ -77,6 +101,8 @@ const getNotification = (userID, notifID) => (dispatch) => {
 
     if (success) {
       dispatch({ type: GET_NOTIFICATION.SUCCESS, payload: data });
+      // Change view, set backNavigation to NotifList
+      dispatch(viewNotifModifySync({ ...data, backNavigation: 'NotifList' }));
     } else {
       throw new Error(`${errorCode} ${message}`);
     }
@@ -87,7 +113,7 @@ const getNotification = (userID, notifID) => (dispatch) => {
 };
 
 const deleteNotification = (userID, notificationID) => (dispatch) => {
-  dispatch({ type: DELETE_NOTIFICATION.ATTEMPT, payload: notificationID });
+  dispatch({ type: DELETE_NOTIFICATION.ATTEMPT, payload: { userID, notificationID } });
 
   return deleteNotificationRequest(userID, notificationID).then((res) => {
     const {
@@ -108,11 +134,13 @@ const deleteNotification = (userID, notificationID) => (dispatch) => {
 export {
   VIEW_NOTIF_MODIFY,
   ADD_NOTIFICATION,
+  EDIT_NOTIFICATION,
   GET_NOTIFICATIONS,
   GET_NOTIFICATION,
   DELETE_NOTIFICATION,
   viewNotifModifySync,
   addNotification,
+  editNotification,
   getNotifications,
   getNotification,
   deleteNotification,

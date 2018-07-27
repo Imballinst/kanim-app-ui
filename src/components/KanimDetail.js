@@ -286,8 +286,6 @@ class KanimDetail extends React.Component {
 
     return (
       <ScrollView style={style.viewStyle}>
-        {/* <NotifModify kanim="xd" /> */}
-
         <View style={{ marginTop: 10 }}>
           <StepIndicator currentPosition={step} labels={stepLabels} />
         </View>

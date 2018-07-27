@@ -1,1 +1,8 @@
-adb -s $1:5555 shell am start -n com.kanimappui/com.kanimappui.MainActivity
+IN=$(adb devices | sed -n 2p)
+arrIN=(${IN//:/ })
+deviceIP=${arrIN[0]}
+
+# Show IP address
+echo "Your device's IP is ${deviceIP}:8081"
+# Run adb
+adb -s ${deviceIP}:5555 shell am start -n com.kanimappui/com.kanimappui.MainActivity

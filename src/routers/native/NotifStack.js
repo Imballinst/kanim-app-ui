@@ -1,13 +1,11 @@
 import { StackNavigator } from 'react-navigation';
 
 import NotifList from '../../containers/NotifList';
-import NotifDetail from '../../containers/NotifDetail';
-import NotifModify from '../../containers/NotifModify';
+import NotifEdit from '../../containers/NotifEdit';
 
 export default StackNavigator({
   NotifList: { screen: NotifList },
-  NotifDetail: { screen: NotifDetail },
-  NotifModify: { screen: NotifModify },
+  NotifEdit: { screen: NotifEdit },
 }, {
   headerMode: 'none',
 });

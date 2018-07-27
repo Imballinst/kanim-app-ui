@@ -40,6 +40,7 @@ class NotifModify extends React.Component {
   onSubmit = () => {
     const {
       addNotification,
+      editNotification,
       kanim,
       auth,
       notifModify,
@@ -47,17 +48,24 @@ class NotifModify extends React.Component {
     const { session, treshold } = this.state;
     const { MU_ID, MU_EMAIL } = auth.user;
 
-    const { startDate } = notifModify;
+    const { startDate, _id: notifID } = notifModify;
     const dates = { startDate, endDate: startDate };
 
-    addNotification({
+    const notifData = {
       userID: MU_ID,
       email: MU_EMAIL,
       moID: kanim.office.info.MO_ID,
       session,
       dates,
       treshold,
-    });
+    };
+
+    // Dispatch depending on container
+    if (typeof addNotification === 'function') {
+      addNotification(notifData);
+    } else {
+      editNotification(notifID, notifData);
+    }
   }
 
   onSessionChange = (selectedIndex) => {
@@ -79,12 +87,12 @@ class NotifModify extends React.Component {
     };
     const values = Object.values(sessionMap);
     const keys = Object.keys(sessionMap);
-    const { moID } = this.props.notifModify;
+    const { kanim, notifModify } = this.props;
 
     return (
       <View style={style.viewStyle}>
         <Text style={localStyle.textStyle}>
-          Kanim {this.props.kanim.offices.find(({ MO_ID }) => MO_ID === moID).MO_NAME}
+          Kanim {kanim.offices.find(({ MO_ID }) => MO_ID === notifModify.moID).MO_NAME}
         </Text>
         <Text style={localStyle.textStyle}>Sesi</Text>
         <ButtonGroup
@@ -126,13 +134,16 @@ class NotifModify extends React.Component {
 NotifModify.propTypes = {
   kanim: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
-  addNotification: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  addNotification: PropTypes.func,
+  editNotification: PropTypes.func,
   notifModify: PropTypes.object,
 };
 
 NotifModify.defaultProps = {
   notifModify: {},
+  addNotification: undefined,
+  editNotification: undefined,
 };
 
 export default NotifModify;
