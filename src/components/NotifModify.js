@@ -20,7 +20,7 @@ class NotifModify extends React.Component {
   constructor(props) {
     super(props);
 
-    const { session, treshold } = props.notifModify;
+    const { session, treshold } = props.notification;
 
     this.state = {
       session,
@@ -31,10 +31,10 @@ class NotifModify extends React.Component {
   onPressBack = () => {
     const {
       navigation,
-      notifModify,
+      notification,
     } = this.props;
 
-    navigation.navigate(notifModify.backNavigation);
+    navigation.navigate(notification.backNavigation);
   }
 
   onSubmit = () => {
@@ -43,12 +43,12 @@ class NotifModify extends React.Component {
       editNotification,
       kanim,
       auth,
-      notifModify,
+      notification,
     } = this.props;
     const { session, treshold } = this.state;
     const { MU_ID, MU_EMAIL } = auth.user;
 
-    const { startDate, _id: notifID } = notifModify;
+    const { startDate, _id: notifID } = notification;
     const dates = { startDate, endDate: startDate };
 
     const notifData = {
@@ -87,12 +87,13 @@ class NotifModify extends React.Component {
     };
     const values = Object.values(sessionMap);
     const keys = Object.keys(sessionMap);
-    const { kanim, notifModify } = this.props;
+    const { kanim, notification } = this.props;
+    const office = kanim.offices.find(({ MO_ID }) => MO_ID === notification.moID);
 
     return (
       <View style={style.viewStyle}>
         <Text style={localStyle.textStyle}>
-          Kanim {kanim.offices.find(({ MO_ID }) => MO_ID === notifModify.moID).MO_NAME}
+          Kanim {office && office.MO_NAME}, Sesi {sessionMap[session]}
         </Text>
         <Text style={localStyle.textStyle}>Sesi</Text>
         <ButtonGroup
@@ -137,11 +138,11 @@ NotifModify.propTypes = {
   auth: PropTypes.object.isRequired,
   addNotification: PropTypes.func,
   editNotification: PropTypes.func,
-  notifModify: PropTypes.object,
+  notification: PropTypes.object,
 };
 
 NotifModify.defaultProps = {
-  notifModify: {},
+  notification: {},
   addNotification: undefined,
   editNotification: undefined,
 };

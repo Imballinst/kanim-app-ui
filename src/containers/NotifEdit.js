@@ -5,7 +5,7 @@ import NotifModify from '../components/NotifModify';
 const mapStateToProps = ({
   notif, kanim, auth, nav,
 }) => ({
-  notifModify: notif.notifModify,
+  notification: notif.notification,
   kanim,
   auth,
   nav,

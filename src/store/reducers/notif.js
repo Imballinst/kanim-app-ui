@@ -8,7 +8,6 @@ import {
 } from '../../actions/notif';
 
 const defaultState = {
-  notifModify: undefined,
   modifyNotificationAttempt: false,
   modifyNotificationError: '',
   modifyNotificationResult: undefined,
@@ -28,12 +27,6 @@ const notif = (state = defaultState, action) => {
   switch (action.type) {
     case LOGIN.SUCCESS: {
       return { ...defaultState };
-    }
-    case VIEW_NOTIF_MODIFY: {
-      return {
-        ...state,
-        notifModify: action.payload,
-      };
     }
     case ADD_NOTIFICATION.ATTEMPT: {
       return {
@@ -90,6 +83,7 @@ const notif = (state = defaultState, action) => {
         notification: undefined,
       };
     }
+    case VIEW_NOTIF_MODIFY:
     case GET_NOTIFICATION.SUCCESS: {
       return {
         ...state,
