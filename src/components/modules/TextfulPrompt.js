@@ -21,12 +21,12 @@ const style = StyleSheet.create({
   modalLeftButton: {
     flex: 1,
     borderTopWidth: 1,
-    borderRightWidth: 1,
     borderColor: primaryMineshaft,
   },
   modalRightButton: {
     flex: 1,
     borderTopWidth: 1,
+    borderRightWidth: 1,
     borderColor: primaryMineshaft,
   },
   modalText: {
@@ -46,18 +46,18 @@ const TextfulPrompt = ({
           <Button
             backgroundColor={tertiaryAlto}
             containerViewStyle={style.modalButtonView}
-            buttonStyle={style.modalLeftButton}
-            textStyle={style.modalText}
-            title={confirmText}
-            onPress={onConfirm}
-          />
-          <Button
-            backgroundColor={tertiaryAlto}
-            containerViewStyle={style.modalButtonView}
             buttonStyle={style.modalRightButton}
             textStyle={style.modalText}
             title={cancelText}
             onPress={onCancel}
+          />
+          <Button
+            backgroundColor={tertiaryAlto}
+            containerViewStyle={style.modalButtonView}
+            buttonStyle={style.modalLeftButton}
+            textStyle={style.modalText}
+            title={confirmText}
+            onPress={onConfirm}
           />
         </View>
       </View>

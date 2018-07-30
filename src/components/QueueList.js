@@ -85,10 +85,10 @@ class QueueList extends React.Component {
   render() {
     const { queues, getQueueAttempt, queuesUsed } = this.props.queue;
     const { isModalVisible } = this.state;
-    let placeholder;
+    let content;
 
     if (queues.length && !getQueueAttempt) {
-      placeholder = queues.reduce((nodes, cur, idx) => {
+      content = queues.reduce((nodes, cur, idx) => {
         const {
           StartHour: startHour,
           EndHour: endHour,
@@ -119,9 +119,9 @@ class QueueList extends React.Component {
         return nodes.concat(office);
       }, []);
     } else if (getQueueAttempt) {
-      placeholder = <ActivityIndicator size="large" color="#353535" />;
+      content = <ActivityIndicator size="large" color="#353535" />;
     } else {
-      placeholder = <Text>Tidak ada antrian yang telah Anda daftar.</Text>;
+      content = <Text>Tidak ada antrian yang telah Anda daftar.</Text>;
     }
 
     return (
@@ -130,11 +130,11 @@ class QueueList extends React.Component {
           Untuk melihat QR code, lakukan tap pada antrian yang diinginkan.
           Untuk melakukan delete, tekan antrian yang diinginkan selama 1 detik.
         </Text>
-        <Text style={{ marginTop: 15 }}>
+        <Text style={{ marginTop: 15, marginBottom: 15 }}>
           Jumlah antrian yang telah direquest tahun ini: {queuesUsed} (maksimal 5 per tahun).
         </Text>
 
-        {placeholder}
+        {content}
 
         <Modal
           isVisible={isModalVisible}

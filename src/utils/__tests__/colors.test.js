@@ -1,18 +1,10 @@
 import * as colorFunctions from '../colors';
 
 const {
-  // unused variables
-  primaryMineshaft,
-  secondaryWilliam,
-  tertiaryWhite,
-  tertiaryAlto,
-  tertiarySanjuan,
-  // used functions
   hexToRGB,
   ...untestedFunctions
 } = colorFunctions;
-// Default counter to 5 because there are 5 constants
-let counter = 5;
+let counter = 0;
 
 describe('colors (utils/colors)', () => {
   afterEach(() => {
@@ -29,7 +21,16 @@ describe('colors (utils/colors)', () => {
 
 describe('colors counters (utils/colors)', () => {
   it('should test all action creators', () => {
-    expect(counter).toBe(Object.keys(colorFunctions).length);
-    expect(untestedFunctions).toEqual({});
+    const length = Object.values(untestedFunctions).reduce((sum, cur) => {
+      let remaining = 0;
+
+      if (typeof cur !== 'function') {
+        remaining += 1;
+      }
+
+      return sum + remaining;
+    }, 0);
+
+    expect(counter).toBe(Object.keys(colorFunctions).length - length);
   });
 });

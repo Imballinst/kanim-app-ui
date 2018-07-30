@@ -50,7 +50,7 @@ class CustomTextInput extends React.Component {
       <View>
         <Animated.Text
           style={{
-            fontSize: 12,
+            fontSize: 14,
             paddingHorizontal: 4,
             fontWeight: isLabelFloating ? 'bold' : 'normal',
             color: isLabelFloating ? activeColor : inactiveColor,

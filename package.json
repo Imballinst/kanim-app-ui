@@ -6,7 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest && eslint src/. --fix",
     "test:jest-watch": "jest --watch",
-    "android": "react-native run-android",
+    "android:log": "react-native log-android",
     "install:debug": "cd android && ./gradlew assembleDebug"
   },
   "dependencies": {

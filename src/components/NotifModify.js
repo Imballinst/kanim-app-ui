@@ -13,7 +13,18 @@ import {
 } from '../utils/colors';
 
 const localStyle = StyleSheet.create({
-  textStyle: { color: primaryMineshaft },
+  textStyle: { color: primaryMineshaft, fontSize: 14 },
+  labelStyle: {
+    fontSize: 14,
+    paddingHorizontal: 4,
+    fontWeight: 'bold',
+    color: primaryMineshaft,
+  },
+  kanimTitle: {
+    marginBottom: 30,
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
 });
 
 class NotifModify extends React.Component {
@@ -92,30 +103,37 @@ class NotifModify extends React.Component {
 
     return (
       <View style={style.viewStyle}>
-        <Text style={localStyle.textStyle}>
-          Kanim {office && office.MO_NAME}, Sesi {sessionMap[session]}
+        <Text style={localStyle.kanimTitle}>
+          {office && office.MO_NAME}, {notification.startDate}
         </Text>
-        <Text style={localStyle.textStyle}>Sesi</Text>
+
+        <Text style={localStyle.labelStyle}>Pilih Sesi</Text>
         <ButtonGroup
           onPress={this.onSessionChange}
           selectedIndex={keys.indexOf(session)}
           buttons={values}
-          containerStyle={{ height: 50 }}
+          containerStyle={{
+ height: 50, marginLeft: 0, marginRight: 0, borderRadius: 5,
+}}
+          containerBorderRadius={5}
+          selectedButtonStyle={{ backgroundColor: secondaryWilliam }}
+          selectedTextStyle={{ color: '#fff' }}
         />
 
         <TextInput
-          placeholder="Batas Minimum Reminder Quota"
+          placeholder="Minimal Kuota untuk Notifikasi"
           style={localStyle.textStyle}
           value={treshold}
           onChangeText={this.onTresholdChange}
           activeColor={primaryMineshaft}
         />
 
-        <View style={{ flex: 1, flexDirection: 'row' }}>
+        <View style={{ flex: 1, flexDirection: 'row', marginTop: 30 }}>
           <Button
             color="black"
             backgroundColor={tertiaryWhite}
             containerViewStyle={{ flex: 1 }}
+            borderRadius={5}
             onPress={this.onPressBack}
             title="Back"
           />
@@ -123,6 +141,7 @@ class NotifModify extends React.Component {
             color="#fff"
             backgroundColor={secondaryWilliam}
             containerViewStyle={{ flex: 1 }}
+            borderRadius={5}
             onPress={this.onSubmit}
             title="Submit"
           />

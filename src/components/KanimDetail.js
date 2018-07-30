@@ -4,7 +4,7 @@ import { ActivityIndicator, View, ScrollView, Text, StyleSheet } from 'react-nat
 import format from 'date-fns/format';
 import Modal from 'react-native-modal';
 
-import { primaryMineshaft, secondaryWilliam, tertiaryAlto } from '../utils/colors';
+import { primaryMineshaft, secondaryWilliam, tertiaryAlto, lightSanjuan } from '../utils/colors';
 import QuotaRows from './modules/QuotaRows';
 import Button from './modules/Button';
 import TextfulPrompt from './modules/TextfulPrompt';
@@ -22,7 +22,7 @@ const style = StyleSheet.create({
     height: '100%',
   },
   kanimTitle: {
-    marginBottom: 30,
+    marginBottom: 15,
     fontSize: 22,
     fontWeight: 'bold',
   },
@@ -105,9 +105,7 @@ class KanimDetail extends React.Component {
   }
 
   onChange = field => (val) => {
-    this.setState({
-      [field]: val,
-    });
+    this.setState({ [field]: val });
   }
 
   onModalClose = () => {
@@ -212,17 +210,17 @@ class KanimDetail extends React.Component {
       confirmQuotaAttempt,
     } = this.props;
     const step = getStepIndex(confirmation);
+    const { info, quota } = office;
     let content;
 
     if (step === 0) {
-      const { info, quota } = office;
-
       const quotaDates = Object.keys(quota);
       const filler = getOfficeQuotaAttempt ?
         <ActivityIndicator size="large" color="#353535" /> :
         <Text>Tidak ada kuota pada kanim ini hingga 3 bulan ke depan</Text>;
+      const hasLength = quotaDates.length > 0;
 
-      const dates = quotaDates.length ?
+      const dates = hasLength ?
         (<QuotaRows
           quota={quota}
           dates={quotaDates}
@@ -231,19 +229,20 @@ class KanimDetail extends React.Component {
 
       content = (
         <View>
-          <Text style={style.kanimTitle}>{info.MO_NAME}</Text>
           {dates}
 
-          <View style={style.buttonContainers}>
-            <View style={style.flex1}>
-              <Button
-                color="#fff"
-                backgroundColor="#3c6e71"
-                onPress={this.onPressBack}
-                title="Back"
-              />
+          {hasLength &&
+            <View style={style.buttonContainers}>
+              <View style={style.flex1}>
+                <Button
+                  color="#000"
+                  backgroundColor={lightSanjuan}
+                  onPress={this.onPressBack}
+                  title="Back"
+                />
+              </View>
             </View>
-          </View>
+          }
         </View>
       );
     } else {
@@ -254,19 +253,21 @@ class KanimDetail extends React.Component {
             style={style.textInput}
             value={this.state.name}
             onChangeText={(this.onChange('name'))}
+            activeColor={primaryMineshaft}
           />
           <TextInput
             placeholder="NIK"
             style={style.textInput}
             value={this.state.nik}
             onChangeText={this.onChange('nik')}
+            activeColor={primaryMineshaft}
           />
 
           <View style={style.buttonContainers}>
             <View style={style.flex1}>
               <Button
-                color={secondaryWilliam}
-                backgroundColor="#fff"
+                color="#000"
+                backgroundColor={lightSanjuan}
                 onPress={this.onPressBack}
                 title="Back"
               />
@@ -286,7 +287,8 @@ class KanimDetail extends React.Component {
 
     return (
       <ScrollView style={style.viewStyle}>
-        <View style={{ marginTop: 10 }}>
+        <Text style={style.kanimTitle}>{info.MO_NAME}</Text>
+        <View style={{ marginBottom: 20 }}>
           <StepIndicator currentPosition={step} labels={stepLabels} />
         </View>
 

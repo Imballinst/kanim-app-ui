@@ -13,3 +13,6 @@ export const hexToRGB = (hex, alpha) => {
   }
   return `rgba(${r}, ${g}, ${b}, 1)`;
 };
+
+// Mixed colors
+export const lightSanjuan = hexToRGB(tertiarySanjuan, 0.2);
