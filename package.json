@@ -7,7 +7,8 @@
     "test": "jest && eslint src/. --fix",
     "test:jest-watch": "jest --watch",
     "android:log": "react-native log-android",
-    "install:debug": "cd android && ./gradlew assembleDebug"
+    "android:debug": "cd android && ./gradlew assembleDebug",
+    "android:release": "cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "@redux-offline/redux-offline": "^2.2.1",

@@ -1,7 +1,5 @@
 import axios from 'axios';
-import { API_URL, API_DEPLOY_URL } from 'react-native-dotenv';
-
-const apiUrl = __DEV__ ? API_URL : API_DEPLOY_URL;
+import { API_URL as apiUrl } from 'react-native-dotenv';
 
 // List URLS
 const urlLogin = 'https://antrian.imigrasi.go.id/Authentication.jsp';
