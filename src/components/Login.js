@@ -77,7 +77,10 @@ class Login extends React.Component {
     const textMessageStyle = isError ? style.textErrorMessage : style.textProcessMessage;
 
     return (
-      <ScrollView style={style.viewStyle}>
+      <ScrollView
+        style={style.viewStyle}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={style.loginImageContainer}>
           <Image source={loginPic} style={style.loginImage} />
         </View>

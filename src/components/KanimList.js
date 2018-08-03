@@ -96,7 +96,7 @@ class Home extends React.Component {
 
     return (
       <View style={style.viewStyle}>
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps="handled">
           {filteredOffices && filteredOffices.length > 0 && (
             <TextInput
               placeholder="Filter Nama Kanim"

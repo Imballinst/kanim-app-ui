@@ -247,7 +247,7 @@ class KanimDetail extends React.Component {
       );
     } else {
       content = !confirmQuotaAttempt ? (
-        <View>
+        <ScrollView keyboardShouldPersistTaps="handled">
           <TextInput
             placeholder="Nama"
             style={style.textInput}
@@ -281,7 +281,7 @@ class KanimDetail extends React.Component {
               />
             </View>
           </View>
-        </View>
+        </ScrollView>
       ) : <ActivityIndicator size="large" color="#353535" />;
     }
 

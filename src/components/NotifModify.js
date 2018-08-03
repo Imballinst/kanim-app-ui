@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, StyleSheet } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
 
 import { style } from './KanimList';
@@ -102,7 +102,7 @@ class NotifModify extends React.Component {
     const office = kanim.offices.find(({ MO_ID }) => MO_ID === notification.moID);
 
     return (
-      <View style={style.viewStyle}>
+      <ScrollView style={style.viewStyle} keyboardShouldPersistTaps="handled">
         <Text style={localStyle.kanimTitle}>
           {office && office.MO_NAME}, {notification.startDate}
         </Text>
@@ -146,7 +146,7 @@ class NotifModify extends React.Component {
             title="Submit"
           />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
