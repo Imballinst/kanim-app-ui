@@ -2,6 +2,8 @@ IN=$(adb devices | sed -n 2p)
 arrIN=(${IN//:/ })
 deviceIP=${arrIN[0]}
 
+# ifconfig wlp2s0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'
+
 # Show IP address
 echo "Your device's IP is ${deviceIP}:8081"
 # Run adb

@@ -96,7 +96,7 @@ const getNotification = (userID, notifID) => axios({
 });
 
 const addNotification = ({
-  userID, email, moID, session, dates, treshold,
+  userID, moID, session, dates, treshold,
 }) => {
   const { startDate, endDate } = dates;
 
@@ -104,7 +104,6 @@ const addNotification = ({
     method: 'post',
     url: `${apiUrl}/user/${userID}/notification`,
     data: {
-      email,
       moID,
       session,
       startDate,
@@ -115,23 +114,15 @@ const addNotification = ({
 };
 
 const editNotification = (notificationID, {
-  userID, email, moID, session, dates, treshold,
-}) => {
-  const { startDate, endDate } = dates;
-
-  return axios({
-    method: 'put',
-    url: `${apiUrl}/user/${userID}/notification/${notificationID}`,
-    data: {
-      email,
-      moID,
-      session,
-      startDate,
-      endDate,
-      treshold,
-    },
-  });
-};
+  userID, session, treshold,
+}) => axios({
+  method: 'put',
+  url: `${apiUrl}/user/${userID}/notification/${notificationID}`,
+  data: {
+    session,
+    treshold,
+  },
+});
 
 const deleteNotification = (userID, notificationID) => axios({
   method: 'delete',

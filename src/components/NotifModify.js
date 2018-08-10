@@ -57,24 +57,27 @@ class NotifModify extends React.Component {
       notification,
     } = this.props;
     const { session, treshold } = this.state;
-    const { MU_ID, MU_EMAIL } = auth.user;
+    const { MU_ID } = auth.user;
+    let notifData = { session, treshold, userID: MU_ID };
 
-    const { startDate, _id: notifID } = notification;
-    const dates = { startDate, endDate: startDate };
-
-    const notifData = {
-      userID: MU_ID,
-      email: MU_EMAIL,
-      moID: kanim.office.info.MO_ID,
-      session,
-      dates,
-      treshold,
-    };
-
-    // Dispatch depending on container
     if (typeof addNotification === 'function') {
+      // Since the notification is new, we need all possible data
+      const { startDate } = notification;
+      const dates = { startDate, endDate: startDate };
+
+      notifData = {
+        ...notifData,
+        userID: MU_ID,
+        dates,
+        moID: kanim.office.info.MO_ID,
+      };
+
       addNotification(notifData);
     } else {
+      // We only need notifID, session, and treshold
+      // Because only these things are changeable, everything else are contained inside notifID
+      const { _id: notifID } = notification;
+
       editNotification(notifID, notifData);
     }
   }

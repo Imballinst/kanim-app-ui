@@ -88,9 +88,10 @@ class NotifList extends React.Component {
 
   render() {
     const { isModalVisible } = this.state;
-    const { notif, kanim } = this.props;
+    const { notif, kanim, auth } = this.props;
     const { notifications, getNotificationsAttempt, deleteNotificationAttempt } = notif;
     const { offices, getOfficesAttempt } = kanim;
+    const { MU_EMAIL } = auth.user;
 
     const sessionName = {
       morning: 'pagi',
@@ -104,7 +105,6 @@ class NotifList extends React.Component {
       placeholder = notifications.reduce((nodes, cur, idx) => {
         const {
           _id: notifID,
-          email,
           moID,
           session,
           startDate,
@@ -124,8 +124,7 @@ class NotifList extends React.Component {
             <View>
               <Text style={style.kanimOfficeNameStyle}>{officeName} - {startDate}</Text>
               <Text style={{ fontSize: 14, color: primaryMineshaft }}>
-                Apabila kuota sesi {sessionName[session]} melebihi {treshold},
-                akan dikirimkan email ke {email}
+                Batas minimal kuota: {treshold} - Sesi: {sessionName[session]}
               </Text>
             </View>
           </RoundedListItem>
@@ -150,6 +149,9 @@ class NotifList extends React.Component {
             />
           }
         >
+          <Text style={{ fontSize: 14, color: primaryMineshaft }}>
+            Notifikasi akan dikirimkan ke {MU_EMAIL} apabila kuota untuk sesi-sesi berikut tersedia.
+          </Text>
           {placeholder}
         </ScrollView>
 
