@@ -96,7 +96,7 @@ const getNotification = (userID, notifID) => axios({
 });
 
 const addNotification = ({
-  userID, moID, session, dates, treshold,
+  userID, moID, session, dates, email, treshold,
 }) => {
   const { startDate, endDate } = dates;
 
@@ -108,6 +108,7 @@ const addNotification = ({
       session,
       startDate,
       endDate,
+      email,
       treshold,
     },
   });

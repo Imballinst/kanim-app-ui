@@ -5,14 +5,23 @@ import axios from 'axios';
 import logger from 'redux-logger';
 import { persistStore } from 'redux-persist';
 import { AsyncStorage } from 'react-native';
-import getAppVersion from './helpers/AppVersion';
-// Middlewares
+// Time helpers
+import getTime from 'date-fns/getTime';
+import differenceInDays from 'date-fns/differenceInDays';
+// Middlewares, reducers, and versioners
 import middlewares from './middlewares';
-// Reducers
 import combinedReducers from './reducers';
+import getAppVersion from './helpers/AppVersion';
+
+// Reused variables and functions
+const storagePropertyName = 'reduxPersist:appVersion';
+const setStore = (version, ts) => AsyncStorage.setItem(
+  storagePropertyName,
+  JSON.stringify({ version, ts })
+);
 
 const persistStorage = (store, options, callback) => {
-  AsyncStorage.getItem('reduxPersist:appVersion')
+  AsyncStorage.getItem(storagePropertyName)
     .then((itemValue) => {
       const getPersistedStore = () => persistStore(
         store,
@@ -23,24 +32,31 @@ const persistStorage = (store, options, callback) => {
 
       if (itemValue) {
         // If version is identified
-        const app = JSON.parse(itemValue);
+        let app;
 
-        if ((app && app.version !== currentAppVersion) || __DEV__) {
-          getPersistedStore().purge();
+        // Just in case itemValue is not a JSON string
+        try {
+          app = JSON.parse(itemValue);
+        } catch (_e) {
+          app = {};
+        }
 
-          AsyncStorage.setItem(
-            'reduxPersist:appVersion',
-            JSON.stringify({ version: currentAppVersion })
-          );
+        const { version, ts } = app;
+        const currentDate = new Date();
+        const lastDate = ts ? new Date(ts) : currentDate;
+        const isExpire = differenceInDays(currentDate, lastDate) >= 1;
+
+        if (version !== currentAppVersion || isExpire || __DEV__) {
+          // [TODO]: don't use purge because it may not work asynchronously
+          // getPersistedStore().purge();
+
+          setStore(currentAppVersion, getTime(new Date()));
         } else {
           getPersistedStore(); // .purge to clean the offline data
         }
       } else {
         // If no, define one
-        AsyncStorage.setItem(
-          'reduxPersist:appVersion',
-          JSON.stringify({ version: currentAppVersion })
-        );
+        setStore(currentAppVersion, getTime(new Date()));
       }
     });
 };

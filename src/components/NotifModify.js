@@ -57,7 +57,7 @@ class NotifModify extends React.Component {
       notification,
     } = this.props;
     const { session, treshold } = this.state;
-    const { MU_ID } = auth.user;
+    const { MU_ID, MU_EMAIL } = auth.user;
     let notifData = { session, treshold, userID: MU_ID };
 
     if (typeof addNotification === 'function') {
@@ -68,6 +68,7 @@ class NotifModify extends React.Component {
       notifData = {
         ...notifData,
         userID: MU_ID,
+        email: MU_EMAIL,
         dates,
         moID: kanim.office.info.MO_ID,
       };
