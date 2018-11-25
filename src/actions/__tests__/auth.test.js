@@ -4,23 +4,28 @@ import { NavigationActions } from 'react-navigation';
 import thunk from 'redux-thunk';
 import nock from 'nock';
 
-import {
-  LOGIN_ATTEMPT,
-  LOGIN_INVALID,
-  LOGIN_SUCCESS,
-  LOGOUT_ATTEMPT,
-  LOGOUT_SUCCESS,
+import * as authActions from '../auth';
+
+const {
+  LOGIN,
+  LOGOUT,
   REFRESH,
   login,
   logout,
   refreshLoginView,
-} from '../auth';
+  ...untestedFunctions
+} = authActions;
+// Default counter to 3 because there are 3 constants
+let counter = 3;
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('auth', () => {
-  afterAll(() => nock.cleanAll());
+describe('auth (actions/auth)', () => {
+  afterEach(() => {
+    nock.cleanAll();
+    counter += 1;
+  });
 
   it('should return login action creator, async', () => {
     nock(apiUrl)
@@ -31,8 +36,8 @@ describe('auth', () => {
       );
 
     const expectedActions = [
-      { type: LOGIN_ATTEMPT, username: 'testUsername', password: 'testPassword' },
-      { type: LOGIN_SUCCESS, payload: { user: 'halo', token: 'asdf' }},
+      { type: LOGIN.ATTEMPT, username: 'testUsername', password: 'testPassword' },
+      { type: LOGIN.SUCCESS, payload: { user: 'halo', token: 'asdf' }},
       { type: NavigationActions.NAVIGATE, routeName: 'HomeStack' },
       { type: REFRESH },
     ];
@@ -46,8 +51,8 @@ describe('auth', () => {
 
   it('should return logout action creator, async', () => {
     const expectedActions = [
-      { type: LOGOUT_ATTEMPT },
-      { type: LOGOUT_SUCCESS },
+      { type: LOGOUT.ATTEMPT },
+      { type: LOGOUT.SUCCESS },
       { type: NavigationActions.NAVIGATE, routeName: 'Login' },
     ];
     const store = mockStore({});
@@ -60,5 +65,12 @@ describe('auth', () => {
 
   it('should return refresh login action creator', () => {
     expect(refreshLoginView()).toEqual({ type: REFRESH });
+  });
+});
+
+describe('auth counters (actions/auth)', () => {
+  it('should test all action creators', () => {
+    expect(counter).toBe(Object.keys(authActions).length);
+    expect(untestedFunctions).toEqual({});
   });
 });

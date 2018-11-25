@@ -4,13 +4,13 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import format from 'date-fns/format';
 import idLocale from 'date-fns/locale/id';
 
-import { tertiarySanjuan, hexToRGB } from '../../utils/colors';
+import { lightSanjuan } from '../../utils/colors';
 
 const style = StyleSheet.create({
   rowEven: {
     flexDirection: 'row',
     padding: 5,
-    backgroundColor: hexToRGB(tertiarySanjuan, 0.2),
+    backgroundColor: lightSanjuan,
   },
   rowOdd: {
     flexDirection: 'row',

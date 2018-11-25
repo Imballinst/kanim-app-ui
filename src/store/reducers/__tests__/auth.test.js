@@ -1,12 +1,5 @@
 import auth, { defaultState } from '../auth';
-import {
-  LOGIN_ATTEMPT,
-  LOGIN_INVALID,
-  LOGIN_SUCCESS,
-  LOGOUT_ATTEMPT,
-  LOGOUT_SUCCESS,
-  REFRESH,
-} from '../../../actions/auth';
+import { LOGIN, LOGOUT, REFRESH } from '../../../actions/auth';
 
 describe('auth', () => {
   // Initial state
@@ -15,8 +8,8 @@ describe('auth', () => {
   });
 
   // Login
-  it('should handle LOGIN_ATTEMPT action', () => {
-    const type = LOGIN_ATTEMPT;
+  it('should handle LOGIN.ATTEMPT action', () => {
+    const type = LOGIN.ATTEMPT;
 
     expect(auth(defaultState, { type }))
       .toEqual({
@@ -26,9 +19,9 @@ describe('auth', () => {
       });
   });
 
-  it('should handle LOGIN_SUCCESS action', () => {
+  it('should handle LOGIN.SUCCESS action', () => {
     const action = {
-      type: LOGIN_SUCCESS,
+      type: LOGIN.SUCCESS,
       payload: { user: 'testLogin', token: 'token' },
       loginAttempt: false,
     };
@@ -42,9 +35,9 @@ describe('auth', () => {
       });
   });
 
-  it('should handle LOGIN_INVALID action', () => {
+  it('should handle LOGIN.INVALID action', () => {
     const action = {
-      type: LOGIN_INVALID,
+      type: LOGIN.INVALID,
       message: 'This is an error message.',
     };
 
@@ -58,16 +51,16 @@ describe('auth', () => {
   });
 
   // Logout
-  it('should handle LOGOUT_SUCCESS action', () => {
+  it('should handle LOGOUT.SUCCESS action', () => {
     const loggedInState = auth(defaultState, {
-      type: LOGIN_SUCCESS,
+      type: LOGIN.SUCCESS,
       payload: {
         user: 'testLogin',
         token: 'hehe',
       },
       isLoggedIn: true,
     });
-    const type = LOGOUT_SUCCESS;
+    const type = LOGOUT.SUCCESS;
 
     expect(auth(loggedInState, { type }))
       .toEqual({
@@ -79,9 +72,9 @@ describe('auth', () => {
   });
 
   // Refresh
-  it('should handle REFRESH_SUCCESS action', () => {
+  it('should handle REFRESH.SUCCESS action', () => {
     const afterErrorState = auth(defaultState, {
-      type: LOGIN_INVALID,
+      type: LOGIN.INVALID,
       message: 'This is an error message.',
     });
     const type = REFRESH;

@@ -1,11 +1,13 @@
 import { StackNavigator } from 'react-navigation';
 
-import Home from '../../containers/Home';
-import Detail from '../../containers/Detail';
+import KanimList from '../../containers/KanimList';
+import KanimDetail from '../../containers/KanimDetail';
+import NotifAdd from '../../containers/NotifAdd';
 
 export default StackNavigator({
-  Home: { screen: Home },
-  Detail: { screen: Detail },
+  KanimList: { screen: KanimList },
+  KanimDetail: { screen: KanimDetail },
+  KanimNotifAdd: { screen: NotifAdd },
 }, {
   headerMode: 'none',
 });

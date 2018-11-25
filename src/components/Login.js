@@ -52,7 +52,10 @@ const style = StyleSheet.create({
 });
 
 class Login extends React.Component {
-  state = { username: KANIM_USERNAME, password: KANIM_PASSWORD }
+  state = {
+    username: __DEV__ ? KANIM_USERNAME : '',
+    password: __DEV__ ? KANIM_PASSWORD : '',
+  }
 
   componentDidMount() {
     this.props.refreshLoginView();
@@ -74,7 +77,10 @@ class Login extends React.Component {
     const textMessageStyle = isError ? style.textErrorMessage : style.textProcessMessage;
 
     return (
-      <ScrollView style={style.viewStyle}>
+      <ScrollView
+        style={style.viewStyle}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={style.loginImageContainer}>
           <Image source={loginPic} style={style.loginImage} />
         </View>

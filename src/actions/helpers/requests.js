@@ -46,7 +46,7 @@ const getOfficeQuota = (token, kanimID, startDate, endDate) => axios({
   },
 });
 
-const checkOfficeQuota = (token, kanimID, date, startHr, endHr) => axios({
+const confirmOfficeQuota = (token, kanimID, date, startHr, endHr) => axios({
   method: 'post',
   headers: { 'x-imm-token': token },
   url: `${apiUrl}/offices/${kanimID}/check`,
@@ -57,7 +57,7 @@ const checkOfficeQuota = (token, kanimID, date, startHr, endHr) => axios({
   },
 });
 
-const getQueue = (token, userID) => axios({
+const getQueues = (token, userID) => axios({
   method: 'get',
   headers: { 'x-imm-token': token },
   url: `${apiUrl}/queue`,
@@ -71,11 +71,11 @@ const registerQueue = (kanimID, token, count, userID, tID, name, nik) => axios({
   headers: { 'x-imm-token': token },
   url: `${apiUrl}/offices/${kanimID}/register`,
   data: {
-    JumlahPemohon: count,
-    UserId: userID,
-    DetailTimingId: tID,
-    NAMA_PENGANTRI_1: name,
-    NIK_PENGANTRI_1: nik,
+    applicantCount: count,
+    userID,
+    timingID: tID,
+    name,
+    nik,
   },
 });
 
@@ -83,9 +83,51 @@ const cancelQueue = (token, queueNumber) => axios({
   method: 'delete',
   headers: { 'x-imm-token': token },
   url: `${apiUrl}/queue/${queueNumber}`,
+});
+
+const getNotifications = userID => axios({
+  method: 'get',
+  url: `${apiUrl}/user/${userID}/notification`,
+});
+
+const getNotification = (userID, notifID) => axios({
+  method: 'get',
+  url: `${apiUrl}/user/${userID}/notification/${notifID}`,
+});
+
+const addNotification = ({
+  userID, moID, session, dates, email, treshold,
+}) => {
+  const { startDate, endDate } = dates;
+
+  return axios({
+    method: 'post',
+    url: `${apiUrl}/user/${userID}/notification`,
+    data: {
+      moID,
+      session,
+      startDate,
+      endDate,
+      email,
+      treshold,
+    },
+  });
+};
+
+const editNotification = (notificationID, {
+  userID, session, treshold,
+}) => axios({
+  method: 'put',
+  url: `${apiUrl}/user/${userID}/notification/${notificationID}`,
   data: {
-    NO_ANTRIAN: queueNumber,
+    session,
+    treshold,
   },
+});
+
+const deleteNotification = (userID, notificationID) => axios({
+  method: 'delete',
+  url: `${apiUrl}/user/${userID}/notification/${notificationID}`,
 });
 
 export {
@@ -94,8 +136,13 @@ export {
   login,
   getOffices,
   getOfficeQuota,
-  checkOfficeQuota,
-  getQueue,
+  confirmOfficeQuota,
+  getQueues,
   registerQueue,
   cancelQueue,
+  getNotifications,
+  getNotification,
+  addNotification,
+  editNotification,
+  deleteNotification,
 };

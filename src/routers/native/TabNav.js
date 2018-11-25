@@ -2,8 +2,10 @@ import React from 'react';
 import { TouchableHighlight, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TabNavigator } from 'react-navigation';
+
 import HomeStack from './HomeStack';
-import Stub from '../../components/Stub';
+import NotifStack from './NotifStack';
+import QueueStack from './QueueStack';
 import {
   primaryMineshaft,
   secondaryWilliam,
@@ -16,20 +18,43 @@ const getIcon = (iconName, tintColor) => (
 );
 
 const homeIcon = ({ tintColor }) => getIcon('home', tintColor);
-const stubIcon = ({ tintColor }) => getIcon('table', tintColor);
+const notifIcon = ({ tintColor }) => getIcon('bell', tintColor);
+const queueIcon = ({ tintColor }) => getIcon('table', tintColor);
+
+const tabNavOpts = (tabBarIcon, title) => ({ navigation }) => {
+  const { routes, index } = navigation.state;
+  const { routeName } = routes[index];
+
+  return {
+    tabBarIcon,
+    title,
+    tabBarOnPress: ({ previousScene, scene, jumpToIndex }) => {
+      const { index: previousIndex } = previousScene;
+
+      // Enable press and swipe only if on the root stack
+      if (previousScene.routes[previousIndex].routeName.includes('List')) {
+        jumpToIndex(scene.index);
+      }
+    },
+    swipeEnabled: routeName.includes('List'),
+  };
+};
 
 const TabNav = TabNavigator({
   HomeStack: {
     screen: HomeStack,
-    navigationOptions: { tabBarIcon: homeIcon, title: 'Home' },
+    navigationOptions: tabNavOpts(homeIcon, 'Home'),
   },
-  Stub: {
-    screen: Stub,
-    navigationOptions: { tabBarIcon: stubIcon },
+  NotifStack: {
+    screen: NotifStack,
+    navigationOptions: tabNavOpts(notifIcon, 'Reminder'),
+  },
+  QueueStack: {
+    screen: QueueStack,
+    navigationOptions: tabNavOpts(queueIcon, 'Antrian'),
   },
 }, {
   tabBarPosition: 'top',
-  swipeEnabled: true,
   animationEnabled: true,
   initialRouteName: 'HomeStack',
   tabBarOptions: {
