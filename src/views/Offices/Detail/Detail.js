@@ -19,34 +19,34 @@ const style = StyleSheet.create({
     backgroundColor: tertiaryAlto,
     flex: 1,
     paddingHorizontal: 10,
-    height: '100%',
+    height: '100%'
   },
   kanimTitle: {
     marginBottom: 15,
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   modalBody: {
-    padding: 11,
+    padding: 11
   },
   modalText: {
     fontSize: 16,
-    color: '#000',
+    color: '#000'
   },
   buttonContainers: {
     marginTop: 30,
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   textInput: {
     padding: 5,
     marginBottom: 15,
     alignItems: 'stretch',
-    color: primaryMineshaft,
+    color: primaryMineshaft
   },
   flex1: {
-    flex: 1,
-  },
+    flex: 1
+  }
 });
 
 class KanimDetail extends React.Component {
@@ -56,8 +56,8 @@ class KanimDetail extends React.Component {
     modalDate: undefined,
     modalSession: '',
     name: '',
-    nik: '',
-  }
+    nik: ''
+  };
 
   onPressBack = () => {
     if (getStepIndex(this.props.confirmation) === 0) {
@@ -66,10 +66,10 @@ class KanimDetail extends React.Component {
       this.props.confirmQuotaSync();
       this.setState({
         name: '',
-        nik: '',
+        nik: ''
       });
     }
-  }
+  };
 
   onPressQuotaColumn = (date, session, quota) => () => {
     let modalID;
@@ -81,7 +81,7 @@ class KanimDetail extends React.Component {
         isModalVisible: true,
         modalID,
         modalDate: date,
-        modalSession: session,
+        modalSession: session
       });
     } else {
       // Register
@@ -102,30 +102,25 @@ class KanimDetail extends React.Component {
 
       confirmOfficeQuota(token, MO_ID, formattedDate, startHour, endHour);
     }
-  }
+  };
 
-  onChange = field => (val) => {
+  onChange = field => val => {
     this.setState({ [field]: val });
-  }
+  };
 
   onModalClose = () => {
     this.setState({ isModalVisible: false });
-  }
+  };
 
   onPressSubmit = () => {
     this.setState({
       isModalVisible: true,
-      modalID: 'confirmRegistration',
+      modalID: 'confirmRegistration'
     });
-  }
+  };
 
   onRegisterQueue = () => {
-    const {
-      registerQueue,
-      office,
-      auth,
-      confirmation,
-    } = this.props;
+    const { registerQueue, office, auth, confirmation } = this.props;
     const { name, nik } = this.state;
     const { token, user } = auth;
     const { timingID } = confirmation;
@@ -133,9 +128,9 @@ class KanimDetail extends React.Component {
     registerQueue(office.info.MO_ID, token, 1, user.MU_ID, timingID, name, nik);
     this.setState({
       isModalVisible: false,
-      modalID: '',
+      modalID: ''
     });
-  }
+  };
 
   onAddNotification = (session, date) => () => {
     const { viewNotifModifySync, office } = this.props;
@@ -145,21 +140,17 @@ class KanimDetail extends React.Component {
       session,
       startDate: date,
       treshold: 10,
-      backNavigation: 'KanimDetail',
+      backNavigation: 'KanimDetail'
     });
 
     this.setState({
       isModalVisible: false,
-      modalID: '',
+      modalID: ''
     });
-  }
+  };
 
   renderModalContent() {
-    const {
-      modalID,
-      modalDate,
-      modalSession,
-    } = this.state;
+    const { modalID, modalDate, modalSession } = this.state;
     const session = modalSession === 'morning' ? 'pagi' : 'siang';
     const cancelText = 'Tutup';
     let body;
@@ -182,8 +173,8 @@ class KanimDetail extends React.Component {
       body = (
         <View style={style.modalBody}>
           <Text style={style.modalText}>
-            Pastikan Anda sudah memasukkan data yang benar
-            sebelum menekan tombol &quot;Daftar&quot;.
+            Pastikan Anda sudah memasukkan data yang benar sebelum menekan tombol
+            &quot;Daftar&quot;.
           </Text>
         </View>
       );
@@ -203,35 +194,31 @@ class KanimDetail extends React.Component {
   }
 
   render() {
-    const {
-      confirmation,
-      office,
-      getOfficeQuotaAttempt,
-      confirmQuotaAttempt,
-    } = this.props;
+    const { confirmation, office, getOfficeQuotaAttempt, confirmQuotaAttempt } = this.props;
     const step = getStepIndex(confirmation);
     const { info, quota } = office;
     let content;
 
     if (step === 0) {
       const quotaDates = Object.keys(quota);
-      const filler = getOfficeQuotaAttempt ?
-        <ActivityIndicator size="large" color="#353535" /> :
-        <Text>Tidak ada kuota pada kanim ini hingga 3 bulan ke depan</Text>;
+      const filler = getOfficeQuotaAttempt ? (
+        <ActivityIndicator size="large" color="#353535" />
+      ) : (
+        <Text>Tidak ada kuota pada kanim ini hingga 3 bulan ke depan</Text>
+      );
       const hasLength = quotaDates.length > 0;
 
-      const dates = hasLength ?
-        (<QuotaRows
-          quota={quota}
-          dates={quotaDates}
-          onPressQuotaColumn={this.onPressQuotaColumn}
-        />) : filler;
+      const dates = hasLength ? (
+        <QuotaRows quota={quota} dates={quotaDates} onPressQuotaColumn={this.onPressQuotaColumn} />
+      ) : (
+        filler
+      );
 
       content = (
         <View>
           {dates}
 
-          {hasLength &&
+          {hasLength && (
             <View style={style.buttonContainers}>
               <View style={style.flex1}>
                 <Button
@@ -242,7 +229,7 @@ class KanimDetail extends React.Component {
                 />
               </View>
             </View>
-          }
+          )}
         </View>
       );
     } else {
@@ -252,7 +239,7 @@ class KanimDetail extends React.Component {
             placeholder="Nama"
             style={style.textInput}
             value={this.state.name}
-            onChangeText={(this.onChange('name'))}
+            onChangeText={this.onChange('name')}
             activeColor={primaryMineshaft}
           />
           <TextInput
@@ -282,7 +269,9 @@ class KanimDetail extends React.Component {
             </View>
           </View>
         </ScrollView>
-      ) : <ActivityIndicator size="large" color="#353535" />;
+      ) : (
+        <ActivityIndicator size="large" color="#353535" />
+      );
     }
 
     return (
@@ -317,11 +306,11 @@ KanimDetail.propTypes = {
   confirmOfficeQuota: PropTypes.func.isRequired,
   registerQueue: PropTypes.func.isRequired,
   // addNotification: PropTypes.func.isRequired,
-  viewNotifModifySync: PropTypes.func.isRequired,
+  viewNotifModifySync: PropTypes.func.isRequired
 };
 
 KanimDetail.defaultProps = {
-  confirmation: undefined,
+  confirmation: undefined
 };
 
 export default KanimDetail;
