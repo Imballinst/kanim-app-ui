@@ -1,12 +1,12 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import store from './store';
-import AppNavigatorWithStore from './routers';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
 
-const App = () => (
-  <Provider store={store}>
-    <AppNavigatorWithStore />
-  </Provider>
-);
+ReactDOM.render(<App />, document.getElementById('root'));
 
-export default App;
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.unregister();
