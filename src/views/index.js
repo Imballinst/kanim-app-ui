@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { Route, Switch, Redirect } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
@@ -19,18 +19,22 @@ import Home from './Home';
 
 const styles = theme => ({
   root: {
-    fontFamily: 'Roboto',
+    fontFamily: 'Merriweather',
     height: '100vh',
     position: 'relative',
-    background: theme.palette.primary,
-    padding: theme.spacing.unit * 3
+    background: '#fff',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    background: theme.palette.primary.dark
+  },
+  content: {
+    maxWidth: 600
   }
 });
 
 const CustomRoute = ({ path, location, component: RouteComponent, ...props }) => {
-  return (
-    <Route exact path={path} {...props} render={routeProps => <RouteComponent {...routeProps} />} />
-  );
+  return <Route path={path} {...props} render={routeProps => <RouteComponent {...routeProps} />} />;
 };
 
 class Routes extends PureComponent {
@@ -39,14 +43,13 @@ class Routes extends PureComponent {
 
     return (
       <div className={classes.root}>
-        <Fragment>
+        <div className={classes.content}>
           <CssBaseline />
-          <ControlRow />
           <Switch>
             <CustomRoute exact path="/" location={location} component={Home} />
             <CustomRoute path="/login" location={location} component={Login} />
           </Switch>
-        </Fragment>
+        </div>
       </div>
     );
   }

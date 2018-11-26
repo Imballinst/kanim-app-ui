@@ -9,41 +9,73 @@ import loginPic from '../assets/loginpic.png';
 
 const styles = theme => ({
   root: {
-    backgroundColor: theme.palette.primary,
-    display: 'flex'
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    height: '100%',
+    padding: theme.spacing.unit * 2
   },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    fontFamily: 'Roboto',
-    textAlign: 'center',
-    color: theme.palette.contrastText,
-    marginBottom: 20
-  },
-  image: {
-    opacity: 1,
-    width: 200,
-    height: 100,
-    resizeMode: 'contain',
-    marginBottom: 20
+  content: {
+    borderRadius: 10,
+    background: theme.palette.primary.light,
+    padding: theme.spacing.unit * 2,
+    boxShadow: theme.custom.shadow.big
   },
   imageContainer: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
-    height: 200
+    marginBottom: theme.spacing.unit * 3
+  },
+  image: {
+    width: 75,
+    height: 75
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 20
+  },
+  instructions: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: theme.palette.contrastText,
+    marginBottom: theme.spacing.unit * 3
   },
   form: {
-    display: 'flex'
+    display: 'flex',
+    flexDirection: 'column',
+    [theme.breakpoints.up('md')]: {
+      padding: `0 ${theme.spacing.unit * 12}px`
+    },
+    [theme.breakpoints.between('xs', 'md')]: {
+      padding: `0 ${theme.spacing.unit * 6}px`
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: `0 ${theme.spacing.unit * 3}px`
+    }
   },
   textInput: {
-    padding: 5,
-    marginBottom: 15,
-    alignItems: 'stretch',
+    marginBottom: theme.spacing.unit,
     color: theme.palette.contrastText
   },
+  resetPassword: {
+    fontSize: 11
+  },
   textProcessMessage: {
-    color: theme.palette.contrastText
+    color: theme.palette.contrastText,
+    marginBottom: theme.spacing.unit * 2
+  },
+  button: {
+    fontFamily: 'Merriweather',
+    fontWeight: 700,
+    boxShadow: theme.custom.shadow.small
+  },
+  orText: {
+    textAlign: 'center',
+    fontSize: 12,
+    margin: `${theme.spacing.unit / 2}px 0`
   }
 });
 
@@ -66,33 +98,47 @@ class Login extends React.Component {
   };
 
   render() {
-    const { message, isError } = this.props;
-    const textMessageStyle = isError ? styles.textErrorMessage : styles.textProcessMessage;
+    const { message, isError, classes } = this.props;
+    const textMessageStyle = isError ? classes.textErrorMessage : classes.textProcessMessage;
 
     return (
-      <div style={styles.root} keyboardShouldPersistTaps="handled">
-        <div style={styles.imageContainer}>
-          <img source={loginPic} style={styles.image} />
-        </div>
-        <div style={styles.form}>
-          <span style={styles.title}>
-            Untuk masuk, silahkan login dengan akun Kantor Imigrasi Online Anda.
-          </span>
-          <TextField
-            placeholder="Username"
-            style={styles.textInput}
-            value={this.state.username}
-            onChangeText={this.onChange('username')}
-          />
-          <TextField
-            placeholder="Password"
-            style={styles.textInput}
-            value={this.state.password}
-            onChangeText={this.onChange('password')}
-            secureTextEntry
-          />
-          <span style={textMessageStyle}>{message}</span>
-          <Button color="#3c6e71" onClick={this.onClick} title="Login" />
+      <div className={classes.root}>
+        <div className={classes.content}>
+          <div className={classes.imageContainer}>
+            <img src={loginPic} className={classes.image} />
+            <span className={classes.title}>Kanim App</span>
+          </div>
+          <div className={classes.instructions}>
+            Masukkan informasi akun Kantor Imigrasi Online Anda.
+          </div>
+          <div className={classes.form}>
+            <TextField
+              variant="outlined"
+              type="text"
+              label="Username"
+              className={classes.textInput}
+              value={this.state.username}
+              onChange={this.onChange('username')}
+            />
+            <TextField
+              variant="outlined"
+              type="password"
+              label="Password"
+              className={classes.textInput}
+              value={this.state.password}
+              onChange={this.onChange('password')}
+            />
+            <div className={classes.resetPassword}>Lupa password?</div>
+            <span className={textMessageStyle}>{message}</span>
+
+            <Button type="submit" className={classes.button} color="primary" variant="contained">
+              Masuk
+            </Button>
+            <div className={classes.orText}>atau</div>
+            <Button type="submit" className={classes.button} color="secondary" variant="contained">
+              Daftar
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -100,10 +146,10 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
+  classes: PropTypes.object.isRequired,
   isError: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,
-  refreshLoginView: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired
 };
 
-export default Login;
+export default withStyles(styles)(Login);

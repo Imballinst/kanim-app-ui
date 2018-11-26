@@ -1,13 +1,5 @@
 import axios from 'axios';
 
-const buildHeaders = (cookie, customHeaders = {}) =>
-  Object.assign(
-    {
-      Cookie: `JSESSIONID=${cookie}`
-    },
-    customHeaders
-  );
-
 export default (path, method, data, token) => {
   // Validation
   if (typeof path !== 'string') {
