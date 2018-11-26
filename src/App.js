@@ -1,10 +1,11 @@
 import React from 'react';
 import { Router } from 'react-router';
-import { Provider } from 'unstated';
-import createBrowserHistory from 'history/createBrowserHistory';
 
+import { Provider } from 'react-redux';
+import createBrowserHistory from 'history/createBrowserHistory';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
+import store from './store';
 import Routes from './views';
 
 const history = createBrowserHistory();
@@ -32,7 +33,7 @@ const theme = createMuiTheme({
 });
 
 const App = () => (
-  <Provider>
+  <Provider store={store}>
     <Router history={history}>
       <MuiThemeProvider theme={theme}>
         <Routes />

@@ -16,13 +16,12 @@ const login = (username, password) => async dispatch => {
     }
 
     const { data } = await httpLogin(username, password);
-    const { success, data, message, errorCode } = data;
+    const { success, data: responseData, message, errorCode } = data;
 
     if (success) {
-      const { token, user } = data;
+      const { token, user } = responseData;
 
       dispatch({ type: LOGIN.SUCCESS, payload: { token, user } });
-      dispatch({ type: REFRESH });
     } else {
       throw new Error(`${errorCode} ${message}`);
     }
@@ -39,7 +38,7 @@ const logout = () => dispatch => {
 
   // Pretend that we're logging out within 0.25 second
   setTimeout(() => {
-    resolve({ type: LOGOUT.SUCCESS });
+    dispatch({ type: LOGOUT.SUCCESS });
   }, 250);
 };
 

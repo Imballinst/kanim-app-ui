@@ -1,107 +1,100 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { KANIM_USERNAME, KANIM_PASSWORD } from 'react-native-dotenv';
-import { ScrollView, View, Button, Text, StyleSheet, Image } from 'react-native';
 
-import loginPic from './assets/loginpic.png';
-import TextInput from './modules/TextInput';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
-const style = StyleSheet.create({
-  viewStyle: {
-    backgroundColor: '#353535',
-    flex: 1,
-    paddingHorizontal: '16.5%',
-    height: '100%'
+import loginPic from '../assets/loginpic.png';
+
+const styles = theme => ({
+  root: {
+    backgroundColor: theme.palette.primary,
+    display: 'flex'
   },
-  loginTitle: {
+  title: {
     fontSize: 16,
     fontWeight: 'bold',
     fontFamily: 'Roboto',
     textAlign: 'center',
-    color: '#d9d9d9',
+    color: theme.palette.contrastText,
     marginBottom: 20
   },
-  loginImage: {
+  image: {
     opacity: 1,
     width: 200,
     height: 100,
     resizeMode: 'contain',
     marginBottom: 20
   },
-  loginImageContainer: {
-    flex: 1,
+  imageContainer: {
+    display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
     height: 200
   },
-  formContainer: {
-    flex: 2
+  form: {
+    display: 'flex'
   },
   textInput: {
     padding: 5,
     marginBottom: 15,
     alignItems: 'stretch',
-    color: '#fff'
+    color: theme.palette.contrastText
   },
   textProcessMessage: {
-    color: '#0000ff'
-  },
-  textErrorMessage: {
-    color: '#ff0000'
+    color: theme.palette.contrastText
   }
 });
 
 class Login extends React.Component {
   state = {
-    username: __DEV__ ? KANIM_USERNAME : '',
-    password: __DEV__ ? KANIM_PASSWORD : ''
+    username: process.env.REACT_APP_KANIM_USERNAME || '',
+    password: process.env.REACT_APP_KANIM_PASSWORD || ''
   };
 
-  componentDidMount() {
-    this.props.refreshLoginView();
-  }
-
-  onChange = type => text => {
-    this.setState({ [type]: text });
+  onChange = field => e => {
+    this.setState({ [field]: e.target.value });
   };
 
-  onPress = () => {
-    const { login } = this.props;
+  onSubmit = e => {
+    e.preventDefault();
+
     const { username, password } = this.state;
 
-    login(username, password);
+    this.props.login(username, password);
   };
 
   render() {
     const { message, isError } = this.props;
-    const textMessageStyle = isError ? style.textErrorMessage : style.textProcessMessage;
+    const textMessageStyle = isError ? styles.textErrorMessage : styles.textProcessMessage;
 
     return (
-      <ScrollView style={style.viewStyle} keyboardShouldPersistTaps="handled">
-        <View style={style.loginImageContainer}>
-          <Image source={loginPic} style={style.loginImage} />
-        </View>
-        <View style={style.formContainer}>
-          <Text style={style.loginTitle}>
+      <div style={styles.root} keyboardShouldPersistTaps="handled">
+        <div style={styles.imageContainer}>
+          <img source={loginPic} style={styles.image} />
+        </div>
+        <div style={styles.form}>
+          <span style={styles.title}>
             Untuk masuk, silahkan login dengan akun Kantor Imigrasi Online Anda.
-          </Text>
-          <TextInput
+          </span>
+          <TextField
             placeholder="Username"
-            style={style.textInput}
+            style={styles.textInput}
             value={this.state.username}
             onChangeText={this.onChange('username')}
           />
-          <TextInput
+          <TextField
             placeholder="Password"
-            style={style.textInput}
+            style={styles.textInput}
             value={this.state.password}
             onChangeText={this.onChange('password')}
             secureTextEntry
           />
-          <Text style={textMessageStyle}>{message}</Text>
-          <Button color="#3c6e71" onPress={this.onPress} title="Login" />
-        </View>
-      </ScrollView>
+          <span style={textMessageStyle}>{message}</span>
+          <Button color="#3c6e71" onClick={this.onClick} title="Login" />
+        </div>
+      </div>
     );
   }
 }

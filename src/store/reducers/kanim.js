@@ -1,5 +1,5 @@
-import { LOGIN } from '../../actions/auth';
-import { GET_OFFICES, GET_OFFICE_QUOTA, CONFIRM_QUOTA } from '../../actions/kanim';
+import { LOGIN } from '../actionTypes';
+import { GET_OFFICES, GET_OFFICE_QUOTA, CONFIRM_QUOTA } from '../actionTypes';
 
 const defaultState = {
   getOfficesAttempt: false,
@@ -10,7 +10,7 @@ const defaultState = {
   office: undefined,
   confirmQuotaAttempt: false,
   confirmQuotaError: '',
-  confirmation: undefined,
+  confirmation: undefined
 };
 
 const kanim = (state = defaultState, action) => {
@@ -22,21 +22,21 @@ const kanim = (state = defaultState, action) => {
       return {
         ...state,
         getOfficesAttempt: true,
-        getOfficesError: '',
+        getOfficesError: ''
       };
     }
     case GET_OFFICES.SUCCESS: {
       return {
         ...state,
         offices: action.payload,
-        getOfficesAttempt: false,
+        getOfficesAttempt: false
       };
     }
     case GET_OFFICES.INVALID: {
       return {
         ...state,
         getOfficesAttempt: false,
-        getOfficesError: action.message,
+        getOfficesError: action.message
       };
     }
     case GET_OFFICE_QUOTA.ATTEMPT: {
@@ -44,32 +44,32 @@ const kanim = (state = defaultState, action) => {
         ...state,
         office: {
           info: state.offices.find(({ MO_ID }) => MO_ID === action.payload),
-          quota: {},
+          quota: {}
         },
         getOfficeQuotaAttempt: true,
         getOfficeQuotaError: '',
         confirmQuotaAttempt: false,
         confirmQuotaError: '',
-        confirmation: undefined,
+        confirmation: undefined
       };
     }
     case GET_OFFICE_QUOTA.SUCCESS: {
       const newOfficeProperty = {
         ...state.office,
-        quota: action.payload,
+        quota: action.payload
       };
 
       return {
         ...state,
         office: newOfficeProperty,
-        getOfficeQuotaAttempt: false,
+        getOfficeQuotaAttempt: false
       };
     }
     case GET_OFFICE_QUOTA.INVALID: {
       return {
         ...state,
         getOfficeQuotaAttempt: false,
-        getOfficeQuotaError: action.message,
+        getOfficeQuotaError: action.message
       };
     }
     case CONFIRM_QUOTA.ATTEMPT: {
@@ -77,24 +77,25 @@ const kanim = (state = defaultState, action) => {
         ...state,
         confirmQuotaAttempt: true,
         confirmQuotaError: '',
-        confirmation: undefined,
+        confirmation: undefined
       };
     }
     case CONFIRM_QUOTA.SUCCESS: {
       return {
         ...state,
         confirmQuotaAttempt: false,
-        confirmation: action.payload,
+        confirmation: action.payload
       };
     }
     case CONFIRM_QUOTA.INVALID: {
       return {
         ...state,
         confirmQuotaAttempt: false,
-        confirmQuotaError: action.message,
+        confirmQuotaError: action.message
       };
     }
-    default: return state;
+    default:
+      return state;
   }
 };
 

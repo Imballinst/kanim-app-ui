@@ -30,7 +30,7 @@ export default (path, method, data, token) => {
   return axios({
     method,
     // Path always starts with "/"
-    url: `${REACT_APP_API_URL}${path}`,
+    url: `${process.env.REACT_APP_API_URL}${path}`,
     headers: {
       'x-imm-token': token
     },

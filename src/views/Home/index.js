@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { login, refreshLoginView } from '../actions/auth';
+import { login } from '../../store/actions/auth';
 import Home from './Home';
 
 const mapStateToProps = ({ auth }) => {
@@ -7,7 +7,7 @@ const mapStateToProps = ({ auth }) => {
 
   return { isError, message };
 };
-const mapDispatchToProps = { login, refreshLoginView };
+const mapDispatchToProps = { login };
 
 export default connect(
   mapStateToProps,

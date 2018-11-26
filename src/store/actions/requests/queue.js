@@ -12,7 +12,7 @@ const getQueues = (token, userID) =>
 
 const registerQueue = (applicantCount, token, userID, timingID, name, nik) =>
   request(
-    paths.registerQueue,
+    '/queue',
     'post',
     {
       applicantCount,
