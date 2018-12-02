@@ -12,24 +12,25 @@ const history = createBrowserHistory();
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#39796b',
-      main: '#004d40',
-      dark: '#00251a',
-      contrastText: '#ffffff'
+      light: '#6ec6ff',
+      main: '#2196f3',
+      dark: '#0069c0',
+      contrastText: '#000'
     },
     secondary: {
-      light: '#c0cfff',
-      main: '#8c9eff',
-      dark: '#5870cb',
-      contrastText: '#000000'
+      light: '#fd558f',
+      main: '#c51162',
+      dark: '#8e0038',
+      contrastText: '#fff'
     }
   },
   custom: {
     shadow: {
-      big: '6px 9px #000',
-      medium: '4px 6px #000',
-      small: '2px 3px #000'
-    }
+      big: '3px 6px #000',
+      medium: '2px 4px #000',
+      small: '1px 2px #000'
+    },
+    background: '#d9d9d9'
   },
   typography: {
     useNextVariants: true

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -17,7 +18,7 @@ const styles = theme => ({
   },
   content: {
     borderRadius: 10,
-    background: theme.palette.primary.light,
+    background: '#fff',
     padding: theme.spacing.unit * 2,
     boxShadow: theme.custom.shadow.big
   },
@@ -29,18 +30,12 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit * 3
   },
   image: {
-    width: 75,
-    height: 75
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 20
+    width: 250
   },
   instructions: {
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: theme.palette.contrastText,
     marginBottom: theme.spacing.unit * 3
   },
   form: {
@@ -58,19 +53,22 @@ const styles = theme => ({
   },
   textInput: {
     marginBottom: theme.spacing.unit,
-    color: theme.palette.contrastText
+    color: theme.palette.primary.contrastText
   },
-  resetPassword: {
+  forgotPassword: {
     fontSize: 11
   },
   textProcessMessage: {
-    color: theme.palette.contrastText,
     marginBottom: theme.spacing.unit * 2
   },
   button: {
     fontFamily: 'Merriweather',
     fontWeight: 700,
     boxShadow: theme.custom.shadow.small
+  },
+  signupButton: {
+    background: '#fff',
+    color: '#000'
   },
   orText: {
     textAlign: 'center',
@@ -106,7 +104,6 @@ class Login extends React.Component {
         <div className={classes.content}>
           <div className={classes.imageContainer}>
             <img src={loginPic} className={classes.image} />
-            <span className={classes.title}>Kanim App</span>
           </div>
           <div className={classes.instructions}>
             Masukkan informasi akun Kantor Imigrasi Online Anda.
@@ -128,7 +125,7 @@ class Login extends React.Component {
               value={this.state.password}
               onChange={this.onChange('password')}
             />
-            <div className={classes.resetPassword}>Lupa password?</div>
+            <div className={classes.forgotPassword}>Lupa password?</div>
             <span className={textMessageStyle}>{message}</span>
 
             <Button type="submit" className={classes.button} color="primary" variant="contained">

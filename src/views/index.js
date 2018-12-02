@@ -22,11 +22,10 @@ const styles = theme => ({
     fontFamily: 'Merriweather',
     height: '100vh',
     position: 'relative',
-    background: '#fff',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    background: theme.palette.primary.dark
+    background: theme.custom.background
   },
   content: {
     maxWidth: 600
