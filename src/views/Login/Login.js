@@ -89,7 +89,7 @@ class Login extends React.Component {
 
   onSubmit = e => {
     e.preventDefault();
-
+    console.log('wew', this.state);
     const { username, password } = this.state;
 
     this.props.login(username, password);
@@ -108,7 +108,7 @@ class Login extends React.Component {
           <div className={classes.instructions}>
             Masukkan informasi akun Kantor Imigrasi Online Anda.
           </div>
-          <div className={classes.form}>
+          <form className={classes.form} onSubmit={this.onSubmit}>
             <TextField
               variant="outlined"
               type="text"
@@ -132,10 +132,10 @@ class Login extends React.Component {
               Masuk
             </Button>
             <div className={classes.orText}>atau</div>
-            <Button type="submit" className={classes.button} color="secondary" variant="contained">
+            <Button className={classes.button} color="secondary" variant="contained">
               Daftar
             </Button>
-          </div>
+          </form>
         </div>
       </div>
     );
