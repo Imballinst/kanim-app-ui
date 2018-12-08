@@ -1,11 +1,11 @@
-import { LOGIN } from '../../actions/auth';
+import { LOGIN } from '../actionTypes';
 import {
   VIEW_NOTIF_MODIFY,
   ADD_NOTIFICATION,
   GET_NOTIFICATIONS,
   GET_NOTIFICATION,
-  DELETE_NOTIFICATION,
-} from '../../actions/notif';
+  DELETE_NOTIFICATION
+} from '../actionTypes';
 
 const defaultState = {
   modifyNotificationAttempt: false,
@@ -20,7 +20,7 @@ const defaultState = {
   notification: undefined,
   deleteNotificationAttempt: false,
   deleteNotificationError: '',
-  deleteNotificationResult: undefined,
+  deleteNotificationResult: undefined
 };
 
 const notif = (state = defaultState, action) => {
@@ -32,21 +32,21 @@ const notif = (state = defaultState, action) => {
       return {
         ...state,
         modifyNotificationAttempt: true,
-        modifyNotificationError: '',
+        modifyNotificationError: ''
       };
     }
     case ADD_NOTIFICATION.SUCCESS: {
       return {
         ...state,
         modifyNotificationResult: action.payload,
-        modifyNotificationAttempt: false,
+        modifyNotificationAttempt: false
       };
     }
     case ADD_NOTIFICATION.INVALID: {
       return {
         ...state,
         modifyNotificationAttempt: false,
-        modifyNotificationError: action.message,
+        modifyNotificationError: action.message
       };
     }
     case GET_NOTIFICATIONS.ATTEMPT: {
@@ -54,7 +54,7 @@ const notif = (state = defaultState, action) => {
         ...state,
         getNotificationsAttempt: true,
         getNotificationsError: '',
-        isNotificationsExist: false,
+        isNotificationsExist: false
       };
     }
     case GET_NOTIFICATIONS.SUCCESS: {
@@ -65,14 +65,14 @@ const notif = (state = defaultState, action) => {
         ...state,
         notifications,
         getNotificationsAttempt: false,
-        isNotificationsExist,
+        isNotificationsExist
       };
     }
     case GET_NOTIFICATIONS.INVALID: {
       return {
         ...state,
         getNotificationsAttempt: false,
-        getNotificationsError: action.message,
+        getNotificationsError: action.message
       };
     }
     case GET_NOTIFICATION.ATTEMPT: {
@@ -80,7 +80,7 @@ const notif = (state = defaultState, action) => {
         ...state,
         getNotificationAttempt: true,
         getNotificationError: '',
-        notification: undefined,
+        notification: undefined
       };
     }
     case VIEW_NOTIF_MODIFY:
@@ -88,21 +88,21 @@ const notif = (state = defaultState, action) => {
       return {
         ...state,
         notification: action.payload,
-        getNotificationAttempt: false,
+        getNotificationAttempt: false
       };
     }
     case GET_NOTIFICATION.INVALID: {
       return {
         ...state,
         getNotificationAttempt: false,
-        getNotificationError: action.message,
+        getNotificationError: action.message
       };
     }
     case DELETE_NOTIFICATION.ATTEMPT: {
       return {
         ...state,
         deleteNotificationAttempt: true,
-        deleteNotificationError: '',
+        deleteNotificationError: ''
       };
     }
     case DELETE_NOTIFICATION.SUCCESS: {
@@ -113,17 +113,18 @@ const notif = (state = defaultState, action) => {
         ...state,
         notifications,
         deleteNotificationResult: payload,
-        deleteNotificationAttempt: false,
+        deleteNotificationAttempt: false
       };
     }
     case DELETE_NOTIFICATION.INVALID: {
       return {
         ...state,
         deleteNotificationAttempt: false,
-        deleteNotificationError: action.message,
+        deleteNotificationError: action.message
       };
     }
-    default: return state;
+    default:
+      return state;
   }
 };
 

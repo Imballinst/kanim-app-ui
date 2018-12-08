@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, REFRESH } from '../../actions/auth';
+import { LOGIN, LOGOUT, REFRESH } from '../actionTypes';
 
 const defaultState = {
   isLoggedIn: false,
@@ -7,7 +7,7 @@ const defaultState = {
   loginAttempt: false,
   logoutAttempt: false,
   isError: false,
-  message: '',
+  message: ''
 };
 
 const auth = (state = defaultState, action) => {
@@ -17,7 +17,7 @@ const auth = (state = defaultState, action) => {
         ...state,
         message: 'Logging in...',
         loginAttempt: true,
-        isError: false,
+        isError: false
       };
     }
     case LOGIN.SUCCESS: {
@@ -30,7 +30,7 @@ const auth = (state = defaultState, action) => {
         user,
         token,
         loginAttempt: false,
-        isError: false,
+        isError: false
       };
     }
     case LOGIN.INVALID: {
@@ -38,13 +38,13 @@ const auth = (state = defaultState, action) => {
         ...state,
         message: action.message,
         loginAttempt: false,
-        isError: true,
+        isError: true
       };
     }
     case LOGOUT.ATTEMPT: {
       return {
         ...state,
-        logoutAttempt: true,
+        logoutAttempt: true
       };
     }
     case LOGOUT.SUCCESS: {
@@ -53,17 +53,18 @@ const auth = (state = defaultState, action) => {
         logoutAttempt: false,
         isLoggedIn: false,
         token: '',
-        user: undefined,
+        user: undefined
       };
     }
     case REFRESH: {
       return {
         ...state,
         message: '',
-        isError: false,
+        isError: false
       };
     }
-    default: return state;
+    default:
+      return state;
   }
 };
 

@@ -1,9 +1,5 @@
-import { LOGIN } from '../../actions/auth';
-import {
-  REGISTER_QUEUE,
-  GET_QUEUES,
-  CANCEL_QUEUE,
-} from '../../actions/queue';
+import { LOGIN } from '../actionTypes';
+import { REGISTER_QUEUE, GET_QUEUES, CANCEL_QUEUE } from '../actionTypes';
 
 const defaultState = {
   registerQueueAttempt: false,
@@ -16,7 +12,7 @@ const defaultState = {
   isQueueExist: false,
   cancelQueueAttempt: false,
   cancelQueueError: '',
-  cancelQueueResult: undefined,
+  cancelQueueResult: undefined
 };
 
 const queue = (state = defaultState, action) => {
@@ -28,21 +24,21 @@ const queue = (state = defaultState, action) => {
       return {
         ...state,
         registerQueueAttempt: true,
-        registerQueueError: '',
+        registerQueueError: ''
       };
     }
     case REGISTER_QUEUE.SUCCESS: {
       return {
         ...state,
         registerQueueResult: action.payload,
-        registerQueueAttempt: false,
+        registerQueueAttempt: false
       };
     }
     case REGISTER_QUEUE.INVALID: {
       return {
         ...state,
         registerQueueAttempt: false,
-        registerQueueError: action.message,
+        registerQueueError: action.message
       };
     }
     case GET_QUEUES.ATTEMPT: {
@@ -50,7 +46,7 @@ const queue = (state = defaultState, action) => {
         ...state,
         getQueueAttempt: true,
         getQueueError: '',
-        isQueueExist: false,
+        isQueueExist: false
       };
     }
     case GET_QUEUES.SUCCESS: {
@@ -62,38 +58,39 @@ const queue = (state = defaultState, action) => {
         queues,
         getQueueAttempt: false,
         isQueueExist,
-        queuesUsed,
+        queuesUsed
       };
     }
     case GET_QUEUES.INVALID: {
       return {
         ...state,
         getQueueAttempt: false,
-        getQueueError: action.message,
+        getQueueError: action.message
       };
     }
     case CANCEL_QUEUE.ATTEMPT: {
       return {
         ...state,
         cancelQueueAttempt: true,
-        cancelQueueError: '',
+        cancelQueueError: ''
       };
     }
     case CANCEL_QUEUE.SUCCESS: {
       return {
         ...state,
         cancelQueueResult: action.payload,
-        cancelQueueAttempt: false,
+        cancelQueueAttempt: false
       };
     }
     case CANCEL_QUEUE.INVALID: {
       return {
         ...state,
         cancelQueueAttempt: false,
-        cancelQueueError: action.message,
+        cancelQueueError: action.message
       };
     }
-    default: return state;
+    default:
+      return state;
   }
 };
 
