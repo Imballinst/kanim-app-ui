@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -77,7 +76,7 @@ const styles = theme => ({
   }
 });
 
-class Login extends React.Component {
+class Login extends Component {
   state = {
     username: process.env.REACT_APP_KANIM_USERNAME || '',
     password: process.env.REACT_APP_KANIM_PASSWORD || ''
@@ -103,7 +102,7 @@ class Login extends React.Component {
       <div className={classes.root}>
         <div className={classes.content}>
           <div className={classes.imageContainer}>
-            <img src={loginPic} className={classes.image} />
+            <img alt="Kanim App Logo" src={loginPic} className={classes.image} />
           </div>
           <div className={classes.instructions}>
             Masukkan informasi akun Kantor Imigrasi Online Anda.
