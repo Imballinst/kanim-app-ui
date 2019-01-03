@@ -1,35 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import addWeeks from 'date-fns/addWeeks';
+import { withStyles } from '@material-ui/core/styles';
 
-import { ScrollView, View, StyleSheet, Text, ActivityIndicator } from 'react-native';
-import { primaryMineshaft, secondaryWilliam, tertiaryAlto, hexToRGB } from '../utils/colors';
-import TextInput from './modules/TextInput';
-import RoundedListItem from './modules/RoundedListItem';
-import { formatQueryParamsDate } from './helpers/Time';
-import filterByProp from './helpers/Object';
+import RoundedListItem from '../components/RoundedListItem';
+import { formatQueryParamsDate } from '../helpers/Time';
+import filterByProp from '../helpers/Object';
 
-const style = StyleSheet.create({
-  viewStyle: {
-    backgroundColor: tertiaryAlto,
-    paddingHorizontal: 10,
-    flex: 1
-  },
-  kanimOuterItemStyle: {
-    marginTop: 10
-  },
-  kanimInnerItemStyle: {
-    padding: 10,
-    backgroundColor: hexToRGB(secondaryWilliam, 0.4)
-  },
-  kanimOfficeNameStyle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: primaryMineshaft
-  }
-});
+const styles = theme => ({});
 
-class Home extends React.Component {
+class Offices extends Component {
   state = {
     filter: ''
   };
@@ -56,7 +37,7 @@ class Home extends React.Component {
   };
 
   render() {
-    const { kanim } = this.props;
+    const { kanim, classes } = this.props;
     const { filter } = this.state;
 
     const filteredOffices = filter ? filterByProp(kanim.offices, 'MO_NAME', filter) : kanim.offices;
@@ -66,46 +47,37 @@ class Home extends React.Component {
         const office = (
           <RoundedListItem
             key={`list-kanim-${idx + 1}`}
-            outerStyle={style.kanimOuterItemStyle}
-            innerStyle={style.kanimInnerItemStyle}
-            onPress={this.onClickDetailKanim(MO_ID)}
+            classes={classes}
+            onClick={this.onClickDetailKanim(MO_ID)}
           >
-            <View>
-              <Text style={style.kanimOfficeNameStyle}>{MO_NAME}</Text>
-              <Text style={{ fontSize: 14, color: primaryMineshaft }}>{MO_ADDRESS}</Text>
-              <Text style={{ fontSize: 13, color: primaryMineshaft }}>{MO_TELP}</Text>
-            </View>
+            <div>
+              <span className={classes.kanimOfficeNameStyle}>{MO_NAME}</span>
+              <span className={classes.text}>{MO_ADDRESS}</span>
+              <span className={classes.text}>{MO_TELP}</span>
+            </div>
           </RoundedListItem>
         );
 
         return nodes.concat(office);
       }, [])
     ) : (
-      <View style={{ marginTop: 10 }}>
-        <ActivityIndicator size="large" color="#353535" />
-      </View>
+      <div style={{ marginTop: 10 }}>Activity Indicator</div>
     );
 
     return (
-      <View style={style.viewStyle}>
-        <ScrollView keyboardShouldPersistTaps="handled">
+      <div style={classes.root}>
+        <div keyboardShouldPersistTaps="handled">
           {filteredOffices && filteredOffices.length > 0 && (
-            <TextInput
-              placeholder="Filter Nama Kanim"
-              onChangeText={this.onFilterChange}
-              activeColor={primaryMineshaft}
-              value={filter}
-              inactiveColor={hexToRGB(primaryMineshaft, 0.6)}
-            />
+            <input placeholder="Filter Nama Kanim" onChange={this.onFilterChange} value={filter} />
           )}
           {listOffices}
-        </ScrollView>
-      </View>
+        </div>
+      </div>
     );
   }
 }
 
-Home.propTypes = {
+Offices.propTypes = {
   navigation: PropTypes.object.isRequired,
   getOffice: PropTypes.func.isRequired,
   getOffices: PropTypes.func.isRequired,
@@ -113,5 +85,4 @@ Home.propTypes = {
   kanim: PropTypes.object.isRequired
 };
 
-export { style };
-export default Home;
+export default withStyles(styles)(Offices);

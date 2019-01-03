@@ -1,41 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableHighlight } from 'react-native';
 
-import {
-  primaryMineshaft,
-  hexToRGB,
-} from '../../utils/colors';
-
-const RoundedListItem = ({
-  outerStyle, onPress, innerStyle, children, onLongPress, delayLongPress,
-}) => (
-  <View style={outerStyle}>
-    <TouchableHighlight
-      onPress={onPress}
-      onLongPress={onLongPress}
-      delayLongPress={delayLongPress}
-      underlayColor={hexToRGB(primaryMineshaft, 0.2)}
-      style={innerStyle}
-    >
+// TODO(aji): search how to make button onClick and onLongClick (something like that)
+const RoundedListItem = ({ classes, onClick, children }) => (
+  <div className={classes.container}>
+    <button onClick={onClick} className={classes.button}>
       {children}
-    </TouchableHighlight>
-  </View>
+    </button>
+  </div>
 );
 
 RoundedListItem.propTypes = {
-  outerStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object]).isRequired,
-  innerStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object]).isRequired,
-  onPress: PropTypes.func,
-  onLongPress: PropTypes.func,
-  delayLongPress: PropTypes.number,
-  children: PropTypes.node.isRequired,
+  classes: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
+  children: PropTypes.node.isRequired
 };
 
 RoundedListItem.defaultProps = {
-  onPress: () => {},
-  onLongPress: () => {},
-  delayLongPress: 1000,
+  onClick: () => {}
 };
 
 export default RoundedListItem;

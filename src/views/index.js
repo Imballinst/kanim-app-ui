@@ -13,6 +13,7 @@ import ControlRow from './components/ControlRow';
 
 import Login from './Login';
 import Home from './Home';
+import Offices from './Offices';
 // import Notification from './Notification';
 // import Offices from './Offices';
 // import Queue from './Queue';
@@ -41,14 +42,14 @@ const CustomRoute = ({ isLoggedIn, component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => {
-      if (!isLoggedIn && rest.path !== '/login') {
-        // If not authenticated, redirect to login.
-        return <Redirect to={redirectObject(props, '/login')} />;
-      } else if (isLoggedIn && rest.path === '/login') {
-        // If path is login, redirect to OnBoarding.
-        // TODO(dio): Make it configurable to skip to Catalog if exists.
-        return <Redirect to={redirectObject(props, '/')} />;
-      }
+      // if (!isLoggedIn && rest.path !== '/login') {
+      //   // If not authenticated, redirect to login.
+      //   return <Redirect to={redirectObject(props, '/login')} />;
+      // } else if (isLoggedIn && rest.path === '/login') {
+      //   // If path is login, redirect to OnBoarding.
+      //   // TODO(dio): Make it configurable to skip to Catalog if exists.
+      //   return <Redirect to={redirectObject(props, '/')} />;
+      // }
       // If path is not login, proceed normally.
       return <Component {...props} />;
     }}
@@ -70,6 +71,12 @@ class Routes extends PureComponent {
               path="/"
               location={location}
               component={Home}
+            />
+            <CustomRoute
+              isLoggedIn={isLoggedIn}
+              path="/offices"
+              location={location}
+              component={Offices}
             />
             <CustomRoute
               isLoggedIn={isLoggedIn}
