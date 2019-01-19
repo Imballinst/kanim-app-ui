@@ -16,7 +16,9 @@ const getOffices = token => async dispatch => {
   dispatch({ type: GET_OFFICES.ATTEMPT });
 
   try {
-    const { success, data, message, errorCode } = await httpGetOffices(token);
+    const {
+      data: { success, data, message, errorCode }
+    } = await httpGetOffices(token);
 
     if (success) {
       dispatch({ type: GET_OFFICES.SUCCESS, payload: data });
@@ -35,12 +37,9 @@ const getOffice = (token, kanimID, startDate, endDate) => async dispatch => {
   dispatch({ type: GET_OFFICE_QUOTA.ATTEMPT, payload: kanimID });
 
   try {
-    const { success, data, message, errorCode } = await httpGetOffice(
-      token,
-      kanimID,
-      startDate,
-      endDate
-    );
+    const {
+      data: { success, data, message, errorCode }
+    } = await httpGetOffice(token, kanimID, startDate, endDate);
 
     if (success) {
       dispatch({ type: GET_OFFICE_QUOTA.SUCCESS, payload: data });
@@ -59,13 +58,9 @@ const confirmOfficeQuota = (token, kanimID, date, startHour, endHour) => async d
   dispatch({ type: CHECK_QUOTA.ATTEMPT });
 
   try {
-    const { success, data, message, errorCode } = httpGetOfficeQuota(
-      token,
-      kanimID,
-      date,
-      startHour,
-      endHour
-    );
+    const {
+      data: { success, data, message, errorCode }
+    } = httpGetOfficeQuota(token, kanimID, date, startHour, endHour);
 
     if (success) {
       dispatch(
