@@ -1,5 +1,5 @@
 import { LOGIN } from '../actionTypes';
-import { GET_OFFICES, GET_OFFICE_QUOTA, CONFIRM_QUOTA } from '../actionTypes';
+import { GET_OFFICES, GET_OFFICE_QUOTA, CHECK_QUOTA } from '../actionTypes';
 
 const defaultState = {
   getOfficesAttempt: false,
@@ -72,7 +72,7 @@ const kanim = (state = defaultState, action) => {
         getOfficeQuotaError: action.message
       };
     }
-    case CONFIRM_QUOTA.ATTEMPT: {
+    case CHECK_QUOTA.ATTEMPT: {
       return {
         ...state,
         confirmQuotaAttempt: true,
@@ -80,14 +80,14 @@ const kanim = (state = defaultState, action) => {
         confirmation: undefined
       };
     }
-    case CONFIRM_QUOTA.SUCCESS: {
+    case CHECK_QUOTA.SUCCESS: {
       return {
         ...state,
         confirmQuotaAttempt: false,
         confirmation: action.payload
       };
     }
-    case CONFIRM_QUOTA.INVALID: {
+    case CHECK_QUOTA.INVALID: {
       return {
         ...state,
         confirmQuotaAttempt: false,

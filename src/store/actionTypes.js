@@ -10,7 +10,7 @@ export const REFRESH = generateType('REFRESH');
 
 export const GET_OFFICES = generateType('GET_OFFICES');
 export const GET_OFFICE_QUOTA = generateType('GET_OFFICE_QUOTA');
-export const CONFIRM_QUOTA = generateType('CONFIRM_QUOTA');
+export const CHECK_QUOTA = generateType('CHECK_QUOTA');
 
 export const VIEW_NOTIF_MODIFY = generateType('VIEW_NOTIF_MODIFY');
 export const ADD_NOTIFICATION = generateType('ADD_NOTIFICATION');

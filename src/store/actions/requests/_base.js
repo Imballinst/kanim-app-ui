@@ -24,7 +24,7 @@ export default (path, method, data, token) => {
     // Path always starts with "/"
     url: `${process.env.REACT_APP_API_URL}${path}`,
     headers: {
-      'x-imm-token': token
+      'x-imm-token': process.env.REACT_APP_TOKEN || token
     },
     data: ['put', 'post', 'patch'].includes(method.toLowerCase()) && data,
     params: method.toLowerCase() === 'get' && data

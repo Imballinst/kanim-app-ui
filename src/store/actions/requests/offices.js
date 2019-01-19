@@ -12,10 +12,10 @@ const getAvailability = (token, kanimID, startDate, endDate) =>
     token
   );
 
-const getQuotaInfo = (token, kanimID, date, startHour, endHour) =>
+const checkQuotaInfo = (token, kanimID, date, startHour, endHour) =>
   request(
     `/offices/${kanimID}/check`,
-    'get',
+    'post',
     {
       date,
       startHour,
@@ -24,4 +24,4 @@ const getQuotaInfo = (token, kanimID, date, startHour, endHour) =>
     token
   );
 
-export { getOffices, getAvailability, getQuotaInfo };
+export { getOffices, getAvailability, checkQuotaInfo };

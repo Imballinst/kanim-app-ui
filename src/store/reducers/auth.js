@@ -1,5 +1,6 @@
 import { LOGIN, LOGOUT, REFRESH } from '../actionTypes';
 
+// Default state
 const defaultState = {
   isLoggedIn: false,
   user: undefined,
@@ -10,7 +11,21 @@ const defaultState = {
   message: ''
 };
 
-const auth = (state = defaultState, action) => {
+const getDefaultState = () => {
+  const authData = window.localStorage.getItem('authData');
+
+  if (authData) {
+    const { user, token } = JSON.parse(authData);
+
+    defaultState.isLoggedIn = true;
+    defaultState.user = user;
+    defaultState.token = token;
+  }
+
+  return defaultState;
+};
+
+const auth = (state = getDefaultState(), action) => {
   switch (action.type) {
     case LOGIN.ATTEMPT: {
       return {

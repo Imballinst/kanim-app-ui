@@ -1,13 +1,13 @@
 import {
   getOffices as httpGetOffices,
-  getOfficeQuota as httpGetOffice,
-  confirmOfficeQuota as httpGetOfficeQuota
+  getAvailability as httpGetOffice,
+  checkQuotaInfo as httpGetOfficeQuota
 } from './requests';
-import { CONFIRM_QUOTA, GET_OFFICES, GET_OFFICE_QUOTA } from '../actionTypes';
+import { CHECK_QUOTA, GET_OFFICES, GET_OFFICE_QUOTA } from '../actionTypes';
 
 // Action creators
 const confirmQuotaSync = payload => ({
-  type: CONFIRM_QUOTA.SUCCESS,
+  type: CHECK_QUOTA.SUCCESS,
   payload
 });
 
@@ -16,8 +16,7 @@ const getOffices = token => async dispatch => {
   dispatch({ type: GET_OFFICES.ATTEMPT });
 
   try {
-    const { data } = await httpGetOffices(token);
-    const { success, data, message, errorCode } = data;
+    const { success, data, message, errorCode } = await httpGetOffices(token);
 
     if (success) {
       dispatch({ type: GET_OFFICES.SUCCESS, payload: data });
@@ -36,8 +35,12 @@ const getOffice = (token, kanimID, startDate, endDate) => async dispatch => {
   dispatch({ type: GET_OFFICE_QUOTA.ATTEMPT, payload: kanimID });
 
   try {
-    const { data } = await httpGetOffice(token, kanimID, startDate, endDate);
-    const { success, data, message, errorCode } = res;
+    const { success, data, message, errorCode } = await httpGetOffice(
+      token,
+      kanimID,
+      startDate,
+      endDate
+    );
 
     if (success) {
       dispatch({ type: GET_OFFICE_QUOTA.SUCCESS, payload: data });
@@ -53,11 +56,16 @@ const getOffice = (token, kanimID, startDate, endDate) => async dispatch => {
 };
 
 const confirmOfficeQuota = (token, kanimID, date, startHour, endHour) => async dispatch => {
-  dispatch({ type: CONFIRM_QUOTA.ATTEMPT });
+  dispatch({ type: CHECK_QUOTA.ATTEMPT });
 
   try {
-    const { data } = httpGetOfficeQuota(token, kanimID, date, startHour, endHour);
-    const { success, data, message, errorCode } = data;
+    const { success, data, message, errorCode } = httpGetOfficeQuota(
+      token,
+      kanimID,
+      date,
+      startHour,
+      endHour
+    );
 
     if (success) {
       dispatch(
@@ -74,7 +82,7 @@ const confirmOfficeQuota = (token, kanimID, date, startHour, endHour) => async d
     }
   } catch (errorMessage) {
     dispatch({
-      type: CONFIRM_QUOTA.FAILED,
+      type: CHECK_QUOTA.FAILED,
       message: errorMessage
     });
   }

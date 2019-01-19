@@ -38,14 +38,14 @@ const CustomRoute = ({ isLoggedIn, component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => {
-      // if (!isLoggedIn && rest.path !== '/login') {
-      //   // If not authenticated, redirect to login.
-      //   return <Redirect to={redirectObject(props, '/login')} />;
-      // } else if (isLoggedIn && rest.path === '/login') {
-      //   // If path is login, redirect to OnBoarding.
-      //   // TODO(dio): Make it configurable to skip to Catalog if exists.
-      //   return <Redirect to={redirectObject(props, '/')} />;
-      // }
+      if (!isLoggedIn && rest.path !== '/login') {
+        // If not authenticated, redirect to login.
+        return <Redirect to={redirectObject(props, '/login')} />;
+      } else if (isLoggedIn && rest.path === '/login') {
+        // If authenticated and path is login, redirect to home.
+        return <Redirect to={redirectObject(props, '/')} />;
+      }
+
       // If path is not login, proceed normally.
       return <Component {...props} />;
     }}

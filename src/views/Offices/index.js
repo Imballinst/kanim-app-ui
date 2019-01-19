@@ -1,13 +1,11 @@
 import { connect } from 'react-redux';
-import { login } from '../../store/actions/auth';
+import { getOffices } from '../../store/actions/kanim';
 import Offices from './Offices';
 
-const mapStateToProps = ({ auth }) => {
-  const { message, isError } = auth;
-
-  return { isError, message };
+const mapStateToProps = ({ auth, kanim }) => {
+  return { auth, kanim };
 };
-const mapDispatchToProps = { login };
+const mapDispatchToProps = { getOffices };
 
 export default connect(
   mapStateToProps,

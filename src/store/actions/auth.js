@@ -20,7 +20,7 @@ const login = (username, password) => async dispatch => {
 
     if (success) {
       const { token, user } = responseData;
-
+      window.localStorage.setItem('authData', JSON.stringify({ token, user }));
       dispatch({ type: LOGIN.SUCCESS, payload: { token, user } });
     } else {
       throw new Error(`${errorCode} ${message}`);
