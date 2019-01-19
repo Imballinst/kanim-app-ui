@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 
-import KanimDetail from '../components/KanimDetail';
-import { confirmOfficeQuota, confirmQuotaSync } from '../actions/kanim';
-import { registerQueue } from '../actions/queue';
-import { addNotification, viewNotifModifySync } from '../actions/notif';
+import Detail from './Detail';
+import { confirmOfficeQuota, confirmQuotaSync } from '../../../store/actions/kanim';
+import { registerQueue } from '../../../store/actions/queue';
+import { addNotification, viewNotifModifySync } from '../../../store/actions/notif';
 
 const mapStateToProps = ({ kanim, auth, queue, notif }) => ({
   auth,
@@ -25,4 +25,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(KanimDetail);
+)(Detail);

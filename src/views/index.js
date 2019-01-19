@@ -10,8 +10,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Login from './Login';
 import Home from './Home';
 import Offices from './Offices';
+import OfficeDetail from './Offices/Detail';
 // import Notification from './Notification';
-// import Offices from './Offices';
 // import Queue from './Queue';
 // import NotFound from './404';
 
@@ -73,6 +73,12 @@ class Routes extends PureComponent {
               path="/offices"
               location={location}
               component={Offices}
+            />
+            <CustomRoute
+              isLoggedIn={isLoggedIn}
+              path="/offices/:officeID"
+              location={location}
+              component={OfficeDetail}
             />
             <CustomRoute
               isLoggedIn={isLoggedIn}

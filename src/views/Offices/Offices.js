@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import addWeeks from 'date-fns/addWeeks';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 
 import RoundedListItem from '../components/RoundedListItem';
 import { formatQueryParamsDate } from '../helpers/Time';
@@ -32,7 +34,7 @@ class Offices extends Component {
     const formattedStartDate = formatQueryParamsDate(date);
     const formattedEndDate = formatQueryParamsDate(addWeeks(date, 2));
 
-    this.props.navigation.navigate('KanimDetail');
+    this.props.history.push(`/offices/${id}`);
     this.props.getOffice(token, id, formattedStartDate, formattedEndDate);
   };
 
@@ -85,4 +87,7 @@ Offices.propTypes = {
   kanim: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Offices);
+export default compose(
+  withRouter,
+  withStyles(styles)
+)(Offices);
