@@ -44,7 +44,7 @@ const addNotification = (notifData, history) => async dispatch => {
   }
 };
 
-const editNotification = (notifID, notifData) => async dispatch => {
+const editNotification = (notifID, notifData, history) => async dispatch => {
   dispatch({ type: EDIT_NOTIFICATION.ATTEMPT, payload: { notifID, notifData } });
 
   try {
@@ -54,8 +54,8 @@ const editNotification = (notifID, notifData) => async dispatch => {
 
     if (success) {
       dispatch({ type: EDIT_NOTIFICATION.SUCCESS, payload: { data, notifID, notifData } });
-      // TODO(aji): edit this later
-      dispatch(NavigationActions.navigate({ routeName: 'NotifList' }));
+
+      history.push('/notif');
     } else {
       throw new Error(`${errorCode} ${message}`);
     }

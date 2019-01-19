@@ -9,8 +9,9 @@ const registerQueue = (kanimID, token, count = 1, userID, tID, name, nik) => asy
   dispatch({ type: REGISTER_QUEUE.ATTEMPT });
 
   try {
-    const { data } = await httpRegisterQueue(kanimID, token, count, userID, tID, name, nik);
-    const { success, data, message, errorCode } = data;
+    const {
+      data: { success, data, message, errorCode }
+    } = await httpRegisterQueue(kanimID, token, count, userID, tID, name, nik);
 
     if (success) {
       dispatch({ type: REGISTER_QUEUE.SUCCESS, payload: data });
@@ -29,8 +30,9 @@ const getQueues = (token, userID) => async dispatch => {
   dispatch({ type: GET_QUEUES.ATTEMPT });
 
   try {
-    const { data } = await httpGetQueues(token, userID);
-    const { success, data, message, errorCode } = data;
+    const {
+      data: { success, data, message, errorCode }
+    } = await httpGetQueues(token, userID);
 
     if (success) {
       dispatch({ type: GET_QUEUES.SUCCESS, payload: data });
@@ -45,12 +47,13 @@ const getQueues = (token, userID) => async dispatch => {
   }
 };
 
-const deleteQueue = (token, userID) => dispatch => {
+const deleteQueue = (token, userID) => async dispatch => {
   dispatch({ type: CANCEL_QUEUE.ATTEMPT });
 
   try {
-    const { data } = await httpDeleteQueue(token, userID);
-    const { success, data, message, errorCode } = res.data;
+    const {
+      data: { success, data, message, errorCode }
+    } = await httpDeleteQueue(token, userID);
 
     if (success) {
       dispatch({ type: CANCEL_QUEUE.SUCCESS, payload: data });
