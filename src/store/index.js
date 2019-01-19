@@ -1,5 +1,4 @@
 import { applyMiddleware, createStore, compose } from 'redux';
-import logger from 'redux-logger';
 
 // Middlewares, reducers, and versioners
 import middlewares from './middlewares';
