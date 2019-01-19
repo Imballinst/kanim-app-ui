@@ -4,12 +4,8 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
-import titleCase from 'title-case';
-
 import { CssBaseline } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-
-import ControlRow from './components/ControlRow';
 
 import Login from './Login';
 import Home from './Home';
